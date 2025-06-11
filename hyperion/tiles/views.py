@@ -1,9 +1,4 @@
 
-# def tile_list(request):
-#     tiles = Tile.objects.all()[:100]  # Обмеження для швидкості
-#     print(tiles.query)  # SQL-запит
-#     print(tiles.count())  # Кількість записів
-#     return render(request, 'tiles/list.html', {'tiles': tiles})
 from django.shortcuts import render
 from django.core.paginator import Paginator
 from .models import Tile

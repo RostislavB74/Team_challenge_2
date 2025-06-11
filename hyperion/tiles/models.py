@@ -2,64 +2,64 @@ from django.db import models
 
 # Пов’язані моделі
 class TileType(models.Model):
-    id = models.SmallIntegerField(primary_key=True, db_column='id')
-    name = models.CharField(max_length=255, db_column='name')
+    id = models.SmallIntegerField(primary_key=True, db_column='tile_type_id')
+    name = models.CharField(max_length=255, db_column='tile_type')
     class Meta:
         managed = False
-        db_table = 'c_tile_type'  # Замініть, якщо назва інша
+        db_table = 'c_tile_type'  
 
 class Color(models.Model):
-    id = models.SmallIntegerField(primary_key=True, db_column='id')  # Змінено з TinyIntegerField
-    name = models.CharField(max_length=255, db_column='name')
+    id = models.SmallIntegerField(primary_key=True, db_column='color_id')  
+    name = models.CharField(max_length=255, db_column='color')
     class Meta:
         managed = False
-        db_table = 'c_color'  # Замініть, якщо назва інша
+        db_table = 'c_color'  
 
 class Collection(models.Model):
-    id = models.IntegerField(primary_key=True, db_column='id')
-    name = models.CharField(max_length=255, db_column='name')
+    id = models.IntegerField(primary_key=True, db_column='collection_id')
+    name = models.CharField(max_length=255, db_column='collection')
     class Meta:
         managed = False
-        db_table = 'c_collection'  # Замініть, якщо назва інша
+        db_table = 'cu_collection' 
 
 class Author(models.Model):
-    id = models.SmallIntegerField(primary_key=True, db_column='id')
-    name = models.CharField(max_length=255, db_column='name')
+    id = models.SmallIntegerField(primary_key=True, db_column='user_id')
+    name = models.CharField(max_length=255, db_column='user_name')
     class Meta:
         managed = False
-        db_table = 'c_author'  # Замініть, якщо назва інша
+        db_table = 'c_user'  
 
 class DecorType(models.Model):
-    id = models.SmallIntegerField(primary_key=True, db_column='id')
-    name = models.CharField(max_length=255, db_column='name')
+    id = models.SmallIntegerField(primary_key=True, db_column='decor_type_id')
+    name = models.CharField(max_length=255, db_column='decor_type')
     class Meta:
         managed = False
-        db_table = 'c_decor_type'  # Замініть, якщо назва інша
+        db_table = 'cu_decor_type'  
 
 class Coat(models.Model):
-    id = models.SmallIntegerField(primary_key=True, db_column='id')  # Змінено з TinyIntegerField
-    name = models.CharField(max_length=255, db_column='name')
+    id = models.SmallIntegerField(primary_key=True, db_column='coat_type_id')  # Змінено з TinyIntegerField
+    name = models.CharField(max_length=255, db_column='coat_type')
     class Meta:
         managed = False
-        db_table = 'c_coat'  # Замініть, якщо назва інша
+        db_table = 'cu_coat_type'  
 
 class Hue(models.Model):
-    id = models.SmallIntegerField(primary_key=True, db_column='id')
-    name = models.CharField(max_length=255, db_column='name')
+    id = models.SmallIntegerField(primary_key=True, db_column='hue_id')
+    name = models.CharField(max_length=255, db_column='hue')
     class Meta:
         managed = False
-        db_table = 'c_hue'  # Замініть, якщо назва інша
+        db_table = 'c_hue'  
 
 class TileGeometry(models.Model):
-    id = models.SmallIntegerField(primary_key=True, db_column='id')  # Змінено з TinyIntegerField
-    name = models.CharField(max_length=255, db_column='name')
+    id = models.SmallIntegerField(primary_key=True, db_column='tile_geometry_id')  # Змінено з TinyIntegerField
+    name = models.CharField(max_length=255, db_column='tile_geometry')
     class Meta:
         managed = False
         db_table = 'c_tile_geometry'  # Замініть, якщо назва інша
 
 class TileGlaze(models.Model):
-    id = models.SmallIntegerField(primary_key=True, db_column='id')  # Змінено з TinyIntegerField
-    name = models.CharField(max_length=255, db_column='name')
+    id = models.SmallIntegerField(primary_key=True, db_column='tile_glaze_id')  # Змінено з TinyIntegerField
+    name = models.CharField(max_length=255, db_column='tile_glaze')
     class Meta:
         managed = False
         db_table = 'c_tile_glaze'  # Замініть, якщо назва інша
