@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import User
 
 # Пов’язані моделі
 class TileType(models.Model):
@@ -66,6 +67,8 @@ class TileGlaze(models.Model):
 
 class Tile(models.Model):
     design_ean = models.CharField(max_length=50, primary_key=True, db_column='design_ean')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, db_column='author_id', blank=True, null=True)
+    original_author = models.ForeignKey(User, on_delete=models.CASCADE, db_column='original_author_id', blank=True, null=True, related_name='original_tiles')
     design_name = models.CharField(max_length=255, db_column='design_name', blank=True, null=True)
     tile_type = models.ForeignKey(TileType, on_delete=models.CASCADE, db_column='tile_type_id', blank=True, null=True)
     color = models.ForeignKey(Color, related_name='tiles_color', on_delete=models.CASCADE, db_column='color_id', blank=True, null=True)
@@ -95,7 +98,6 @@ class Tile(models.Model):
     caliber = models.SmallIntegerField(db_column='caliber')
     modifier = models.CharField(max_length=255, db_column='modifier', blank=True, null=True)
     is_stock = models.BooleanField(db_column='is_stock', default=False)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, db_column='author_id', blank=True, null=True)
     use_second_color = models.BooleanField(db_column='use_second_color', default=False)
     second_color = models.ForeignKey(Color, related_name='tiles_second_color', on_delete=models.CASCADE, db_column='second_color_id', blank=True, null=True)
     decor_base_ean = models.CharField(max_length=50, db_column='decor_base_ean', blank=True, null=True)

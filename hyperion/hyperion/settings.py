@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'tiles',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -117,7 +118,7 @@ DATABASES = {
 #         },
 #     }
 # }
-
+AUTH_USER_MODEL = 'users.User'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

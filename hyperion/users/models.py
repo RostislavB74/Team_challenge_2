@@ -1,0 +1,132 @@
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Group
+from django.db import models
+
+class UserManager(BaseUserManager):
+    def create_user(self, system_login, password=None, **extra_fields):
+        user = self.model(system_login=system_login, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, system_login, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(system_login, password, **extra_fields)
+
+class User(AbstractBaseUser):
+    user_id = models.AutoField(primary_key=True, db_column='user_id')
+    group_id = models.IntegerField()
+    system_login = models.CharField(max_length=100, unique=True)
+    user_name = models.CharField(max_length=100)
+    subdivision_id = models.IntegerField(default=1)
+    phone = models.CharField(max_length=20, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    password = models.CharField(max_length=128)
+    last_login = models.DateTimeField(null=True, blank=True)
+
+    objects = UserManager()
+    USERNAME_FIELD = 'system_login'
+    REQUIRED_FIELDS = ['user_name']
+
+    class Meta:
+        managed = False
+        db_table = 'c_user'
+
+    groups = models.ManyToManyField(
+        Group,
+        related_name='user_set',
+        related_query_name='user',
+        blank=True
+    )
+
+    def get_is_superuser(self):
+        try:
+            return (
+                self.userextras.is_superuser or
+                self.groups.filter(name='superuser').exists() or
+                self.group_id == 1
+            )
+        except UserExtras.DoesNotExist:
+            return self.groups.filter(name='superuser').exists() or self.group_id == 1
+
+    def has_perm(self, perm, obj=None):
+        return self.get_is_superuser()
+
+    def has_module_perms(self, app_label):
+        return self.get_is_superuser()
+
+class UserExtras(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, db_column='user_id')
+    is_superuser = models.BooleanField(default=False)
+
+    class Meta:
+        managed = True
+        db_table = 'django_user_extras'
+# from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Group
+# from django.db import models
+
+# class UserManager(BaseUserManager):
+#     def create_user(self, system_login, password=None, **extra_fields):
+#         user = self.model(system_login=system_login, **extra_fields)
+#         user.set_password(password)
+#         user.save(using=self._db)
+#         return user
+
+#     def create_superuser(self, system_login, password=None, **extra_fields):
+#         extra_fields.setdefault('is_staff', True)
+#         extra_fields.setdefault('is_superuser', True)
+#         return self.create_user(system_login, password, **extra_fields)
+
+# class User(AbstractBaseUser):
+#     user_id = models.AutoField(primary_key=True, db_column='user_id')
+#     group_id = models.IntegerField()
+#     system_login = models.CharField(max_length=100, unique=True)
+#     user_name = models.CharField(max_length=100)
+#     subdivision_id = models.IntegerField(default=1)
+#     phone = models.CharField(max_length=20, blank=True)
+#     birth_date = models.DateField(null=True, blank=True)
+#     is_active = models.BooleanField(default=True)
+#     is_staff = models.BooleanField(default=False)
+#     password = models.CharField(max_length=128)
+#     last_login = models.DateTimeField(null=True, blank=True)
+
+#     objects = UserManager()
+#     USERNAME_FIELD = 'system_login'
+#     REQUIRED_FIELDS = ['user_name']
+
+#     class Meta:
+#         managed = False
+#         db_table = 'c_user'
+
+#     groups = models.ManyToManyField(
+#         Group,
+#         related_name='user_set',
+#         related_query_name='user',
+#         blank=True
+#     )
+
+#     def get_is_superuser(self):
+#         try:
+#             return (
+#                 self.userextras.is_superuser or
+#                 self.groups.filter(name='superuser').exists() or
+#                 self.group_id == 1
+#             )
+#         except UserExtras.DoesNotExist:
+#             return self.groups.filter(name='superuser').exists() or self.group_id == 1
+
+#     def has_perm(self, perm, obj=None):
+#         return self.get_is_superuser()
+
+#     def has_module_perms(self, app_label):
+#         return self.get_is_superuser()
+
+# class UserExtras(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, db_column='user_id')
+#     is_superuser = models.BooleanField(default=False)
+
+#     class Meta:
+#         managed = True
+#         db_table = 'django_user_extras'
