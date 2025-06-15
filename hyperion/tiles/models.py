@@ -65,10 +65,11 @@ class TileGlaze(models.Model):
         managed = False
         db_table = 'c_tile_glaze'  # Замініть, якщо назва інша
 
-class Tile(models.Model):
+
+
+class Design(models.Model):
     design_ean = models.CharField(max_length=50, primary_key=True, db_column='design_ean')
     author = models.ForeignKey(User, on_delete=models.CASCADE, db_column='author_id', blank=True, null=True)
-    original_author = models.ForeignKey(User, on_delete=models.CASCADE, db_column='original_author_id', blank=True, null=True, related_name='original_tiles')
     design_name = models.CharField(max_length=255, db_column='design_name', blank=True, null=True)
     tile_type = models.ForeignKey(TileType, on_delete=models.CASCADE, db_column='tile_type_id', blank=True, null=True)
     color = models.ForeignKey(Color, related_name='tiles_color', on_delete=models.CASCADE, db_column='color_id', blank=True, null=True)
@@ -103,14 +104,14 @@ class Tile(models.Model):
     decor_base_ean = models.CharField(max_length=50, db_column='decor_base_ean', blank=True, null=True)
     decor_type = models.ForeignKey(DecorType, on_delete=models.CASCADE, db_column='decor_type_id', blank=True, null=True)
     set_amount = models.SmallIntegerField(db_column='set_amount', blank=True, null=True)
-    amount_in_row = models.SmallIntegerField(db_column='amount_in_row', blank=True, null=True)  # Змінено з TinyIntegerField
-    amount_in_column = models.SmallIntegerField(db_column='amount_in_column', blank=True, null=True)  # Змінено з TinyIntegerField
+    amount_in_row = models.SmallIntegerField(db_column='amount_in_row', blank=True, null=True)
+    amount_in_column = models.SmallIntegerField(db_column='amount_in_column', blank=True, null=True)
     additional_name = models.CharField(max_length=255, db_column='additional_name', blank=True, null=True)
     coat = models.ForeignKey(Coat, on_delete=models.CASCADE, db_column='coat_id', blank=True, null=True)
     laying_type = models.CharField(max_length=50, db_column='laying_type', blank=True, null=True)
     laying = models.CharField(max_length=255, db_column='laying', blank=True, null=True)
-    serial_number_in_set = models.SmallIntegerField(db_column='serial_number_in_set', blank=True, null=True)  # Змінено з TinyIntegerField
-    amount_panno_in_box = models.SmallIntegerField(db_column='amount_panno_in_box', blank=True, null=True)  # Змінено з TinyIntegerField
+    serial_number_in_set = models.SmallIntegerField(db_column='serial_number_in_set', blank=True, null=True)
+    amount_panno_in_box = models.SmallIntegerField(db_column='amount_panno_in_box', blank=True, null=True)
     tile_glaze = models.ForeignKey(TileGlaze, on_delete=models.CASCADE, db_column='tile_glaze_id')
     caliber2 = models.SmallIntegerField(db_column='caliber2')
     tile_geometry = models.ForeignKey(TileGeometry, on_delete=models.CASCADE, db_column='tile_geometry_id')

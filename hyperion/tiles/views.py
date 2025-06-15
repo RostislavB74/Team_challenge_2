@@ -1,10 +1,10 @@
 
 from django.shortcuts import render
 from django.core.paginator import Paginator
-from .models import Tile
+from .models import Design
 
 def tile_list(request):
-    tiles = Tile.objects.all()
+    tiles = Design.objects.all()
     paginator = Paginator(tiles, 50)  # 50 записів на сторінку
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
