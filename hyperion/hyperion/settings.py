@@ -97,8 +97,8 @@ DATABASES = {
         'HOST': env('DATABASE_HOST'),
         'PORT': env('DATABASE_PORT', default='1433'),
         'OPTIONS': {
-            'driver': 'SQL Server Native Client 10.0',
-            'trusted_connection': env.bool('DATABASE_TRUSTED_CONNECTION', default=False),
+            'driver': 'ODBC Driver 17 for SQL Server', #'SQL Server Native Client 10.0',
+            'trusted_connection': 'yes', #env.bool('DATABASE_TRUSTED_CONNECTION', default=False),
         },
     }
 }
