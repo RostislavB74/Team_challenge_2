@@ -54,6 +54,10 @@ INSTALLED_APPS = [
     
     'tiles',
     'users',
+    'passports_designs',
+    'materials',
+    'units',
+    'productions',
 ]
 
 MIDDLEWARE = [
