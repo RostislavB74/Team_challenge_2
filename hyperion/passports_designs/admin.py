@@ -1,7 +1,7 @@
 # apps/passports_designs/admin.py
 from django.contrib import admin
 from .models import (
-    TileType, Design, Material,
+    TileType, Design, 
     DesignMaterial, DesignPassportCalculation, DesignMaterialCalculation
 )
 
@@ -16,10 +16,7 @@ class DesignAdmin(admin.ModelAdmin):
     search_fields = ("name", "code")
     list_filter = ("tile_type",)
 
-@admin.register(Material)
-class MaterialAdmin(admin.ModelAdmin):
-    list_display = ("name", "group", "unit")
-    search_fields = ("name", "group")
+
 
 @admin.register(DesignMaterial)
 class DesignMaterialAdmin(admin.ModelAdmin):
