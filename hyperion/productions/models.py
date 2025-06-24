@@ -1,4 +1,5 @@
 from django.db import models
+from tiles.models import TileType 
 class Production_line_groups(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='line_group_id')
     name = models.SmallIntegerField(db_column='group_name')
@@ -33,12 +34,12 @@ class Production_lines(models.Model):
         verbose_name_plural = "Лінії виробництва"
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 class Snap_types_to_lines(models.Model): #snap_types_to_lines
     id = models.SmallIntegerField(primary_key=True, db_column='product_id')
-    name = models.SmallIntegerField(db_column='tile_type_id')
-    production_line_id = models.SmallIntegerField(db_column='production_line_id')
+    name = models.ForeignKey(TileType, on_delete=models.CASCADE, db_column='tile_type_id')
+    production_line_id = models.ForeignKey(Production_lines, on_delete=models.CASCADE, db_column='production_line_id')#models.SmallIntegerField(db_column='production_line_id')
     productivity=models.SmallIntegerField(db_column='productivity')
    
     class Meta:
@@ -46,3 +47,6 @@ class Snap_types_to_lines(models.Model): #snap_types_to_lines
         db_table = 'cu_tile_product'
         verbose_name = "Прив'язка до виробничої лінії"
         verbose_name_plural = "Прив'язка до виробничих ліній"
+
+    def __str__(self):
+        return str(self.name)

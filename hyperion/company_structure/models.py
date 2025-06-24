@@ -26,3 +26,6 @@ class Department_sections(models.Model):
         db_table = 'c_production_section'
         verbose_name = "Виробнича секція"
         verbose_name_plural = "Виробничі секції"
+
+    def __str__(self):
+        return self.name
