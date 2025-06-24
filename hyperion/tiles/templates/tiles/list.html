@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список плиток</title>
+    <title>Довідник дизайни</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -15,7 +15,7 @@
             padding: 20px 10px;
         }
         .table {
-            font-size: 14px;
+            font-size: 12px;
             border-collapse: collapse;
             width: 100%;
             table-layout: auto; /* Дозволяє колонкам адаптуватися */
@@ -54,21 +54,21 @@
         /* Гнучка ширина колонок */
         .col-design-ean { min-width: 100px; }
         .col-ean { min-width: 100px; }
-        .col-tile-type { min-width: 150px; }
-        .col-collection-id { min-width: 120px; }
+        .col-tile-type { min-width: 180px; }
+        .col-collection-id { min-width: 100px; }
         .col-design-name { min-width: 180px; }
         .col-is-base, .col-archived, .col-is-action, .col-is-stock, .col-is-test { min-width: 60px; }
-        .col-tile-size, .col-color, .col-tone, .col-tile-glaze, .col-hue, .col-quality { min-width: 80px; }
+        .col-tile-size, .col-color, .col-tone, .col-tile-glaze, .col-hue, .col-quality { min-width: 60px; }
         .col-width, .col-height, .col-thickness, .col-box-amount, .col-box-weight { min-width: 60px; }
-        .col-package-amount { min-width: 100px; }
-        .col-tile-1c-id { min-width: 120px; }
+        .col-package-amount { min-width: 80px; }
+        {% comment %} .col-tile-1c-id { min-width: 80px; } {% endcomment %}
         .col-add-date { min-width: 50px; }
         .col-parent-ean, .col-author, .col-on-tile-ean { min-width: 100px; }
     </style>
 </head>
 <body>
     <div class="container-fluid"> <!-- Зміна на container-fluid -->
-        <h1 class="text-center my-4">Дизайни плиток</h1>
+        <h1 class="text-center my-4">Довідник дизайни плиток</h1>
         <form method="get" class="search-form">
             <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="Назва дизайну" 
@@ -80,33 +80,33 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th class="col-design-ean">Код дизайну</th>
-                        <th class="col-ean">Код EAN</th>
+                        <th class="col-design-ean">Код</th>
+                        <th class="col-ean">EAN</th>
                         <th class="col-tile-type">Тип плитки</th>
                         <th class="col-collection-id">Колекція</th>
                         <th class="col-design-name">Назва дизайну</th>
                         <th class="col-is-base">Базова</th>
                         <th class="col-archived">Архів</th>
                         <th class="col-is-action">Акція</th>
-                        <th class="col-is-stock">Склад</th>
+                        <th class="col-is-stock">Стоковий</th>
                         <th class="col-tile-size">Розмір</th>
                         <th class="col-color">Колір</th>
                         <th class="col-is-test">Тест</th>
                         <th class="col-tone">Тон</th>
                         <th class="col-tile-glaze">Глазур</th>
                         <th class="col-hue">Відтінок</th>
-                        <th class="col-quality">Якість</th>
+                        <th class="col-quality">Сорт</th>
                         <th class="col-width">Ширина</th>
                         <th class="col-height">Висота</th>
                         <th class="col-thickness">Товщина</th>
                         <th class="col-box-amount">Кількість у коробці</th>
                         <th class="col-box-weight">Вага коробки</th>
                         <th class="col-package-amount">Кількість у пакеті</th>
-                        <th class="col-tile-1c-id">ID 1С</th>
+                        {% comment %} <th class="col-tile-1c-id">ID 1С</th> {% endcomment %}
                         <th class="col-add-date">Дата додавання</th>
-                        <th class="col-parent-ean">Батьківський EAN</th>
+                        <th class="col-parent-ean">Батьківський код</th>
                         <th class="col-author">Автор</th>
-                        <th class="col-on-tile-ean">На плитці EAN</th>
+                        <th class="col-on-tile-ean">EAN на плитці</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -134,7 +134,7 @@
                         <td>{{ tile.box_amount|default:"-" }}</td>
                         <td>{{ tile.box_weight|default:"-" }}</td>
                         <td>{{ tile.package_amount|default:"-" }}</td>
-                        <td>{{ tile.tile_1c_id|default:"-" }}</td>
+                        {% comment %} <td>{{ tile.tile_1c_id|default:"-" }}</td> {% endcomment %}
                         <td>{{ tile.add_date|date:"d.m.Y H:i"|default:"-" }}</td>
                         <td>{{ tile.parent_ean|default:"-" }}</td>
                         <td>{{ tile.author.user_name|default:"-" }}</td>
