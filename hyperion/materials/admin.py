@@ -6,7 +6,7 @@ from units.models import Units
 
 @admin.register(Material)
 class MaterialAdmin(admin.ModelAdmin):
-    list_display = ("name", "material_group_id", "unit_id")
+    list_display = ("name", "material_group_id", "unit_id", "material_type_id", "material_kind_id", "spec", "is_equipment", "archived")
     search_fields = ("name", "material_group__name")
     list_filter = ("archived", "is_equipment")
 
