@@ -8,6 +8,8 @@ class MaterialGroup(models.Model):
     class Meta:
         managed = False
         db_table = 'cu_material_group'
+        verbose_name='Група матеріалу'
+        verbose_name_plural='Групи матеріалів'
 
     def __str__(self):
         return self.name
@@ -22,6 +24,8 @@ class MaterialUnit(models.Model):
     class Meta:
         managed = False
         db_table = 'cu_material_unit'
+        verbose_name='Одиниця виміру матеріалу'
+        verbose_name_plural='Одиниці вимірів матеріалів'
 
     def __str__(self):
         return self.name

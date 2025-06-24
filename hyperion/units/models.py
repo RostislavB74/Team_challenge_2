@@ -11,6 +11,8 @@ class Units(models.Model):
     class Meta:
         managed = False
         db_table = 'c_unit'
+        verbose_name = 'Одиниця виміру'
+        verbose_name_plural = 'Одиниці вимірів'
 
     def __str__(self):
         return self.name
