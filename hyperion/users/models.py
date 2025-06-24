@@ -53,6 +53,10 @@ class User(AbstractBaseUser):
     class Meta:
         managed = False
         db_table = 'c_user'
+        verbose_name = 'Користувач'
+        verbose_name_plural = 'Користувачі'
+    def __str__(self):
+        return self.user_name
 
     groups = models.ManyToManyField(
         Group,
