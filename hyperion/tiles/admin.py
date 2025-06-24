@@ -1,3 +1,5 @@
 from django.contrib import admin
-
-# Register your models here.
+from .models import *
+@admin.register(Design)
+class DesignAdmin(admin.ModelAdmin):
+    list_display = ('design_ean', 'design_name', 'tile_type', 'width', 'height', 'thickness', 'box_amount', 'package_amount', 'is_base')

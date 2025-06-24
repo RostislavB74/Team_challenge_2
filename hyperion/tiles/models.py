@@ -8,6 +8,8 @@ class TileType(models.Model):
     class Meta:
         managed = False
         db_table = 'c_tile_type'  
+    def __str__(self):
+        return self.name
 
 class Color(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='color_id')  
@@ -15,56 +17,64 @@ class Color(models.Model):
     class Meta:
         managed = False
         db_table = 'c_color'  
-
+    def __str__(self):
+        return self.name
 class Collection(models.Model):
     id = models.IntegerField(primary_key=True, db_column='collection_id')
     name = models.CharField(max_length=255, db_column='collection')
     class Meta:
         managed = False
         db_table = 'cu_collection' 
-
+    def __str__(self):
+        return self.name
 class Author(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='user_id')
     name = models.CharField(max_length=255, db_column='user_name')
     class Meta:
         managed = False
         db_table = 'c_user'  
-
+    def __str__(self):
+        return self.name
 class DecorType(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='decor_type_id')
     name = models.CharField(max_length=255, db_column='decor_type')
     class Meta:
         managed = False
         db_table = 'cu_decor_type'  
-
+    def __str__(self):
+        return self.name
 class Coat(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='coat_type_id')  # Змінено з TinyIntegerField
     name = models.CharField(max_length=255, db_column='coat_type')
     class Meta:
         managed = False
         db_table = 'cu_coat_type'  
-
+    def __str__(self):
+        return self.name
 class Hue(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='hue_id')
     name = models.CharField(max_length=255, db_column='hue')
     class Meta:
         managed = False
         db_table = 'c_hue'  
-
+    def __str__(self):
+        return self.name
 class TileGeometry(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='tile_geometry_id')  # Змінено з TinyIntegerField
     name = models.CharField(max_length=255, db_column='tile_geometry')
     class Meta:
         managed = False
         db_table = 'c_tile_geometry'  # Замініть, якщо назва інша
-
+    def __str__(self):
+        return self.name
 class TileGlaze(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='tile_glaze_id')  # Змінено з TinyIntegerField
     name = models.CharField(max_length=255, db_column='tile_glaze')
     class Meta:
         managed = False
         db_table = 'c_tile_glaze'  # Замініть, якщо назва інша
-
+    def __str__(self):
+        return self.name
 
 
 class Design(models.Model):
@@ -125,4 +135,7 @@ class Design(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'c_design'
+        db_table = 'c_design'   
+
+    def __str__(self):
+        return self.name
