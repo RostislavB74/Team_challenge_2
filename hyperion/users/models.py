@@ -21,6 +21,11 @@ class UserGroup(models.Model):
         db_table = 'auth_user_groups'
         unique_together = ('user', 'group')
         managed = False
+        verbose_name = 'Група користувача'
+        verbose_name_plural = 'Групи користувачів'
+
+    def __str__(self):
+        return f"{self.user.system_login} - {self.group.name}"
 
 class CGroup(models.Model):
     group_id = models.SmallIntegerField(primary_key=True, db_column='group_id')
@@ -29,6 +34,8 @@ class CGroup(models.Model):
     class Meta:
         managed = False
         db_table = 'c_group'
+        verbose_name = 'Група'
+        verbose_name_plural = 'Групи'
 
     def __str__(self):
         return self.group_name

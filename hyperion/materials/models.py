@@ -38,6 +38,8 @@ class MaterialType(models.Model):
     class Meta:
         managed = False
         db_table = 'cu_material_type'
+        verbose_name='Тип матеріалу'
+        verbose_name_plural='Типи матеріалів'
 
     def __str__(self):
         return self.name
@@ -50,6 +52,8 @@ class MaterialKind(models.Model):
     class Meta:
         managed = False
         db_table = 'c_material_kind'
+        verbose_name='Вид матеріалу'
+        verbose_name_plural='Види матеріалів'
 
     def __str__(self):
         return self.name

@@ -76,7 +76,21 @@ class TileGlaze(models.Model):
     def __str__(self):
         return self.name
 
+class Quality(models.Model):
+    quality=models.CharField(max_length=50, primary_key=True, db_column='quality')
+    description=models.CharField(max_length=255, db_column='descr', blank=True, null=True)
+    is_defect=models.BooleanField(db_column='is_defect', default=False)
+    sort_order=models.SmallIntegerField(db_column='sort_order', blank=True, null=True)
+    mark=models.DecimalField(max_digits=1, decimal_places=0, db_column='mark', blank=True, null=True)
+    class Meta:
+        managed = False
+        db_table = 'c_quality'
+        verbose_name = 'Сорт'
+        verbose_name_plural = 'Сорти'
 
+    def __str__(self):
+        return self.quality
+    
 class Design(models.Model):
     design_ean = models.CharField(max_length=50, primary_key=True, db_column='design_ean')
     author = models.ForeignKey(User, on_delete=models.CASCADE, db_column='author_id', blank=True, null=True)
@@ -136,6 +150,8 @@ class Design(models.Model):
     class Meta:
         managed = False
         db_table = 'c_design'   
+        verbose_name = 'Дизайн'
+        verbose_name_plural = 'Дизайни'
 
     def __str__(self):
         return self.name
