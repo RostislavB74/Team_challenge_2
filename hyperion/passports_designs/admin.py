@@ -1,20 +1,9 @@
 # apps/passports_designs/admin.py
 from django.contrib import admin
 from .models import (
-    TileType, Design, 
+     
     DesignMaterial, DesignPassportCalculation, DesignMaterialCalculation
 )
-
-@admin.register(TileType)
-class TileTypeAdmin(admin.ModelAdmin):
-    list_display = ("name", "width", "height", "thickness", "box_amount", "package_amount")
-    search_fields = ("name",)
-
-@admin.register(Design)
-class DesignAdmin(admin.ModelAdmin):
-    list_display = ("name", "code", "tile_type")
-    search_fields = ("name", "code")
-    list_filter = ("tile_type",)
 
 
 

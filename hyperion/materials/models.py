@@ -38,6 +38,8 @@ class MaterialType(models.Model):
     class Meta:
         managed = False
         db_table = 'cu_material_type'
+        verbose_name='Тип матеріалу'
+        verbose_name_plural='Типи матеріалів'
 
     def __str__(self):
         return self.name
@@ -50,14 +52,16 @@ class MaterialKind(models.Model):
     class Meta:
         managed = False
         db_table = 'c_material_kind'
+        verbose_name='Вид матеріалу'
+        verbose_name_plural='Види матеріалів'
 
     def __str__(self):
         return self.name
 
 class Material(models.Model):
     id = models.AutoField(primary_key=True, db_column='material_id')
-    material_type_id = models.SmallIntegerField(db_column='material_type_id')
-    material_kind_id = models.SmallIntegerField(db_column='material_kind_id')
+    material_type_id = models.ForeignKey(MaterialType, on_delete=models.CASCADE, db_column='material_type_id', blank=True, null=True) #models.SmallIntegerField(db_column='material_type_id')
+    material_kind_id = models.ForeignKey(MaterialKind, on_delete=models.CASCADE, db_column='material_kind_id', blank=True, null=True)
     name = models.CharField(max_length=255, db_column='material')
     fullname = models.CharField(max_length=500, db_column='fullname', blank=True, null=True)
     is_equipment = models.BooleanField(db_column='is_equipment', default=False)
@@ -74,6 +78,8 @@ class Material(models.Model):
     class Meta:
         managed = False
         db_table = 'cu_material'
+        verbose_name='Матеріал'
+        verbose_name_plural='Матеріали'
 
     def __str__(self):
         return self.name
