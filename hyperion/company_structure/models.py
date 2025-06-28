@@ -29,3 +29,16 @@ class Department_sections(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Subdivision(models.Model):
+    subdivision_id = models.SmallIntegerField(primary_key=True, db_column='subdivision_id')
+    name = models.CharField(max_length=255, db_column='subvision')
+    description = models.CharField(max_length=255, db_column='descr', blank=True, null=True)
+    
+    class Meta:
+        managed = False
+        db_table = 'c_subdivision' 
+        verbose_name = 'Підрозділ'
+        verbose_name_plural = 'Підрозділи' 
+    def __str__(self):
+        return self.name

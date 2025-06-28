@@ -3,6 +3,7 @@ from users.models import User
 from django.db import models, connection
 from django.core.exceptions import ValidationError
 from users.models import User
+from company_structure.models import Subdivision
 
 # Пов’язані моделі
 class TileType(models.Model):
@@ -16,7 +17,7 @@ class TileType(models.Model):
     box_weight = models.DecimalField(max_digits=10, decimal_places=2, db_column='box_weight', blank=True, null=True)
     tolerance = models.DecimalField(max_digits=10, decimal_places=2, null=True, db_column='tolerance')
     package_square = models.DecimalField(max_digits=10, decimal_places=2, null=True, db_column='package_square')
-    product_type_id = models.IntegerField(null=True, db_column='product_type_id')
+    product_type_id = models.ForeignKey('ProductType', on_delete=models.CASCADE, blank=True, null=True, db_column='product_type_id')
     tile_standart = models.ForeignKey('Tilestandart', on_delete=models.CASCADE, blank=True, null=True, db_column='tile_standart_id') #(null=True, db_column='tile_standart_id')
     use_modifier = models.BooleanField(default=False, db_column='use_modifier')
     combi_design = models.CharField(max_length=13, null=True, db_column='combi_design')
@@ -29,6 +30,48 @@ class TileType(models.Model):
         verbose_name_plural = 'Типи плиток' 
     def __str__(self):
         return self.name
+
+class TilePassportGroup(models.Model):
+    id = models.SmallIntegerField(primary_key=True, db_column='tile_passport_group_id')
+    name = models.CharField(max_length=255, db_column='tile_passport_group')
+   
+    class Meta:
+        managed = False
+        db_table = 'c_tile_passport_group'
+        verbose_name = 'Група плитки для паспорту'
+        verbose_name_plural = 'Групи плиток для паспортів'
+    def __str__(self):
+        return self.name  
+
+class ProductType(models.Model):
+    product_type_id = models.SmallIntegerField(primary_key=True, db_column='product_type_id')
+    name = models.CharField(max_length=255, db_column='product_type')
+    subdivision_id = models.ForeignKey(Subdivision, on_delete=models.CASCADE, blank=True, null=True, db_column='subdivision_id')
+    short_name = models.CharField(max_length=255, db_column='short_name', blank=True, null=True)
+    product_group_id = models.ForeignKey('ProductGroup', on_delete=models.CASCADE, blank=True, null=True, db_column='product_group_id')
+    export_name = models.CharField(max_length=255, db_column='export_name', blank=True, null=True)
+    label_name = models.CharField(max_length=255, db_column='label_name', blank=True, null=True)
+    tile_passport_group_id=models.ForeignKey('TilePassportGroup', on_delete=models.CASCADE, blank=True, null=True, db_column='tile_passport_group_id')
+    use_claiber = models.BooleanField(default=False, db_column='use_caliber')
+    class Meta:
+        managed = False
+        db_table = 'c_product_type'
+        verbose_name = 'Тип продукту'
+        verbose_name_plural = 'Типи продуктів'
+    def __str__(self):
+        return self.name
+class ProductGroup(models.Model):
+    id = models.SmallIntegerField(primary_key=True, db_column='product_group_id')
+    name = models.CharField(max_length=255, db_column='product_group')
+    in_order = models.SmallIntegerField(db_column='in_order')
+    is_base = models.BooleanField(default=False, db_column='is_base')
+    class Meta:
+        managed = False
+        db_table = 'c_product_group'
+        verbose_name = 'Група продукту'
+        verbose_name_plural = 'Групи продуктів'
+    def __str__(self):
+        return self.name    
 class Tilestandart(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='tile_standart_id')
     name = models.CharField(max_length=255, db_column='standart')
