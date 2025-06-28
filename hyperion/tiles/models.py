@@ -1,16 +1,46 @@
 from django.db import models
 from users.models import User
+from django.db import models, connection
+from django.core.exceptions import ValidationError
+from users.models import User
 
 # Пов’язані моделі
 class TileType(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='tile_type_id')
     name = models.CharField(max_length=255, db_column='tile_type')
+    height = models.SmallIntegerField(db_column='height', blank=True, null=True)
+    width = models.SmallIntegerField(db_column='width', blank=True, null=True)
+    thickness = models.DecimalField(max_digits=10, decimal_places=2, db_column='thickness', blank=True, null=True)
+    box_amount = models.SmallIntegerField(db_column='box_amount', blank=True, null=True)
+    package_amount = models.SmallIntegerField(db_column='package_amount', blank=True, null=True)
+    box_weight = models.DecimalField(max_digits=10, decimal_places=2, db_column='box_weight', blank=True, null=True)
+    tolerance = models.DecimalField(max_digits=10, decimal_places=2, null=True, db_column='tolerance')
+    package_square = models.DecimalField(max_digits=10, decimal_places=2, null=True, db_column='package_square')
+    product_type_id = models.IntegerField(null=True, db_column='product_type_id')
+    tile_standart = models.ForeignKey('Tilestandart', on_delete=models.CASCADE, blank=True, null=True, db_column='tile_standart_id') #(null=True, db_column='tile_standart_id')
+    use_modifier = models.BooleanField(default=False, db_column='use_modifier')
+    combi_design = models.CharField(max_length=13, null=True, db_column='combi_design')
+    tech_design = models.CharField(max_length=13, null=True, db_column='tech_design')
+    square_weight = models.DecimalField(max_digits=10, decimal_places=2, null=True, db_column='square_weight')
     class Meta:
         managed = False
-        db_table = 'c_tile_type'  
+        db_table = 'c_tile_type' 
+        verbose_name = 'Тип плитки'
+        verbose_name_plural = 'Типи плиток' 
     def __str__(self):
         return self.name
-
+class Tilestandart(models.Model):
+    id = models.SmallIntegerField(primary_key=True, db_column='tile_standart_id')
+    name = models.CharField(max_length=255, db_column='standart')
+    description = models.CharField(max_length=255, db_column='descr', blank=True, null=True)
+    full_name = models.CharField(max_length=255, db_column='full_name', blank=True, null=True)
+    class Meta:
+        managed = False
+        db_table = 'cu_tile_standart' 
+        verbose_name = 'Стандарт плитки'
+        verbose_name_plural = 'Стандарти плиток' 
+    def __str__(self):
+        return self.name
 class Color(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='color_id')  
     name = models.CharField(max_length=255, db_column='color')
@@ -145,13 +175,23 @@ class Design(models.Model):
     def tile_size(self):
         if self.width and self.height:
             return f"{self.width}x{self.height}"
+        elif self.tile_type and self.tile_type.width and self.tile_type.height:
+            return f"{self.tile_type.width}x{self.tile_type.height}"
         return None
 
     class Meta:
         managed = False
-        db_table = 'c_design'   
+        db_table = 'c_design'
         verbose_name = 'Дизайн'
         verbose_name_plural = 'Дизайни'
 
     def __str__(self):
-        return self.name
+        return self.design_name or 'Без назви'
+
+    def delete(self, *args, **kwargs):
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT COUNT(*) FROM reports WHERE design_ean = %s", [self.design_ean])
+            count = cursor.fetchone()[0]
+            if count > 0:
+                raise ValidationError("Неможливо видалити дизайн, який присутній у звітах.")
+        super().delete(*args, **kwargs)
