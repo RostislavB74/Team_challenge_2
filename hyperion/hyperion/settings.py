@@ -51,9 +51,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users.apps.UsersConfig',
+    'tiles.apps.TilesConfig',
     
-    'tiles',
-    'users',
+    # 'tiles',
+    # 'users',
     'passports_designs',
     'materials',
     'units',
@@ -63,6 +65,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'hyperion.middleware.PermissionMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

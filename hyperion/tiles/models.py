@@ -165,11 +165,11 @@ class Quality(models.Model):
         return self.quality
     
 class Design(models.Model):
-    design_ean = models.CharField(max_length=50, primary_key=True, db_column='design_ean')
+    design_ean = models.CharField(max_length=13, primary_key=True, db_column='design_ean')
+    design_name = models.CharField(max_length=50, db_column='design_name')
+    tile_type = models.ForeignKey('TileType', on_delete=models.CASCADE, db_column='tile_type_id')
+    color_id = models.ForeignKey('Color', on_delete=models.CASCADE, db_column='color_id')
     author = models.ForeignKey(User, on_delete=models.CASCADE, db_column='author_id', blank=True, null=True)
-    design_name = models.CharField(max_length=255, db_column='design_name', blank=True, null=True)
-    tile_type = models.ForeignKey(TileType, on_delete=models.CASCADE, db_column='tile_type_id', blank=True, null=True)
-    color = models.ForeignKey(Color, related_name='tiles_color', on_delete=models.CASCADE, db_column='color_id', blank=True, null=True)
     is_test = models.BooleanField(db_column='is_test', default=False)
     tone = models.CharField(max_length=50, db_column='tone', blank=True, null=True)
     hue = models.ForeignKey(Hue, on_delete=models.CASCADE, db_column='hue_id', blank=True, null=True)
@@ -230,11 +230,18 @@ class Design(models.Model):
 
     def __str__(self):
         return self.design_name or 'Без назви'
-
     def delete(self, *args, **kwargs):
         with connection.cursor() as cursor:
-            cursor.execute("SELECT COUNT(*) FROM reports WHERE design_ean = %s", [self.design_ean])
-            count = cursor.fetchone()[0]
-            if count > 0:
-                raise ValidationError("Неможливо видалити дизайн, який присутній у звітах.")
-        super().delete(*args, **kwargs)
+            for table in ['dr_shift_report', 'd_shift_report', 'dr_kiln_press_report', 'd_kiln_press_report']:
+                cursor.execute(f"SELECT COUNT(*) FROM {table} WHERE design_ean = %s", [self.design_ean])
+                count = cursor.fetchone()[0]
+                if count > 0:
+                    raise ValidationError(f"Неможливо видалити дизайн, який присутній у таблиці {table}.")
+            super().delete(*args, **kwargs)
+    # def delete(self, *args, **kwargs):
+    #     with connection.cursor() as cursor:
+    #         cursor.execute("SELECT COUNT(*) FROM reports WHERE design_ean = %s", [self.design_ean])
+    #         count = cursor.fetchone()[0]
+    #         if count > 0:
+    #             raise ValidationError("Неможливо видалити дизайн, який присутній у звітах.")
+    #     super().delete(*args, **kwargs)

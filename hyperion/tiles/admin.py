@@ -6,7 +6,7 @@ class TilestandartAdmin(admin.ModelAdmin):
     list_display = ('name', 'description', 'full_name')
 @admin.register(TileType)
 class TileTypeAdmin(admin.ModelAdmin):
-    list_display = ('id','name', 'width', 'height', 'thickness', 'box_amount', 'package_amount', 'box_weight', 'product_type_id', 'tile_standart', 'use_modifier', 'combi_design', 'tech_design')
+    list_display = ('id','name', 'width', 'height', 'thickness', 'box_amount', 'package_amount', 'box_weight', 'product_type_id', 'tile_standart', 'use_modifier', 'combi_design', 'tech_design', 'square_weight')
 
 @admin.register(Design)
 class DesignAdmin(admin.ModelAdmin):

@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='CGroup',
+            name='Group',
             fields=[
                 ('group_id', models.SmallIntegerField(db_column='group_id', primary_key=True, serialize=False)),
                 ('group_name', models.CharField(db_column='group_name', max_length=255)),
