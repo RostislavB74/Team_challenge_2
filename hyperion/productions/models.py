@@ -1,5 +1,5 @@
 from django.db import models
-from tiles.models import TileType 
+from tiles.models import TileTypes 
 class Production_line_groups(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='line_group_id')
     name = models.SmallIntegerField(db_column='group_name')
@@ -38,7 +38,7 @@ class Production_lines(models.Model):
 
 class Snap_types_to_lines(models.Model): #snap_types_to_lines
     id = models.SmallIntegerField(primary_key=True, db_column='product_id')
-    name = models.ForeignKey(TileType, on_delete=models.CASCADE, db_column='tile_type_id')
+    name = models.ForeignKey(TileTypes, on_delete=models.CASCADE, db_column='tile_type_id')
     production_line_id = models.ForeignKey(Production_lines, on_delete=models.CASCADE, db_column='production_line_id')#models.SmallIntegerField(db_column='production_line_id')
     productivity=models.SmallIntegerField(db_column='productivity')
    
