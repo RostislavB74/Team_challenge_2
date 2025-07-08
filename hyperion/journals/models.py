@@ -2,7 +2,7 @@ from django.db import models
 from users.models import User
 from equipments.models import Kilns
 from productions.models import Production_lines,Production_line_groups
-# from
+from company_structure.models import Shifts
 
 
 class ShiftReports(models.Model):
@@ -24,8 +24,15 @@ class ShiftReports(models.Model):
         db_column="production_line_id",
         blank=True,
         null=True,
-        related_name="production_line"  )
-    shift_id=models.SmallIntegerField(db_column='shift_id', blank=True, null=True)
+        related_name="production_line" )
+    shift_id = models.ForeignKey(
+        Shifts,
+        on_delete=models.CASCADE,
+        db_column="shift_id",
+        blank=True,
+        null=True,
+        related_name="shift",
+    )
     stoppage1=models.SmallIntegerField(db_column='stoppage1', blank=True, null=True)
     kiln1 = models.ForeignKey(Kilns, on_delete=models.CASCADE, db_column="kiln1", blank=True, null=True, related_name='kiln1')
     comments1=models.TextField(db_column='comment1', blank=True, null=True)

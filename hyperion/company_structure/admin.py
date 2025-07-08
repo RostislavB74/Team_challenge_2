@@ -13,3 +13,8 @@ class Department_sectionsAdmin(admin.ModelAdmin):
     search_fields = ('id', 'name')
 
 
+@admin.register(Shifts)
+class ShiftsAdmin(admin.ModelAdmin):
+    list_display = ('shift_id', 'name', 'shift_foreman', 'alias', 'begin_time', 'end_time', 'line_group_id') 
+    list_display_links = ('shift_id', 'name')
+    search_fields = ('shift_id', 'name')
