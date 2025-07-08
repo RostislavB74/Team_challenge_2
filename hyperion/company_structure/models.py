@@ -1,4 +1,5 @@
 from django.db import models
+
 class Departments(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='department_id')
     name = models.SmallIntegerField(db_column='department')
@@ -29,7 +30,7 @@ class Department_sections(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 class Subdivision(models.Model):
     subdivision_id = models.SmallIntegerField(primary_key=True, db_column='subdivision_id')
     name = models.CharField(max_length=255, db_column='subvision')
@@ -40,5 +41,22 @@ class Subdivision(models.Model):
         db_table = 'c_subdivision' 
         verbose_name = 'Підрозділ'
         verbose_name_plural = 'Підрозділи' 
+    def __str__(self):
+        return self.name
+
+class Shifts(models.Model):
+    shift_id = models.SmallIntegerField(primary_key=True, db_column='shift_id')
+    name = models.CharField(max_length=255, db_column='shift')
+    shift_foreman = models.CharField(max_length=255, db_column='shiftforeman', blank=True, null=True)
+    alias = models.CharField(max_length=255, db_column='alias', blank=True, null=True)
+    begin_time = models.TimeField(db_column='begin_time', blank=True, null=True)
+    end_time = models.TimeField(db_column='end_time', blank=True, null=True)
+    line_group_id=models.ForeignKey('productions.Production_line_groups', on_delete=models.CASCADE, db_column='line_group_id', blank=True, null=True)
+    
+    class Meta:
+        managed = False
+        db_table = 'c_shift'
+        verbose_name = 'Зміна'
+        verbose_name_plural = 'Зміни'
     def __str__(self):
         return self.name
