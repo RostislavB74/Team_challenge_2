@@ -11,3 +11,5 @@ class Department_sectionsAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'department_id', 'descriptions', 'archived', 'num') 
     list_display_links = ('id', 'name')
     search_fields = ('id', 'name')
+
+
