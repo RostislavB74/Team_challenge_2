@@ -60,3 +60,33 @@ class Shifts(models.Model):
         verbose_name_plural = 'Зміни'
     def __str__(self):
         return self.name
+class Stores(models.Model):
+    store_id = models.SmallIntegerField(primary_key=True, db_column='store_id')
+    name = models.CharField(max_length=255, db_column='store')
+    store_type_id = models.ForeignKey(
+        "Store_types",
+        on_delete=models.CASCADE,
+        db_column="store_type_id",
+        blank=True,
+        null=True,
+    )
+    is_active = models.BooleanField(db_column='is_active', default=True)
+
+    class Meta:
+        managed = False
+        db_table = 'c_store'
+        verbose_name = 'Склад'
+        verbose_name_plural = 'Склади'
+    def __str__(self):
+        return self.name
+class Store_types(models.Model):
+    store_type_id = models.SmallIntegerField(primary_key=True, db_column='store_type_id')
+    name = models.CharField(max_length=255, db_column='store_type')
+    
+    class Meta:
+        managed = False
+        db_table = 'c_store_type'
+        verbose_name = 'Тип складу'
+        verbose_name_plural = 'Типи складів'
+    def __str__(self):
+        return self.name
