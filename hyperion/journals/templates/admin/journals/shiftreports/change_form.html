@@ -1,0 +1,73 @@
+<!-- journals/templates/admin/journals/shiftreports/change_form.html -->
+{% extends "admin/change_form.html" %}
+
+{% block after_field_sets %}
+  <h2>Звіт змін</h2>
+  <h3>Документ</h3>
+  {% if shift_doc %}
+    <table>
+      <tr><th>Номер</th><td>{{ shift_doc.doc_number }}</td></tr>
+      <tr><th>Автор</th><td>{{ shift_doc.author }}</td></tr>
+      <tr><th>Дата</th><td>{{ shift_doc.doc_date }}</td></tr>
+      <tr><th>Сума</th><td>{{ shift_doc.total }}</td></tr>
+    </table>
+  {% else %}
+    <p>Дані документа відсутні</p>
+  {% endif %}
+
+  <h3>Рядки</h3>
+  {% if shift_rows %}
+    <table>
+      <thead>
+        <tr>
+          {% for col in shift_rows.0 %}
+            <th>{{ col.0 }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in shift_rows %}
+          <tr>
+            {% for value in row.values %}
+              <td>{{ value }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Рядки відсутні</p>
+  {% endif %}
+{% endblock %}
+{% comment %} {% block after_related_object_tools %}
+  <h2>Заголовок</h2>
+  <table>
+    {% for k, v in shift_doc.items %}
+      <tr><th>{{ k }}</th><td>{{ v }}</td></tr>
+    {% endfor %}
+  </table>
+
+  <h2>Рядки</h2>
+  <table>
+    {% if shift_rows %}
+      <thead>
+        <tr>
+          {% for key in shift_rows.0.keys %}
+            <th>{{ key }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in shift_rows %}
+          <tr>
+            {% for val in row.values %}
+              <td>{{ val }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    {% else %}
+      <tr><td colspan="100%">Немає рядків</td></tr>
+    {% endif %}
+  </table>
+{% endblock %} {% endcomment %}

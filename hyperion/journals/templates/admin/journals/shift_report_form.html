@@ -1,0 +1,16 @@
+<!-- journals/templates/journals/shift_report_form.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if form.instance.id %}Редагувати{% else %}Створити{% endif %} звіт</title>
+</head>
+<body>
+    <h1>{% if form.instance.id %}Редагувати{% else %}Створити{% endif %} звіт</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Зберегти</button>
+    </form>
+    <a href="{% url 'shift_report_list' %}">Скасувати</a>
+</body>
+</html>
