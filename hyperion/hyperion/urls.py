@@ -14,10 +14,39 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
+# from django.contrib import admin
+# from django.urls import path, include
 
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path('tiles/', include('tiles.urls')),
+# ]
+# hyperion/urls.py
+from django.contrib import admin
+from django.urls import path
+from journals import views
+
+    
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('tiles/', include('tiles.urls')),
+    path('shift-reports/<int:doc_id>/row/create/', views.shift_report_row_create, name='shift_report_row_create'),
+    path("admin/", admin.site.urls),
+    path("shift-reports/", views.shift_report_list, name="shift_report_list"),
+    path(
+        "shift-reports/<int:doc_id>/",
+        views.shift_report_detail,
+        name="shift_report_detail",
+    ),
+    path(
+        "shift-reports/create/", views.shift_report_create, name="shift_report_create"
+    ),
+    path(
+        "shift-reports/<int:doc_id>/edit/",
+        views.shift_report_edit,
+        name="shift_report_edit",
+    ),
+    path(
+        "shift-reports/<int:doc_id>/delete/",
+        views.shift_report_delete,
+        name="shift_report_delete",
+    ),
 ]

@@ -1,0 +1,16 @@
+<!-- journals/templates/journals/shift_report_row_form.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Додати рядок до звіту {{ doc_id }}</title>
+</head>
+<body>
+    <h1>Додати рядок до звіту {{ doc_id }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Додати</button>
+    </form>
+    <a href="{% url 'shift_report_detail' doc_id %}">Скасувати</a>
+</body>
+</html>

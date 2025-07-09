@@ -51,15 +51,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
-    'tiles',
-    'users',
+    'users.apps.UsersConfig',
+    'tiles.apps.TilesConfig',
     'passports_designs',
     'materials',
     'units',
     'productions',
     'company_structure',
     'equipments',
+    'journals',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'hyperion.middleware.PermissionMiddleware',
 ]
 
 ROOT_URLCONF = 'hyperion.urls'
