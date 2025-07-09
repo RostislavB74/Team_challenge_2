@@ -1,6 +1,6 @@
 from django.db import models
 from users.models import User
-from django.db import models, connection
+from django.db import connection
 from django.core.exceptions import ValidationError
 from users.models import User
 from company_structure.models import Subdivision

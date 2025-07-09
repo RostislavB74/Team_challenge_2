@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'productions',
     'company_structure',
     'equipments',
+    'journals',
 ]
 
 MIDDLEWARE = [

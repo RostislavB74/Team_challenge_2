@@ -1,0 +1,15 @@
+<!-- journals/templates/journals/shift_report_confirm_delete.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Видалити звіт</title>
+</head>
+<body>
+    <h1>Видалити звіт {{ doc_id }}?</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Підтвердити</button>
+    </form>
+    <a href="{% url 'shift_report_list' %}">Скасувати</a>
+</body>
+</html>

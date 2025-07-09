@@ -1,0 +1,39 @@
+<!-- journals/templates/journals/shift_report_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список звітів змін</title>
+</head>
+<body>
+    <h1>Список звітів змін</h1>
+    <a href="{% url 'shift_report_create' %}">Створити звіт</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Номер</th>
+                <th>Автор</th>
+                <th>Дата</th>
+                <th>Сума</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in reports %}
+                <tr>
+                    <td>{{ report.doc_number }}</td>
+                    <td>{{ report.author }}</td>
+                    <td>{{ report.doc_date }}</td>
+                    <td>{{ report.total }}</td>
+                    <td>
+                        <a href="{% url 'shift_report_detail' report.id %}">Деталі</a>
+                        <a href="{% url 'shift_report_edit' report.id %}">Редагувати</a>
+                        <a href="{% url 'shift_report_delete' report.id %}">Видалити</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="5">Звіти відсутні</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
