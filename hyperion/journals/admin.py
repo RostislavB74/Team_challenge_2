@@ -6,7 +6,7 @@ from datetime import time
 from .models import ShiftReports, ShiftReportRow
 from tiles.models import Quality
 
-\
+
 
 # @admin.register(ShiftReports)
 # class ShiftReportAdmin(admin.ModelAdmin):

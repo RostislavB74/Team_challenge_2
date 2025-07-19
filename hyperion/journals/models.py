@@ -78,7 +78,7 @@ class ShiftMaterialsDebit(models.Model):
 
     def __str__(self):
         return self.doc_number
-from django.db import models
+
 
 
 class ShiftReports(models.Model):
