@@ -9,7 +9,8 @@ license = {text = "Proprietary"}
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "xlrd (>=2.0.2,<3.0.0)"
+    "xlrd (>=2.0.2,<3.0.0)",
+    "openpyxl (>=3.1.5,<4.0.0)"
 ]
 
 

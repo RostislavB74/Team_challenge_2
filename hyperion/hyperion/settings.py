@@ -127,20 +127,40 @@ DATABASES = {
 # }
 AUTH_USER_MODEL = 'users.User'
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
         },
     },
-    'loggers': {
-        'django.db.backends': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
+    "loggers": {
+        "django.db.backends": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+        },
+        "journals.views": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+            "propagate": False,
         },
     },
 }
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'level': 'DEBUG',
+#             'handlers': ['console'],
+#         },
+#     },
+# }
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -171,14 +191,26 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = "uk"
+# USE_I18N = True
+# USE_L10N = False  # Вимкнути локалізацію чисел
+# USE_THOUSAND_SEPARATOR = False
+# DECIMAL_SEPARATOR = "."
+# NUMBER_GROUPING = 0
+# TIME_ZONE = 'UTC'
 
-TIME_ZONE = 'UTC'
+# USE_I18N = True
 
+# USE_TZ = True
+LANGUAGE_CODE = "uk"
 USE_I18N = True
-
-USE_TZ = True
-
+USE_L10N = False  # Вимкнути локалізацію формату чисел і часу
+USE_THOUSAND_SEPARATOR = False
+DECIMAL_SEPARATOR = "."
+NUMBER_GROUPING = 0
+TIME_FORMAT = "H:i"  # 24-годинний формат (наприклад, 20:47)
+DATETIME_FORMAT = "Y-m-d H:i:s"  # Для дат і часу (наприклад, 2025-07-16 20:47:00)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/

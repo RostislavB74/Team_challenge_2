@@ -1,0 +1,77 @@
+{% extends "admin/change_form.html" %}
+   {% load i18n admin_urls %}
+
+   {% block object-tools-items %}
+       {{ block.super }}
+       {% if can_edit %}
+           <li><a href="{% url 'admin:journals_shiftreports_add_row' original.doc_id %}" class="addlink">Додати рядок</a></li>
+       {% endif %}
+   {% endblock %}
+
+   {% block after_field_sets %}
+       <h2>Деталі звіту</h2>
+       <p>Номер: {{ shift_doc.doc_number }}</p>
+       <p>Дата: {{ shift_doc.doc_date|date:"Y-m-d" }}</p>
+       <p>Початок: {{ shift_doc.begin_time|time:"H:i" }}</p>
+       <p>Кінець: {{ shift_doc.end_time|time:"H:i" }}</p>
+       <p>Майстер: {{ shift_doc.foreman_name }}</p>
+       <p>Статус: {% if shift_doc.draft %}Чернетка{% else %}Підтверджено{% endif %}</p>
+
+       <h3>Рядки звіту</h3>
+       <table border="1">
+           <thead>
+               <tr>
+                   <th>Row ID</th>
+                   <th>Дизайн</th>
+                   <th>Сорт</th>
+                   <th>Дефект</th>
+                   <th>Кількість</th>
+                   <th>Одиниця</th>
+                   <th>Коробки</th>
+                   <th>Палети</th>
+                   <th>Площа палети</th>
+               </tr>
+           </thead>
+           <tbody>
+               {% for row in shift_rows %}
+                   <tr>
+                       <td>{{ row.row_id }}</td>
+                       <td>{{ row.design_name }}</td>
+                       <td>{{ row.quality }}</td>
+                       <td>{{ row.is_defect|yesno:"Так,Ні" }}</td>
+                       <td>{{ row.amount|floatformat:"2" }}</td>
+                       <td>{{ row.unit_alias|default:"" }}</td>
+                       <td>{{ row.box_amount|floatformat:"2" }}</td>
+                       <td>{{ row.package_amount|floatformat:"2" }}</td>
+                       <td>{{ row.package_square|floatformat:"2" }}</td>
+                   </tr>
+               {% empty %}
+                   <tr><td colspan="9">Немає даних</td></tr>
+               {% endfor %}
+           </tbody>
+       </table>
+
+       <h3>Простої</h3>
+       <table border="1">
+           <thead>
+               <tr>
+                   <th>Row ID</th>
+                   <th>Піч</th>
+                   <th>Кількість</th>
+                   <th>Опис простою</th>
+               </tr>
+           </thead>
+           <tbody>
+               {% for downtime in downtimes %}
+                   <tr>
+                       <td>{{ downtime.row_id }}</td>
+                       <td>{{ downtime.kiln_id }}</td>
+                       <td>{{ downtime.amount|floatformat:"2" }}</td>
+                       <td>{{ downtime.downtime_summary }}</td>
+                   </tr>
+               {% empty %}
+                   <tr><td colspan="4">Немає простоїв</td></tr>
+               {% endfor %}
+           </tbody>
+       </table>
+   {% endblock %}
