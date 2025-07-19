@@ -2,20 +2,20 @@
 {% extends "admin/change_form.html" %}
 
 {% block after_field_sets %}
-  <h2>Звіт змін</h2>
+  {% comment %} <h2>Звіт змін</h2>
   <h3>Документ</h3>
   {% if shift_doc %}
     <table>
       <tr><th>Номер</th><td>{{ shift_doc.doc_number }}</td></tr>
       <tr><th>Автор</th><td>{{ shift_doc.author }}</td></tr>
       <tr><th>Дата</th><td>{{ shift_doc.doc_date }}</td></tr>
-      <tr><th>Сума</th><td>{{ shift_doc.total }}</td></tr>
+      <tr><th>Всього без браку</th><td>{{ shift_doc.total }}</td></tr>
     </table>
   {% else %}
     <p>Дані документа відсутні</p>
-  {% endif %}
+  {% endif %} {% endcomment %}
 
-  <h3>Рядки</h3>
+  {% comment %} <h3>Рядки</h3>
   {% if shift_rows %}
     <table>
       <thead>
@@ -37,7 +37,7 @@
     </table>
   {% else %}
     <p>Рядки відсутні</p>
-  {% endif %}
+  {% endif %} {% endcomment %}
 {% endblock %}
 {% comment %} {% block after_related_object_tools %}
   <h2>Заголовок</h2>

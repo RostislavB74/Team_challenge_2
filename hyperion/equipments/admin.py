@@ -11,9 +11,26 @@ class EquipmentAdmin(admin.ModelAdmin):
 class KilnsAdmin(admin.ModelAdmin):
     list_display = (
         "kiln_id",
-        "name",
+        "kiln_name",
         "production_line_id",
         "hardware_id",
         "kiln_number",
     )
-    list_display_links = ("kiln_id", "name")
+    list_display_links = ("kiln_id", "kiln_name")
+@admin.register(Hardware)
+class HardwareAdmin(admin.ModelAdmin):
+    list_display = (
+        "hardware_id",
+        "name",
+        "production_section_id",
+        "hardware_group_id",
+    )
+    list_display_links = ("hardware_id", "name")
+
+@admin.register(Hardware_groups)
+class Hardware_groupsAdmin(admin.ModelAdmin):
+    list_display = (
+        "hardware_group_id",
+        "name",
+    )
+    list_display_links = ("hardware_group_id", "name")
