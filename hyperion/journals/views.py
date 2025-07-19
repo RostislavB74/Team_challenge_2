@@ -3,9 +3,9 @@ from django.db import connection
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from tiles.models import Designs
-from units.models import ProductUnits, Units
+from units.models import ProductUnits#, Units
 from productions.models import Snap_types_to_lines
-from productions.models import Production_lines
+from productions.models import Production_lines, StoppageCausesTypes, StoppageCauses
 import logging
 
 
@@ -31,6 +31,7 @@ def shift_report_detail(request, doc_id):
                 )
             shift_doc = doc_data[0]
             production_line_id = shift_doc.get("production_line_id", 0)
+            # stoppage_cause_type_id = shift_doc.get("stoppage_cause_type_id", 0)
 
             # Отримання назви лінії
             if Production_lines:
@@ -54,7 +55,29 @@ def shift_report_detail(request, doc_id):
                 shift_doc["line_name"] = (
                     result[0] if result else str(production_line_id)
                 )
-
+            # if StoppageCausesTypes:
+            #     try:
+            #         stoppage_cause_type = StoppageCausesTypes.objects.get(
+            #             id=stoppage_cause_type_id
+            #         )
+            #         shift_doc["stoppage_cause_type_name"] = stoppage_cause_type.cause_name
+            #     except StoppageCausesTypes.DoesNotExist:
+            #         shift_doc["stoppage_cause_type_name"] = str(
+            #             shift_doc["stoppage_cause_type_id"]
+            #         )
+            # else:
+            #     # Запасний варіант: SQL-запит
+            #     logger.warning(
+            #         "StoppageCausesTypes model not available, using SQL fallback"
+            #     )
+            #     cursor.execute(
+            #         "SELECT cause_name FROM c_stoppage_cause_type WHERE stoppage_cause_type_id = %s",
+            #         [shift_doc["stoppage_cause_type_id"]],
+            #     )
+            #     result = cursor.fetchone()
+            #     shift_doc["stoppage_cause_type_name"] = (
+            #         result[0] if result else str(shift_doc["stoppage_cause_type_id"])
+            #     )
             # Перевірка draft
             logger.debug("Checking draft")
             cursor.execute(
@@ -116,18 +139,19 @@ def shift_report_detail(request, doc_id):
                     row["design_name"] = design_data.get(row["design_ean"], {}).get(
                         "design_name", "Немає назви"
                     )
-
             # Отримання простоїв
             logger.debug("Fetching downtimes")
             cursor.execute(
                 """
-                SELECT dr2.row_id, ck.kiln AS kiln_name, dr2.amount, dr2.stoppage_cause_type_id, dr2.stoppage_cause, dr2.comment,
-                       CONCAT('Тип: ', dr2.stoppage_cause_type_id, ', Причина: ', dr2.stoppage_cause, ', Опис: ', ISNULL(dr2.comment, '')) AS downtime_summary
+                SELECT dr2.row_id, ck.kiln AS kiln_name, dr2.amount, dr2.stoppage_cause_type_id AS stoppage_type, dr2.stoppage_cause AS stoppage_cause, ISNULL(dr2.comment,'')AS comment
+                       
                 FROM dr2_shift_report dr2
                 INNER JOIN cu_kiln ck ON dr2.kiln_id = ck.kiln_id
                 WHERE dr2.doc_id = %s AND ck.production_line_id = %s
             """,
                 [doc_id, production_line_id],
+                # [doc_id, stoppage_cause_type],
+
             )
             downtime_columns = [col[0] for col in cursor.description]
             downtimes = [dict(zip(downtime_columns, row)) for row in cursor.fetchall()]
@@ -167,8 +191,6 @@ def shift_report_detail(request, doc_id):
             {"error": f"Помилка: {str(e)}", "can_edit": False},
         )
 
-
-# ... (add_row, edit_row, delete_row без змін) ...
 
 @login_required
 def add_row(request, doc_id):
@@ -224,13 +246,13 @@ def edit_row(request, doc_id, row_id):
             cursor.execute("SELECT design_ean FROM dr_shift_report WHERE row_id = %s", [row_id])
             design_ean = cursor.fetchone()[0]
         design = Designs.objects.filter(design_ean=design_ean).values('tile_type_id', 'package_square').first()
-        tile_type_id = design['tile_type_id'] if design else None
+        # tile_type_id = design['tile_type_id'] if design else None
         package_square = design['package_square'] if design and design['package_square'] else 1.0
 
-        product_unit = ProductUnits.objects.filter(
-            tile_type_id=tile_type_id,
-            basic=True
-        ).select_related('unit_id').first()
+        # product_unit = ProductUnits.objects.filter(
+        #     tile_type_id=tile_type_id,
+        #     basic=True
+        # ).select_related('unit_id').first()
         package_amount = float(amount) / package_square if design and amount and package_square else 0
 
         logger.debug(f"Editing row: row_id={row_id}, doc_id={doc_id}, design_ean={design_ean}, amount={amount}, "

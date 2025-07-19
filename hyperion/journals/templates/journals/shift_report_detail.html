@@ -104,8 +104,10 @@
                        <tr>
                            <th>Row ID</th>
                            <th>Піч</th>
-                           <th>Кількість</th>
-                           <th>Опис простою</th>
+                           <th>Простой, хв.</th>
+                           <th>Тип простою</th>
+                           <th>Причина простою</th>
+                           <th>Коментарій</th>
                        </tr>
                    </thead>
                    <tbody>
@@ -114,7 +116,9 @@
                                <td>{{ downtime.row_id }}</td>
                                <td>{{ downtime.kiln_name }}</td>
                                <td>{{ downtime.amount|floatformat:"2" }}</td>
-                               <td>{{ downtime.downtime_summary }}</td>
+                               <td>{{downtime.stoppage_type}}</td>
+                               <td>{{downtime.stoppage_cause}}</td>
+                               <td>{{ downtime.comment }}</td>
                            </tr>
                        {% empty %}
                            <tr><td colspan="4">Немає простоїв</td></tr>

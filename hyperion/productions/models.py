@@ -69,3 +69,27 @@ class ProductionSections(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+class StoppageCauses(models.Model):
+    id = models.SmallIntegerField(primary_key=True, db_column='stoppage_cause_id')
+    name = models.CharField(max_length=255, db_column='cause')
+    class Meta:
+        managed = False
+        db_table = 'cu_stoppage_cause'
+        verbose_name = "Причина простою"
+        verbose_name_plural = "Причини простою"
+
+    def __str__(self):
+        return str(self.name)
+class StoppageCausesTypes(models.Model):
+    id = models.SmallIntegerField(primary_key=True, db_column='stoppage_cause_type_id')
+    name = models.CharField(max_length=255, db_column='cause_name')
+    level = models.SmallIntegerField(db_column='level')
+    class Meta:
+        managed = False
+        db_table = 'cu_stoppage_cause_type'
+        verbose_name = "Тип простою"
+        verbose_name_plural = "Типи простоїв"
+
+    def __str__(self):
+        return str(self.name)
