@@ -5,7 +5,7 @@ from django.core.cache import cache
 from tiles.models import Designs
 from units.models import ProductUnits#, Units
 from productions.models import Snap_types_to_lines
-from productions.models import Production_lines, StoppageCausesTypes, StoppageCauses
+from productions.models import Production_lines, StoppageCausesTypes
 import logging
 
 
