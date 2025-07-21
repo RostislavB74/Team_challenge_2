@@ -31,7 +31,6 @@ def shift_report_detail(request, doc_id):
                 )
             shift_doc = doc_data[0]
             production_line_id = shift_doc.get("production_line_id", 0)
-            # stoppage_cause_type_id = shift_doc.get("stoppage_cause_type_id", 0)
 
             # Отримання назви лінії
             if Production_lines:
@@ -138,22 +137,6 @@ def shift_report_detail(request, doc_id):
             }
             for dt in downtimes:
                 dt["stoppage_type_name"] = stoppage_type_map.get(dt["stoppage_type"], "Невідомо")
-            # logger.debug("Fetching downtimes")
-            # cursor.execute(
-            #     """
-            #     SELECT dr2.row_id, ck.kiln AS kiln_name, dr2.amount, dr2.stoppage_cause_type_id AS stoppage_type, dr2.stoppage_cause AS stoppage_cause, ISNULL(dr2.comment,'')AS comment
-                       
-            #     FROM dr2_shift_report dr2
-            #     INNER JOIN cu_kiln ck ON dr2.kiln_id = ck.kiln_id
-            #     WHERE dr2.doc_id = %s AND ck.production_line_id = %s
-            # """,
-            #     [doc_id, production_line_id],
-            #     # [doc_id, stoppage_cause_type],
-
-            # )
-            # downtime_columns = [col[0] for col in cursor.description]
-            # downtimes = [dict(zip(downtime_columns, row)) for row in cursor.fetchall()]
-            # logger.debug(f"Downtimes returned: {len(downtimes)}")
 
             # Отримання першого дизайну
             default_design = (
