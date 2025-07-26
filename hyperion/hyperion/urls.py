@@ -5,6 +5,7 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("tiles/", include("tiles.urls")),
+    path("navigation/", include("navigation.urls")),
     # path("shift-reports/", views.shift_report_list, name="shift_report_list"),
     path(
         "shift-reports/<int:doc_id>/",
