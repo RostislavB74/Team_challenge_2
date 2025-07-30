@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Калібри плитки</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/table_styles.css' %}">
+
+    {% comment %} <style>
         body {
             background-color: #f8f9fa;
         }
@@ -63,7 +66,7 @@
         .col-package-amount { min-width: 80px; }
         .col-add-date { min-width: 50px; }
         .col-parent-ean, .col-author, .col-on-tile-ean { min-width: 100px; }
-    </style>
+    </style> {% endcomment %}
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -86,9 +89,9 @@
                                     <li><a class="dropdown-item" href="#">Групи продукції</a></li>
                                     <li><a class="dropdown-item" href="#">Колекції</a></li>
                                     <li><a class="dropdown-item" href="#">Типи плитки</a></li>
-                                    <li><a class="dropdown-item" href="#">Калібри плитки</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'tiles:caliber_tile_list' %}">Калібри плитки</a></li>
                                     <li><a class="dropdown-item" href="#">Геометрія плитки</a></li>
-                                    <li><a class="dropdown-item" href="\tiles">Дизайни</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'tiles:tile_list' %}">Дизайни</a></li>
                                     <li><a class="dropdown-item" href="#">Сорти плитки</a></li>
                                     <li><a class="dropdown-item" href="#">Відтінки</a></li>
                                     <li><a class="dropdown-item" href="#">Глазурі</a></li>
@@ -306,5 +309,15 @@
         </nav>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelectorAll('.dropdown-submenu .dropdown-toggle').forEach(function (element) {
+            element.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const submenu = this.nextElementSibling;
+                if (submenu) submenu.classList.toggle('show');
+            });
+        });
+    </script>
 </body>
 </html>
