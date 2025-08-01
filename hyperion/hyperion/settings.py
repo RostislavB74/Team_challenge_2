@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'company_structure',
     'equipments',
     'journals',
+    'navigation',
 ]
 
 MIDDLEWARE = [
@@ -78,7 +79,7 @@ ROOT_URLCONF = 'hyperion.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -92,6 +93,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'hyperion.wsgi.application'
+TEMPLATES[0]['OPTIONS']['context_processors'] += [
+    'navigation.context_processors.navigation_menu',
+]
 
 
 # Database
