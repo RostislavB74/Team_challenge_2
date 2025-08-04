@@ -1,7 +1,7 @@
 
 from django.shortcuts import render
 from django.core.paginator import Paginator
-from .models import Designs, CaliberTiles, TileTypes
+from .models import Designs, CaliberTiles
 
 # def TileListView(request):
 #     tiles = Designs.objects.all()
