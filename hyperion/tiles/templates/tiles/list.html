@@ -98,8 +98,53 @@
     });
 </script>
 <script>
-    
+<script>
 document.addEventListener('DOMContentLoaded', function () {
+  const filters = {
+    archived: localStorage.getItem('archived') || '',
+    design: localStorage.getItem('design') || '',
+    collection: localStorage.getItem('collection') || ''
+  };
+
+  // Заповнюємо фільтри зі сховища
+  document.getElementById('archived').value = filters.archived;
+  document.getElementById('design').value = filters.design;
+  document.getElementById('collection').value = filters.collection;
+
+  // Подія при натисканні кнопки
+  document.getElementById('applyFilters').addEventListener('click', () => {
+    filters.archived = document.getElementById('archived').value;
+    filters.design = document.getElementById('design').value;
+    filters.collection = document.getElementById('collection').value;
+
+    // Кешуємо
+    localStorage.setItem('archived', filters.archived);
+    localStorage.setItem('design', filters.design);
+    localStorage.setItem('collection', filters.collection);
+
+    fetchData(filters);
+  });
+
+  // Автоматичний запит при завантаженні
+  fetchData(filters);
+});
+
+function fetchData(filters) {
+  const queryString = new URLSearchParams(filters).toString();
+  fetch(`/api/filter-products/?${queryString}`)
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('products');
+      container.innerHTML = '<table><tr><th>Назва</th><th>Дизайн</th><th>Колекція</th></tr>' +
+        data.results.map(prod =>
+          `<tr><td>${prod.name}</td><td>${prod.design}</td><td>${prod.collection}</td></tr>`
+        ).join('') +
+        '</table>';
+    });
+}
+</script>
+
+{% comment %} document.addEventListener('DOMContentLoaded', function () {
     form.querySelectorAll('select').forEach(select => {
     select.addEventListener('change', () => {
         const formData = new FormData(form);
@@ -169,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
-</script>
+</script> {% endcomment %}
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
   $(document).ready(function() {
