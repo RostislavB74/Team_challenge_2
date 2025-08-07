@@ -1,6 +1,9 @@
 from django.contrib import admin
 from .models import *
 
+@admin.register(CaliberTiles)
+class CaliberTileAdmin(admin.ModelAdmin):
+    list_display = ("caliber", "description")
 
 @admin.register(Collections)
 class CollectionAdmin(admin.ModelAdmin):
