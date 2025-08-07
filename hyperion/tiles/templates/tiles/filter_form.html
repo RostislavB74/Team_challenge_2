@@ -1,0 +1,61 @@
+<form id="filtersForm" method="get" class="row g-2 mb-4">
+        <!-- Назва дизайну -->
+            <div class="col-md-3">
+                <select class="form-select select" name="design_name" id="designSelect">
+                    <option value="">Всі</option>
+                    {% for name in design_names %}
+                        <option value="{{ name }}" {% if request.GET.design_name == name %}selected{% endif %}>{{ name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- Тип плитки -->
+            <div class="col-md-3">
+                <select class="form-select" name="tile_type">
+                    <option value="">Всі</option>
+                    {% for type in tile_types %}
+                        <option value="{{ type }}" {% if request.GET.tile_type == type %}selected{% endif %}>{{ type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- Колекція -->
+            <div class="col-md-3">
+                <select class="form-select" name="collection">
+                    <option value="">Всі</option>
+                    {% for coll in collections %}
+                        <option value="{{ coll }}" {% if request.GET.collection == coll %}selected{% endif %}>{{ coll }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+                <div class="col-md-2">
+                    <select name="is_base" class="form-select">
+                        <option value="">Базова?</option>
+                        <option value="true" {% if request.GET.is_base == "true" %}selected{% endif %}>✅</option>
+                        <option value="false" {% if request.GET.is_base == "false" %}selected{% endif %}>❌</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="archived" class="form-select">
+                        <option value="">Архівний?</option>
+                        <option value="true" {% if request.GET.archived == "true" %}selected{% endif %}>✅</option>
+                        <option value="false" {% if request.GET.archived == "false" %}selected{% endif %}>❌</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="is_stock" class="form-select">
+                        <option value="">Стоковий?</option>
+                        <option value="true" {% if request.GET.is_stock == "true" %}selected{% endif %}>✅</option>
+                        <option value="false" {% if request.GET.is_stock == "false" %}selected{% endif %}>❌</option>
+                    </select>
+                </div>
+                 <div class="col-md-2">
+                    <select name="is_action" class="form-select">
+                        <option value="">Акційний?</option>
+                        <option value="true" {% if request.GET.is_action == "true" %}selected{% endif %}>✅</option>
+                        <option value="false" {% if request.GET.is_action == "false" %}selected{% endif %}>❌</option>
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-primary w-100" type="submit">🔍</button>
+                </div>
+        </form>
