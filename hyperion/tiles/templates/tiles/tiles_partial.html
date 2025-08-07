@@ -1,0 +1,133 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+{% comment %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/table_styles.css' %}"> {% endcomment %}
+<style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .table-container {
+            width: 100%;
+            margin: 0;
+            padding: 20px 10px;
+        }
+        .table {
+            font-size: 12px;
+            border-collapse: collapse;
+            width: 100%;
+            table-layout: auto; /* Дозволяє колонкам адаптуватися */
+        }
+        th, td {
+            padding: 8px 10px;
+            vertical-align: middle;
+            text-align: center;
+            white-space: nowrap; /* Запобігаємо перенесенню коротких значень */
+        }
+        th {
+            background-color: #343a40;
+            color: white;
+            text-transform: capitalize;
+            font-weight: 600;
+        }
+        td {
+            background-color: white;
+            border: 1px solid #dee2e6;
+            white-space: normal; /* Дозволяємо перенос для довгих текстів */
+            max-width: 200px; /* Обмежуємо максимальну ширину */
+            overflow: hidden;
+            text-overflow: ellipsis; /* Додаємо три крапки для обрізаного тексту */
+        }
+        tr:nth-child(even) td {
+            background-color: #f2f2f2;
+        }
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .search-form {
+            max-width: 400px;
+            margin: 20px auto;
+        }
+        /* Гнучка ширина колонок */
+        .col-design-ean { min-width: 100px; }
+        .col-ean { min-width: 100px; }
+        .col-tile-type { min-width: 180px; }
+        .col-collection-id { min-width: 100px; }
+        .col-design-name { min-width: 180px; }
+        .col-is-base, .col-archived, .col-is-action, .col-is-stock, .col-is-test { min-width: 60px; }
+        .col-tile-size, .col-color, .col-tone, .col-tile-glaze, .col-hue, .col-quality { min-width: 60px; }
+        .col-width, .col-height, .col-thickness, .col-box-amount, .col-box-weight { min-width: 60px; }
+        .col-package-amount { min-width: 80px; }
+        .col-add-date { min-width: 50px; }
+        .col-parent-ean, .col-author, .col-on-tile-ean { min-width: 100px; }
+    </style> 
+{% include "tiles/pagination_partial.html" %}
+
+    <table class="table table-bordered">
+   <div class="table-container">
+    <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-design-ean">Код</th>
+                        <th class="col-ean">EAN</th>
+                        <th class="col-tile-type">Тип плитки</th>
+                        <th class="col-collection-id">Колекція</th>
+                        <th class="col-design-name">Назва дизайну</th>
+                        <th class="col-is-base">Базова</th>
+                        <th class="col-archived">Архів</th>
+                        <th class="col-is-action">Акція</th>
+                        <th class="col-is-stock">Стоковий</th>
+                        <th class="col-tile-size">Розмір</th>
+                        <th class="col-color">Колір</th>
+                        <th class="col-is-test">Тест</th>
+                        <th class="col-tone">Тон</th>
+                        <th class="col-tile-glaze">Глазур</th>
+                        <th class="col-hue">Відтінок</th>
+                        <th class="col-quality">Сорт</th>
+                        <th class="col-width">Ширина</th>
+                        <th class="col-height">Висота</th>
+                        <th class="col-thickness">Товщина</th>
+                        <th class="col-box-amount">Кількість у коробці</th>
+                        <th class="col-box-weight">Вага коробки</th>
+                        <th class="col-package-amount">Кількість у пакеті</th>
+                        <th class="col-add-date">Дата додавання</th>
+                        <th class="col-parent-ean">Батьківський код</th>
+                        <th class="col-author">Автор</th>
+                        <th class="col-on-tile-ean">EAN на плитці</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tile in page_obj %}
+                    <tr>
+                        <td>{{ tile.design_ean|default:"-" }}</td>
+                        <td>{{ tile.ean|default:"-" }}</td>
+                        <td>{% if tile.tile_type %}{{ tile.tile_type.name }}{% else %}-{% endif %}</td>
+                        <td>{% if tile.collection %}{{ tile.collection.name }}{% else %}-{% endif %}</td>
+                        <td>{{ tile.design_name|default:"-" }}</td>
+                        <td>{% if tile.is_base %}✅{% endif %}</td>
+                        <td>{% if tile.archived %}✅{% endif %}</td>
+                        <td>{% if tile.is_action %}✅{% endif %}</td>
+                        <td>{% if tile.is_stock %}✅{% endif %}</td>
+                        <td>{{ tile.tile_size|default:"-" }}</td>
+                        <td>{{ tile.color.color_name|default:"-" }}</td>
+                        <td>{% if tile.is_test %}✅{% endif %}</td>
+                        <td>{{ tile.tone|default:"-" }}</td>
+                        <td>{{ tile.tile_glaze.name|default:"-" }}</td>
+                        <td>{{ tile.hue.name|default:"-" }}</td>
+                        <td>{{ tile.quality|default:"-" }}</td>
+                        <td>{{ tile.width|default:"-" }}</td>
+                        <td>{{ tile.height|default:"-" }}</td>
+                        <td>{{ tile.thickness|default:"-" }}</td>
+                        <td>{{ tile.box_amount|default:"-" }}</td>
+                        <td>{{ tile.box_weight|default:"-" }}</td>
+                        <td>{{ tile.package_amount|default:"-" }}</td>
+                        <td>{{ tile.add_date|date:"d.m.Y H:i"|default:"-" }}</td>
+                        <td>{{ tile.parent_ean|default:"-" }}</td>
+                        <td>{{ tile.author.user_name|default:"-" }}</td>
+                        <td>{{ tile.on_tile_ean|default:"-" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+    </div>
+</table>
+{% include "tiles/pagination_partial.html" %}
+
