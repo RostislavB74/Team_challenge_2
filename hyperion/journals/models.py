@@ -2,7 +2,7 @@ from django.db import models
 # from users.models import User
 # from equipments.models import Kilns
 # from productions.models import Production_lines,Production_line_groups
-from company_structure.models import *
+# from company_structure.models import Shifts
 # journals/models.py
 # from tiles.models import Quality,Designs
 
@@ -78,7 +78,7 @@ class ShiftMaterialsDebit(models.Model):
 
     def __str__(self):
         return self.doc_number
-from django.db import models
+
 
 
 class ShiftReports(models.Model):

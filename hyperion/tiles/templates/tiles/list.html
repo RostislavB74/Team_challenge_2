@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Довідник дизайни</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
+   <style>
         body {
             background-color: #f8f9fa;
         }
@@ -61,293 +61,176 @@
         .col-tile-size, .col-color, .col-tone, .col-tile-glaze, .col-hue, .col-quality { min-width: 60px; }
         .col-width, .col-height, .col-thickness, .col-box-amount, .col-box-weight { min-width: 60px; }
         .col-package-amount { min-width: 80px; }
-        {% comment %} .col-tile-1c-id { min-width: 80px; } {% endcomment %}
         .col-add-date { min-width: 50px; }
         .col-parent-ean, .col-author, .col-on-tile-ean { min-width: 100px; }
-    </style>
+    </style> 
 </head>
 <body>
+    <!-- Навігаційне меню -->
+    {% include "navigation/partials/navbar.html" %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <div class="container-fluid"> <!-- Зміна на container-fluid -->
         <h1 class="text-center my-4">Довідник дизайни плиток</h1>
-        <form method="get" class="search-form">
-            <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Назва дизайну" 
-                       value="{{ request.GET.search }}">
-                <button type="submit" class="btn btn-primary">Шукати</button>
-            </div>
-        </form>
-        <div class="table-container">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th class="col-design-ean">Код</th>
-                        <th class="col-ean">EAN</th>
-                        <th class="col-tile-type">Тип плитки</th>
-                        <th class="col-collection-id">Колекція</th>
-                        <th class="col-design-name">Назва дизайну</th>
-                        <th class="col-is-base">Базова</th>
-                        <th class="col-archived">Архів</th>
-                        <th class="col-is-action">Акція</th>
-                        <th class="col-is-stock">Стоковий</th>
-                        <th class="col-tile-size">Розмір</th>
-                        <th class="col-color">Колір</th>
-                        <th class="col-is-test">Тест</th>
-                        <th class="col-tone">Тон</th>
-                        <th class="col-tile-glaze">Глазур</th>
-                        <th class="col-hue">Відтінок</th>
-                        <th class="col-quality">Сорт</th>
-                        <th class="col-width">Ширина</th>
-                        <th class="col-height">Висота</th>
-                        <th class="col-thickness">Товщина</th>
-                        <th class="col-box-amount">Кількість у коробці</th>
-                        <th class="col-box-weight">Вага коробки</th>
-                        <th class="col-package-amount">Кількість у пакеті</th>
-                        {% comment %} <th class="col-tile-1c-id">ID 1С</th> {% endcomment %}
-                        <th class="col-add-date">Дата додавання</th>
-                        <th class="col-parent-ean">Батьківський код</th>
-                        <th class="col-author">Автор</th>
-                        <th class="col-on-tile-ean">EAN на плитці</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for tile in page_obj %}
-                    <tr>
-                        <td>{{ tile.design_ean|default:"-" }}</td>
-                        <td>{{ tile.ean|default:"-" }}</td>
-                        <td>{% if tile.tile_type %}{{ tile.tile_type.name }}{% else %}-{% endif %}</td>
-                        <td>{% if tile.collection %}{{ tile.collection.name }}{% else %}-{% endif %}</td>
-                        <td>{{ tile.design_name|default:"-" }}</td>
-                        <td>{{ tile.is_base|yesno:"Так,Ні" }}</td>
-                        <td>{{ tile.archived|yesno:"Так,Ні" }}</td>
-                        <td>{{ tile.is_action|yesno:"Так,Ні" }}</td>
-                        <td>{{ tile.is_stock|yesno:"Так,Ні" }}</td>
-                        <td>{{ tile.tile_size|default:"-" }}</td>
-                        <td>{{ tile.color.color_name|default:"-" }}</td>
-                        <td>{{ tile.is_test|yesno:"Так,Ні" }}</td>
-                        <td>{{ tile.tone|default:"-" }}</td>
-                        <td>{{ tile.tile_glaze.name|default:"-" }}</td>
-                        <td>{{ tile.hue.name|default:"-" }}</td>
-                        <td>{{ tile.quality|default:"-" }}</td>
-                        <td>{{ tile.width|default:"-" }}</td>
-                        <td>{{ tile.height|default:"-" }}</td>
-                        <td>{{ tile.thickness|default:"-" }}</td>
-                        <td>{{ tile.box_amount|default:"-" }}</td>
-                        <td>{{ tile.box_weight|default:"-" }}</td>
-                        <td>{{ tile.package_amount|default:"-" }}</td>
-                        {% comment %} <td>{{ tile.tile_1c_id|default:"-" }}</td> {% endcomment %}
-                        <td>{{ tile.add_date|date:"d.m.Y H:i"|default:"-" }}</td>
-                        <td>{{ tile.parent_ean|default:"-" }}</td>
-                        <td>{{ tile.author.user_name|default:"-" }}</td>
-                        <td>{{ tile.on_tile_ean|default:"-" }}</td>
-                    </tr>
+        <form id="filtersForm" method="get" class="row g-2 mb-4">
+        <!-- Назва дизайну -->
+            <div class="col-md-3">
+                <select class="form-select select" name="design_name" id="designSelect">
+                    <option value="">Всі</option>
+                    {% for name in design_names %}
+                        <option value="{{ name }}" {% if request.GET.design_name == name %}selected{% endif %}>{{ name }}</option>
                     {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <nav class="pagination">
-            <ul class="pagination">
-                {% if page_obj.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Попередня</a>
-                </li>
-                {% endif %}
-                <li class="page-item disabled">
-                    <span class="page-link">Сторінка {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}</span>
-                </li>
-                {% if page_obj.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Наступна</a>
-                </li>
-                {% endif %}
-            </ul>
-        </nav>
+                </select>
+            </div>
+            <!-- Тип плитки -->
+            <div class="col-md-3">
+                <select class="form-select" name="tile_type">
+                    <option value="">Всі</option>
+                    {% for type in tile_types %}
+                        <option value="{{ type }}" {% if request.GET.tile_type == type %}selected{% endif %}>{{ type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- Колекція -->
+            <div class="col-md-3">
+                <select class="form-select" name="collection">
+                    <option value="">Всі</option>
+                    {% for coll in collections %}
+                        <option value="{{ coll }}" {% if request.GET.collection == coll %}selected{% endif %}>{{ coll }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+                <div class="col-md-2">
+                    <select name="is_base" class="form-select">
+                        <option value="">Базова?</option>
+                        <option value="true" {% if request.GET.is_base == "true" %}selected{% endif %}>✅</option>
+                        <option value="false" {% if request.GET.is_base == "false" %}selected{% endif %}>❌</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="archived" class="form-select">
+                        <option value="">Архівний?</option>
+                        <option value="true" {% if request.GET.archived == "true" %}selected{% endif %}>✅</option>
+                        <option value="false" {% if request.GET.archived == "false" %}selected{% endif %}>❌</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="is_stock" class="form-select">
+                        <option value="">Стоковий?</option>
+                        <option value="true" {% if request.GET.is_stock == "true" %}selected{% endif %}>✅</option>
+                        <option value="false" {% if request.GET.is_stock == "false" %}selected{% endif %}>❌</option>
+                    </select>
+                </div>
+                 <div class="col-md-2">
+                    <select name="is_action" class="form-select">
+                        <option value="">Акційний?</option>
+                        <option value="true" {% if request.GET.is_action == "true" %}selected{% endif %}>✅</option>
+                        <option value="false" {% if request.GET.is_action == "false" %}selected{% endif %}>❌</option>
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-primary w-100" type="submit">🔍</button>
+                </div>
+        </form>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div id="tilesContainer">
+        {% include "tiles/tiles_partial.html" %}
+    </div>
+        
+       
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.querySelectorAll('.dropdown-submenu .dropdown-toggle').forEach(function (element) {
+        element.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const submenu = this.nextElementSibling;
+            if (submenu) submenu.classList.toggle('show');
+        });
+    });
+</script>
+<script>
+    
+document.addEventListener('DOMContentLoaded', function () {
+    form.querySelectorAll('select').forEach(select => {
+    select.addEventListener('change', () => {
+        const formData = new FormData(form);
+        const params = new URLSearchParams(formData).toString();
+        updateSelectOptions(params);
+        form.requestSubmit(); // автоматично сабмітимо форму
+    });
+});
+}
+//*    const form = document.getElementById('filtersForm');
+   //* const container = document.getElementById('tilesContainer');
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const params = new URLSearchParams(formData).toString();
+
+        fetch(`/tiles/filter/?${params}`)
+            .then(response => response.text())
+            .then(html => {
+                container.innerHTML = html;
+                history.pushState(null, '', `?${params}`);
+                updateSelectOptions(new URL(url).searchParams.toString());
+            });
+    });
+
+    function updateSelectOptions(params) {
+    fetch(`/tiles/options/?${params}`)
+        .then(res => res.json())
+        .then(data => {
+            const designSelect = document.querySelector('select[name="design_name"]');
+            const tileTypeSelect = document.querySelector('select[name="tile_type"]');
+            const collectionSelect = document.querySelector('select[name="collection"]');
+
+            const currentDesign = designSelect.value;
+            const currentType = tileTypeSelect.value;
+            const currentCollection = collectionSelect.value;
+
+            function rebuild(select, values, currentValue) {
+                select.innerHTML = '<option value="">Всі</option>';
+                values.forEach(value => {
+                    const opt = document.createElement('option');
+                    opt.value = value;
+                    opt.textContent = value;
+                    if (value === currentValue) opt.selected = true;
+                    select.appendChild(opt);
+                });
+            }
+
+            rebuild(designSelect, data.design_names, currentDesign);
+            rebuild(tileTypeSelect, data.tile_types, currentType);
+            rebuild(collectionSelect, data.collections, currentCollection);
+        });
+}
+
+
+    // Підхоплення кліку по пагінації
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('ajax-page')) {
+            e.preventDefault();
+            const url = e.target.href;
+            fetch(url)
+                .then(res => res.text())
+                .then(html => {
+                    container.innerHTML = html;
+                    history.pushState(null, '', url);
+                });
+        }
+    });
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+  $(document).ready(function() {
+      $('.select2').select2({
+          width: 'resolve',
+          placeholder: "Виберіть значення",
+          allowClear: true
+      });
+  });
+</script>
 </body>
 </html>
-{% comment %} <!DOCTYPE html>
-<html>
-<head>
-    <title>Список плиток</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        th, td { text-align: left; }
-        .col-design-ean { width: 84px; }
-        .col-ean { width: 84px; }
-        .col-tile-type { width: 300px; }
-        .col-collection-id { width: 92px; }
-        .col-design-name { width: 241px; }
-        .col-is-base { width: 64px; }
-        .col-archived { width: 64px; }
-        .col-is-action { width: 64px; }
-        .col-is-stock { width: 64px; }
-        .col-tile-size { width: 64px; }
-        .col-color { width: 64px; }
-        .col-is-test { width: 64px; }
-        .col-tone { width: 64px; }
-        .col-tile-glaze { width: 64px; }
-        .col-hue { width: 64px; }
-        .col-quality { width: 64px; }
-        .col-width { width: 64px; }
-        .col-height { width: 64px; }
-        .col-thickness { width: 64px; }
-        .col-box-amount { width: 64px; }
-        .col-box-weight { width: 64px; }
-        .col-package-amount { width: 169px; }
-        .col-tile-1c-id { width: 400px; }
-        .col-add-date { width: 64px; }
-        .col-parent-ean { width: 64px; }
-        .col-author { width: 64px; }
-        .col-on-tile-ean { width: 64px; }
-        .col-print-name { width: 241px; }
-        .col-design-code { width: 64px; }
-        .col-caliber { width: 64px; }
-        .col-modifier { width: 241px; }
-        .col-use-second-color { width: 64px; }
-        .col-second-color { width: 64px; }
-        .col-decor-base-ean { width: 84px; }
-        .col-decor-type { width: 64px; }
-        .col-set-amount { width: 64px; }
-        .col-amount-in-row { width: 64px; }
-        .col-amount-in-column { width: 64px; }
-        .col-additional-name { width: 241px; }
-        .col-coat { width: 64px; }
-        .col-laying-type { width: 64px; }
-        .col-laying { width: 241px; }
-        .col-serial-number-in-set { width: 64px; }
-        .col-amount-panno-in-box { width: 64px; }
-        .col-caliber2 { width: 64px; }
-        .col-tile-geometry { width: 64px; }
-        .col-tolerance { width: 64px; }
-        .col-package-square { width: 64px; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Дизайни</h1>
-        <form method="get" class="mb-3">
-            <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Пошук за назвою">
-                <button type="submit" class="btn btn-primary">Шукати</button>
-            </div>
-        </form>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th class="col-design-ean">Design EAN</th>
-                    <th class="col-ean">EAN</th>
-                    <th class="col-tile-type">Tile Type</th>
-                    <th class="col-collection-id">Collection</th>
-                    <th class="col-design-name">Design Name</th>
-                    <th class="col-is-base">Is Base</th>
-                    <th class="col-archived">Archived</th>
-                    <th class="col-is-action">Is Action</th>
-                    <th class="col-is-stock">Is Stock</th>
-                    <th class="col-tile-size">Tile Size</th>
-                    <th class="col-color">Color</th>
-                    <th class="col-is-test">Is Test</th>
-                    <th class="col-tone">Tone</th>
-                    <th class="col-tile-glaze">Glaze</th>
-                    <th class="col-hue">Hue</th>
-                    <th class="col-quality">Quality</th>
-                    <th class="col-width">Width</th>
-                    <th class="col-height">Height</th>
-                    <th class="col-thickness">Thickness</th>
-                    <th class="col-box-amount">Box Amount</th>
-                    <th class="col-box-weight">Box Weight</th>
-                    <th class="col-package-amount">Package Amount</th>
-                    <th class="col-tile-1c-id">1C ID</th>
-                    <th class="col-add-date">Add Date</th>
-                    <th class="col-parent-ean">Parent EAN</th>
-                    <th class="col-author">Author</th>
-                    <th class="col-on-tile-ean">On Tile EAN</th>
-                    <th class="col-print-name">Print Name</th>
-                    <th class="col-design-code">Design Code</th>
-                    <th class="col-caliber">Caliber</th>
-                    <th class="col-modifier">Modifier</th>
-                    <th class="col-use-second-color">Use Second Color</th>
-                    <th class="col-second-color">Second Color</th>
-                    <th class="col-decor-base-ean">Decor Base EAN</th>
-                    <th class="col-decor-type">Decor Type</th>
-                    <th class="col-set-amount">Set Amount</th>
-                    <th class="col-amount-in-row">Amount in Row</th>
-                    <th class="col-amount-in-column">Amount in Column</th>
-                    <th class="col-additional-name">Additional Name</th>
-                    <th class="col-coat">Coat</th>
-                    <th class="col-laying-type">Laying Type</th>
-                    <th class="col-laying">Laying</th>
-                    <th class="col-serial-number-in-set">Serial Number in Set</th>
-                    <th class="col-amount-panno-in-box">Amount Panno in Box</th>
-                    <th class="col-caliber2">Caliber2</th>
-                    <th class="col-tile-geometry">Tile Geometry</th>
-                    <th class="col-tolerance">Tolerance</th>
-                    <th class="col-package-square">Package Square</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for tile in page_obj %}
-                <tr>
-                    <td>{{ tile.design_ean|default:"-" }}</td>
-                    <td>{{ tile.ean|default:"-" }}</td>
-                    <td>{{ tile.tile_type.name|default:"-" }}</td>
-                    <td>{{ tile.collection.name|default:"-" }}</td>
-                    <td>{{ tile.design_name|default:"-" }}</td>
-                    <td>{{ tile.is_base|yesno:"Так,Ні" }}</td>
-                    <td>{{ tile.archived|yesno:"Так,Ні" }}</td>
-                    <td>{{ tile.is_action|yesno:"Так,Ні" }}</td>
-                    <td>{{ tile.is_stock|yesno:"Так,Ні" }}</td>
-                    <td>{{ tile.tile_size|default:"-" }}</td>
-                    <td>{{ tile.color.name|default:"-" }}</td>
-                    <td>{{ tile.is_test|yesno:"Так,Ні" }}</td>
-                    <td>{{ tile.tone|default:"-" }}</td>
-                    <td>{{ tile.tile_glaze.name|default:"-" }}</td>
-                    <td>{{ tile.hue.name|default:"-" }}</td>
-                    <td>{{ tile.quality|default:"-" }}</td>
-                    <td>{{ tile.width|default:"-" }}</td>
-                    <td>{{ tile.height|default:"-" }}</td>
-                    <td>{{ tile.thickness|default:"-" }}</td>
-                    <td>{{ tile.box_amount|default:"-" }}</td>
-                    <td>{{ tile.box_weight|default:"-" }}</td>
-                    <td>{{ tile.package_amount|default:"-" }}</td>
-                    <td>{{ tile.tile_1c_id|default:"-" }}</td>
-                    <td>{{ tile.add_date|date:"d.m.Y H:i"|default:"-" }}</td>
-                    <td>{{ tile.parent_ean|default:"-" }}</td>
-                    <td>{{ tile.author.name|default:"-" }}</td>
-                    <td>{{ tile.on_tile_ean|default:"-" }}</td>
-                    <td>{{ tile.print_name|default:"-" }}</td>
-                    <td>{{ tile.design_code|default:"-" }}</td>
-                    <td>{{ tile.caliber|default:"-" }}</td>
-                    <td>{{ tile.modifier|default:"-" }}</td>
-                    <td>{{ tile.use_second_color|yesno:"Так,Ні" }}</td>
-                    <td>{{ tile.second_color.name|default:"-" }}</td>
-                    <td>{{ tile.decor_base_ean|default:"-" }}</td>
-                    <td>{{ tile.decor_type.name|default:"-" }}</td>
-                    <td>{{ tile.set_amount|default:"-" }}</td>
-                    <td>{{ tile.amount_in_row|default:"-" }}</td>
-                    <td>{{ tile.amount_in_column|default:"-" }}</td>
-                    <td>{{ tile.additional_name|default:"-" }}</td>
-                    <td>{{ tile.coat.name|default:"-" }}</td>
-                    <td>{{ tile.laying_type|default:"-" }}</td>
-                    <td>{{ tile.laying|default:"-" }}</td>
-                    <td>{{ tile.serial_number_in_set|default:"-" }}</td>
-                    <td>{{ tile.amount_panno_in_box|default:"-" }}</td>
-                    <td>{{ tile.caliber2|default:"-" }}</td>
-                    <td>{{ tile.tile_geometry.name|default:"-" }}</td>
-                    <td>{{ tile.tolerance|default:"-" }}</td>
-                    <td>{{ tile.package_square|default:"-" }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <div class="pagination">
-            {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-secondary">Попередня</a>
-            {% endif %}
-            <span>Сторінка {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}</span>
-            {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-secondary">Наступна</a>
-            {% endif %}
-        </div>
-    </div>
-</body>
-</html> {% endcomment %}
