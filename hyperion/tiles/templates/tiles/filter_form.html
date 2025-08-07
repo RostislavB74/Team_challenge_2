@@ -1,4 +1,42 @@
-<form id="filtersForm" method="get" class="row g-2 mb-4">
+<style>
+    .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 16px;
+        font-size: 0.85rem; /* зменшений шрифт */
+    }
+
+    .filters label {
+        margin-right: 4px;
+        font-weight: 500;
+    }
+
+    .filters select,
+    .filters input[type="text"],
+    .filters input[type="submit"] {
+        font-size: 0.85rem;
+        padding: 4px 6px;
+        height: 30px;
+        min-width: 120px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .filters input[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .filters input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<form id="filtersForm" method="get" class="row filters g-2 mb-4">
+
         <!-- Назва дизайну -->
             <div class="col-md-3">
                 <select class="form-select select" name="design_name" id="designSelect">
