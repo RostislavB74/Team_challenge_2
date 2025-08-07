@@ -142,6 +142,25 @@ def filtered_options(request):
     )
 
 
+def filter_products(request):
+    query = Designs.objects.all()
+
+    is_archived = request.GET.get("archived")
+    if is_archived in ["yes", "no"]:
+        query = query.filter(is_archived=(is_archived == "yes"))
+
+    design = request.GET.get("design")
+    if design:
+        query = query.filter(design=design)
+
+    collection = request.GET.get("collection")
+    if collection:
+        query = query.filter(collection=collection)
+
+    results = list(query.values("id", "name", "design", "collection", "is_archived"))
+    return JsonResponse({"results": results})
+
+
 # def TileListView(request):
 #     tiles = Designs.objects.all()
 #     tiles = tiles.select_related(

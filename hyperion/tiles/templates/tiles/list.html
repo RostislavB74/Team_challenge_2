@@ -71,72 +71,20 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <div class="container-fluid"> <!-- Зміна на container-fluid -->
         <h1 class="text-center my-4">Довідник дизайни плиток</h1>
-        <form id="filtersForm" method="get" class="row g-2 mb-4">
-        <!-- Назва дизайну -->
-            <div class="col-md-3">
-                <select class="form-select select" name="design_name" id="designSelect">
-                    <option value="">Всі</option>
-                    {% for name in design_names %}
-                        <option value="{{ name }}" {% if request.GET.design_name == name %}selected{% endif %}>{{ name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <!-- Тип плитки -->
-            <div class="col-md-3">
-                <select class="form-select" name="tile_type">
-                    <option value="">Всі</option>
-                    {% for type in tile_types %}
-                        <option value="{{ type }}" {% if request.GET.tile_type == type %}selected{% endif %}>{{ type }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <!-- Колекція -->
-            <div class="col-md-3">
-                <select class="form-select" name="collection">
-                    <option value="">Всі</option>
-                    {% for coll in collections %}
-                        <option value="{{ coll }}" {% if request.GET.collection == coll %}selected{% endif %}>{{ coll }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+       
+        <!---->
+        {% comment %} {% extends "base.html" %} {% endcomment %}
 
-                <div class="col-md-2">
-                    <select name="is_base" class="form-select">
-                        <option value="">Базова?</option>
-                        <option value="true" {% if request.GET.is_base == "true" %}selected{% endif %}>✅</option>
-                        <option value="false" {% if request.GET.is_base == "false" %}selected{% endif %}>❌</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <select name="archived" class="form-select">
-                        <option value="">Архівний?</option>
-                        <option value="true" {% if request.GET.archived == "true" %}selected{% endif %}>✅</option>
-                        <option value="false" {% if request.GET.archived == "false" %}selected{% endif %}>❌</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <select name="is_stock" class="form-select">
-                        <option value="">Стоковий?</option>
-                        <option value="true" {% if request.GET.is_stock == "true" %}selected{% endif %}>✅</option>
-                        <option value="false" {% if request.GET.is_stock == "false" %}selected{% endif %}>❌</option>
-                    </select>
-                </div>
-                 <div class="col-md-2">
-                    <select name="is_action" class="form-select">
-                        <option value="">Акційний?</option>
-                        <option value="true" {% if request.GET.is_action == "true" %}selected{% endif %}>✅</option>
-                        <option value="false" {% if request.GET.is_action == "false" %}selected{% endif %}>❌</option>
-                    </select>
-                </div>
-                <div class="col-md-1">
-                    <button class="btn btn-primary w-100" type="submit">🔍</button>
-                </div>
-        </form>
+        {% block content %}
+        {% include "tiles/filter_form.html" %}
+
+
+
     </div>
     <div id="tilesContainer">
         {% include "tiles/tiles_partial.html" %}
     </div>
-        
+        {% endblock %}        
        
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -150,8 +98,53 @@
     });
 </script>
 <script>
-    
+<script>
 document.addEventListener('DOMContentLoaded', function () {
+  const filters = {
+    archived: localStorage.getItem('archived') || '',
+    design: localStorage.getItem('design') || '',
+    collection: localStorage.getItem('collection') || ''
+  };
+
+  // Заповнюємо фільтри зі сховища
+  document.getElementById('archived').value = filters.archived;
+  document.getElementById('design').value = filters.design;
+  document.getElementById('collection').value = filters.collection;
+
+  // Подія при натисканні кнопки
+  document.getElementById('applyFilters').addEventListener('click', () => {
+    filters.archived = document.getElementById('archived').value;
+    filters.design = document.getElementById('design').value;
+    filters.collection = document.getElementById('collection').value;
+
+    // Кешуємо
+    localStorage.setItem('archived', filters.archived);
+    localStorage.setItem('design', filters.design);
+    localStorage.setItem('collection', filters.collection);
+
+    fetchData(filters);
+  });
+
+  // Автоматичний запит при завантаженні
+  fetchData(filters);
+});
+
+function fetchData(filters) {
+  const queryString = new URLSearchParams(filters).toString();
+  fetch(`/api/filter-products/?${queryString}`)
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('products');
+      container.innerHTML = '<table><tr><th>Назва</th><th>Дизайн</th><th>Колекція</th></tr>' +
+        data.results.map(prod =>
+          `<tr><td>${prod.name}</td><td>${prod.design}</td><td>${prod.collection}</td></tr>`
+        ).join('') +
+        '</table>';
+    });
+}
+</script>
+
+{% comment %} document.addEventListener('DOMContentLoaded', function () {
     form.querySelectorAll('select').forEach(select => {
     select.addEventListener('change', () => {
         const formData = new FormData(form);
@@ -221,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
-</script>
+</script> {% endcomment %}
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
   $(document).ready(function() {
