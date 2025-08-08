@@ -1,11 +1,13 @@
 from django.contrib import admin
 from journals import views
 from django.urls import path, include
+from hyperion.admin import my_admin_site
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('navigation/', include('navigation.urls', namespace='navigation')),
-    path('tiles/', include('tiles.urls', namespace='tiles')),
+    path("mysite/", my_admin_site.urls),
+    path("navigation/", include("navigation.urls", namespace="navigation")),
+    path("tiles/", include("tiles.urls", namespace="tiles")),
     path("journals/", include("journals.urls"), name="journals"),
     # path("shift-reports/", views.shift_report_list, name="shift_report_list"),
     path(
