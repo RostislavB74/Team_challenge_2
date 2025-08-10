@@ -1,91 +1,15 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Довідник дизайни</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-   <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .table-container {
-            width: 100%;
-            margin: 0;
-            padding: 20px 10px;
-        }
-        .table {
-            font-size: 12px;
-            border-collapse: collapse;
-            width: 100%;
-            table-layout: auto; /* Дозволяє колонкам адаптуватися */
-        }
-        th, td {
-            padding: 8px 10px;
-            vertical-align: middle;
-            text-align: center;
-            white-space: nowrap; /* Запобігаємо перенесенню коротких значень */
-        }
-        th {
-            background-color: #343a40;
-            color: white;
-            text-transform: capitalize;
-            font-weight: 600;
-        }
-        td {
-            background-color: white;
-            border: 1px solid #dee2e6;
-            white-space: normal; /* Дозволяємо перенос для довгих текстів */
-            max-width: 200px; /* Обмежуємо максимальну ширину */
-            overflow: hidden;
-            text-overflow: ellipsis; /* Додаємо три крапки для обрізаного тексту */
-        }
-        tr:nth-child(even) td {
-            background-color: #f2f2f2;
-        }
-        .pagination {
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .search-form {
-            max-width: 400px;
-            margin: 20px auto;
-        }
-        /* Гнучка ширина колонок */
-        .col-design-ean { min-width: 100px; }
-        .col-ean { min-width: 100px; }
-        .col-tile-type { min-width: 180px; }
-        .col-collection-id { min-width: 100px; }
-        .col-design-name { min-width: 180px; }
-        .col-is-base, .col-archived, .col-is-action, .col-is-stock, .col-is-test { min-width: 60px; }
-        .col-tile-size, .col-color, .col-tone, .col-tile-glaze, .col-hue, .col-quality { min-width: 60px; }
-        .col-width, .col-height, .col-thickness, .col-box-amount, .col-box-weight { min-width: 60px; }
-        .col-package-amount { min-width: 80px; }
-        .col-add-date { min-width: 50px; }
-        .col-parent-ean, .col-author, .col-on-tile-ean { min-width: 100px; }
-    </style> 
-</head>
-<body>
-    <!-- Навігаційне меню -->
-    {% include "navigation/partials/navbar.html" %}
+{% extends "navigation/base.html" %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <div class="container-fluid"> <!-- Зміна на container-fluid -->
-        <h1 class="text-center my-4">Довідник дизайни плиток</h1>
-       
-        <!---->
-        {% comment %} {% extends "base.html" %} {% endcomment %}
 
         {% block content %}
+        <h1 class="text-center my-4">Довідник дизайни плиток</h1>
         {% include "tiles/filter_form.html" %}
-
-
-
     </div>
     <div id="tilesContainer">
         {% include "tiles/tiles_partial.html" %}
     </div>
         {% endblock %}        
-       
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.querySelectorAll('.dropdown-submenu .dropdown-toggle').forEach(function (element) {
@@ -98,123 +22,50 @@
     });
 </script>
 <script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const filters = {
-    archived: localStorage.getItem('archived') || '',
-    design: localStorage.getItem('design') || '',
-    collection: localStorage.getItem('collection') || ''
-  };
+    document.addEventListener('DOMContentLoaded', function () {
+    const filters = {
+        archived: localStorage.getItem('archived') || '',
+        design: localStorage.getItem('design') || '',
+        collection: localStorage.getItem('collection') || ''
+    };
 
-  // Заповнюємо фільтри зі сховища
-  document.getElementById('archived').value = filters.archived;
-  document.getElementById('design').value = filters.design;
-  document.getElementById('collection').value = filters.collection;
+    // Заповнюємо фільтри зі сховища
+    document.getElementById('archived').value = filters.archived;
+    document.getElementById('design').value = filters.design;
+    document.getElementById('collection').value = filters.collection;
 
-  // Подія при натисканні кнопки
-  document.getElementById('applyFilters').addEventListener('click', () => {
-    filters.archived = document.getElementById('archived').value;
-    filters.design = document.getElementById('design').value;
-    filters.collection = document.getElementById('collection').value;
+    // Подія при натисканні кнопки
+    document.getElementById('applyFilters').addEventListener('click', () => {
+        filters.archived = document.getElementById('archived').value;
+        filters.design = document.getElementById('design').value;
+        filters.collection = document.getElementById('collection').value;
 
-    // Кешуємо
-    localStorage.setItem('archived', filters.archived);
-    localStorage.setItem('design', filters.design);
-    localStorage.setItem('collection', filters.collection);
+        // Кешуємо
+        localStorage.setItem('archived', filters.archived);
+        localStorage.setItem('design', filters.design);
+        localStorage.setItem('collection', filters.collection);
 
+        fetchData(filters);
+    });
+
+    // Автоматичний запит при завантаженні
     fetchData(filters);
-  });
-
-  // Автоматичний запит при завантаженні
-  fetchData(filters);
-});
-
-function fetchData(filters) {
-  const queryString = new URLSearchParams(filters).toString();
-  fetch(`/api/filter-products/?${queryString}`)
-    .then(res => res.json())
-    .then(data => {
-      const container = document.getElementById('products');
-      container.innerHTML = '<table><tr><th>Назва</th><th>Дизайн</th><th>Колекція</th></tr>' +
-        data.results.map(prod =>
-          `<tr><td>${prod.name}</td><td>${prod.design}</td><td>${prod.collection}</td></tr>`
-        ).join('') +
-        '</table>';
-    });
-}
-</script>
-
-{% comment %} document.addEventListener('DOMContentLoaded', function () {
-    form.querySelectorAll('select').forEach(select => {
-    select.addEventListener('change', () => {
-        const formData = new FormData(form);
-        const params = new URLSearchParams(formData).toString();
-        updateSelectOptions(params);
-        form.requestSubmit(); // автоматично сабмітимо форму
-    });
-});
-}
-//*    const form = document.getElementById('filtersForm');
-   //* const container = document.getElementById('tilesContainer');
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(form);
-        const params = new URLSearchParams(formData).toString();
-
-        fetch(`/tiles/filter/?${params}`)
-            .then(response => response.text())
-            .then(html => {
-                container.innerHTML = html;
-                history.pushState(null, '', `?${params}`);
-                updateSelectOptions(new URL(url).searchParams.toString());
-            });
     });
 
-    function updateSelectOptions(params) {
-    fetch(`/tiles/options/?${params}`)
+    function fetchData(filters) {
+    const queryString = new URLSearchParams(filters).toString();
+    fetch(`/api/filter-products/?${queryString}`)
         .then(res => res.json())
         .then(data => {
-            const designSelect = document.querySelector('select[name="design_name"]');
-            const tileTypeSelect = document.querySelector('select[name="tile_type"]');
-            const collectionSelect = document.querySelector('select[name="collection"]');
-
-            const currentDesign = designSelect.value;
-            const currentType = tileTypeSelect.value;
-            const currentCollection = collectionSelect.value;
-
-            function rebuild(select, values, currentValue) {
-                select.innerHTML = '<option value="">Всі</option>';
-                values.forEach(value => {
-                    const opt = document.createElement('option');
-                    opt.value = value;
-                    opt.textContent = value;
-                    if (value === currentValue) opt.selected = true;
-                    select.appendChild(opt);
-                });
-            }
-
-            rebuild(designSelect, data.design_names, currentDesign);
-            rebuild(tileTypeSelect, data.tile_types, currentType);
-            rebuild(collectionSelect, data.collections, currentCollection);
+        const container = document.getElementById('products');
+        container.innerHTML = '<table><tr><th>Назва</th><th>Дизайн</th><th>Колекція</th></tr>' +
+            data.results.map(prod =>
+            `<tr><td>${prod.name}</td><td>${prod.design}</td><td>${prod.collection}</td></tr>`
+            ).join('') +
+            '</table>';
         });
-}
-
-
-    // Підхоплення кліку по пагінації
-    document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('ajax-page')) {
-            e.preventDefault();
-            const url = e.target.href;
-            fetch(url)
-                .then(res => res.text())
-                .then(html => {
-                    container.innerHTML = html;
-                    history.pushState(null, '', url);
-                });
-        }
-    });
-});
-</script> {% endcomment %}
+    }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
   $(document).ready(function() {
