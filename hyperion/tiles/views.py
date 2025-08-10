@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
-from .models import Designs, CaliberTiles, Collections, TileTypes
+from .models import Designs, CaliberTiles, Collections, TileTypes, ProductTypes, ProductGroups
 from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
 
@@ -190,3 +190,11 @@ def TilesTypesListView(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return render(request, "tiles/tiles_types_list.html", {"page_obj": page_obj})
+
+
+def ProductTypesListView(request):
+    product_types = ProductTypes.objects.all()
+    paginator = Paginator(product_types, 50)  # 50 записів на сторінку
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "tiles/product_types_list.html", {"page_obj": page_obj})

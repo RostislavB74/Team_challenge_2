@@ -33,7 +33,7 @@ class Department_sections(models.Model):
 
 class Subdivision(models.Model):
     subdivision_id = models.SmallIntegerField(primary_key=True, db_column='subdivision_id')
-    name = models.CharField(max_length=255, db_column='subvision')
+    name = models.CharField(max_length=255, db_column='subdivision')
     description = models.CharField(max_length=255, db_column='descr', blank=True, null=True)
     
     class Meta:
