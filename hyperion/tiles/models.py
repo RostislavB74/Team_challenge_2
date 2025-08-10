@@ -43,7 +43,8 @@ class Collections(models.Model):
         verbose_name_plural = "Колекції"
 
     def __str__(self):
-        return self.name
+        return str(self.name)
+
 
 class CollectionGroups(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column="collection_group_id")

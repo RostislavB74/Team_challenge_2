@@ -34,8 +34,88 @@
         background-color: #0056b3;
     }
 </style>
-
 <form id="filtersForm" method="get" class="row filters g-2 mb-4">
+    <!-- Назва дизайну -->
+    <div class="col-md-3">
+        <label for="designSelect" class="form-label small fw-bold mb-1">Дизайн</label>
+        <select class="form-select form-select-sm" name="design_name" id="designSelect">
+            <option value="">Всі</option>
+            {% for name in design_names %}
+                <option value="{{ name }}" {% if request.GET.design_name == name %}selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Тип плитки -->
+    <div class="col-md-3">
+        <label for="tileTypeSelect" class="form-label small fw-bold mb-1">Тип плитки</label>
+        <select class="form-select form-select-sm" name="tile_type" id="tileTypeSelect">
+            <option value="">Всі</option>
+            {% for type in tile_types %}
+                <option value="{{ type }}" {% if request.GET.tile_type == type %}selected{% endif %}>{{ type }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Колекція -->
+    <div class="col-md-3">
+        <label for="collectionSelect" class="form-label small fw-bold mb-1">Колекція</label>
+        <select class="form-select form-select-sm" name="collection" id="collectionSelect">
+            <option value="">Всі</option>
+            {% for coll in collections %}
+                <option value="{{ coll }}" {% if request.GET.collection == coll %}selected{% endif %}>{{ coll }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Базова -->
+    <div class="col-md-2">
+        <label class="form-label small fw-bold mb-1">Базова?</label>
+        <select name="is_base" class="form-select form-select-sm">
+            <option value="">Всі</option>
+            <option value="true" {% if request.GET.is_base == "true" %}selected{% endif %}>✅</option>
+            <option value="false" {% if request.GET.is_base == "false" %}selected{% endif %}>❌</option>
+        </select>
+    </div>
+
+    <!-- Архівний -->
+    <div class="col-md-2">
+        <label class="form-label small fw-bold mb-1">Архівний?</label>
+        <select name="archived" class="form-select form-select-sm">
+            <option value="">Всі</option>
+            <option value="true" {% if request.GET.archived == "true" %}selected{% endif %}>✅</option>
+            <option value="false" {% if request.GET.archived == "false" %}selected{% endif %}>❌</option>
+        </select>
+    </div>
+
+    <!-- Стоковий -->
+    <div class="col-md-2">
+        <label class="form-label small fw-bold mb-1">Стоковий?</label>
+        <select name="is_stock" class="form-select form-select-sm">
+            <option value="">Всі</option>
+            <option value="true" {% if request.GET.is_stock == "true" %}selected{% endif %}>✅</option>
+            <option value="false" {% if request.GET.is_stock == "false" %}selected{% endif %}>❌</option>
+        </select>
+    </div>
+
+    <!-- Акційний -->
+    <div class="col-md-2">
+        <label class="form-label small fw-bold mb-1">Акційний?</label>
+        <select name="is_action" class="form-select form-select-sm">
+            <option value="">Всі</option>
+            <option value="true" {% if request.GET.is_action == "true" %}selected{% endif %}>✅</option>
+            <option value="false" {% if request.GET.is_action == "false" %}selected{% endif %}>❌</option>
+        </select>
+    </div>
+
+    <!-- Кнопка -->
+    <div class="col-md-1 d-flex align-items-end">
+        <button class="btn btn-primary w-100 btn-sm" type="submit">🔍</button>
+    </div>
+</form>
+
+
+{% comment %} <form id="filtersForm" method="get" class="row filters g-2 mb-4">
 
         <!-- Назва дизайну -->
             <div class="col-md-3">
@@ -96,4 +176,4 @@
                 <div class="col-md-1">
                     <button class="btn btn-primary w-100" type="submit">🔍</button>
                 </div>
-        </form>
+        </form> {% endcomment %}
