@@ -30,7 +30,7 @@ class ProductUnits(models.Model):
         managed = False
         db_table = 'cu_product_unit'
         verbose_name = 'Одиниця виміру продукту'
-        verbose_name_plural = 'Одиниці виміру продукту'
+        verbose_name_plural = 'Одиниці виміру продуктів'
 
     def __str__(self):
         return self.name
