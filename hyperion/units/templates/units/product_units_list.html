@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Типи продукції</title>
+    <title>Одиниці готової продукції</title>
     {% comment %} <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> {% endcomment %}
      {% load static %}
     <link rel="stylesheet" href="{% static 'css/table_styles.css' %}">
@@ -73,10 +73,10 @@
     {% include "navigation/partials/navbar.html" %}
     
     <div class="container-fluid"> <!-- Зміна на container-fluid -->
-        <h1 class="text-center my-4">Довідник типи продукції</h1>
+        <h1 class="text-center my-4">Одиниці готової продукції</h1>
         <form method="get" class="search-form">
             <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Типи продукції" 
+                <input type="text" name="search" class="form-control" placeholder="Одиниці продукції" 
                        value="{{ request.GET.search }}">
                 <button type="submit" class="btn btn-primary">Шукати</button>
             </div>
@@ -85,29 +85,27 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th class="col-product_type_id">Код</th>
-                        <th class="col-name">Тип продукції</th>
-                        <th class="col-height">Підрозділ</th>
-                        <th class="col-width">Коротко</th>
-                        <th class="col-thickness">Група</th>
-                        <th class="col-box_amount">Назва для експорту</th>
-                        <th class="col-package_amount">На етикетку</th>
-                        <th class="col-box_weight">Для паспорту</th>
-                        <th class="col-tolerance">Поле калібр</th>
+                        <th class="col-product_unit_id">Код</th>
+                        <th class="col-tile_type_id">Тип продукції</th>
+                        <th class="col-unit_id">Од. Вимір.</th>
+                        <th class="col-basic">Базова</th>
+                        <th class="col-course">Співвідношення</th>
+                        <th class="col-box_unit">Коробка</th>
+                        <th class="col-package_unit">Палета</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
-                    {% for type in page_obj %}
+                    {% for unit in page_obj %}
                     <tr>
-                        <td>{{ type.product_type_id|default:"-" }}</td>
-                        <td>{{ type.name|default:"-" }}</td>
-                        <td>{{ type.subdivision_id|default:"-" }}</td>
-                        <td>{{ type.short_name|default:"-" }}</td>
-                        <td>{{ type.product_group_id|default:"-" }}</td>
-                        <td>{{ type.export_name|default:"-" }}</td>
-                        <td>{{ type.label_name|default:"-" }}</td>
-                        <td>{{ type.tile_passport_group_id|default:"-" }}</td>
-                        <td>{% if type.use_claiber %}✅{% endif %}</td>
+                        <td>{{ unit.product_unit_id|default:"-" }}</td>
+                        <td>{{ unit.tile_type_id|default:"-" }}</td>
+                        <td>{{ unit.unit_id|default:"-" }}</td>
+                        <td>{% if unit.basic %}✅{% endif %}</td>
+                        <td>{{ unit.course|default:"-" }}</td>
+                        <td>{% if unit.box_unit %}✅{% endif %}</td>
+                        <td>{% if unit.package_unit %}✅{% endif %}</td>
+                        
                         
                     </tr>
                     {% endfor %}
