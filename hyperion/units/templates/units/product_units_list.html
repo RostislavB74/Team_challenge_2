@@ -1,130 +1,45 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Одиниці готової продукції</title>
-    {% comment %} <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> {% endcomment %}
-     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/table_styles.css' %}">
+{% extends "admin/base_site.html" %}
 
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .table-container {
-            width: 100%;
-            margin: 0;
-            padding: 20px 10px;
-        }
-        .table {
-            font-size: 12px;
-            border-collapse: collapse;
-            width: 100%;
-            table-layout: auto; /* Дозволяє колонкам адаптуватися */
-        }
-        th, td {
-            padding: 8px 10px;
-            vertical-align: middle;
-            text-align: center;
-            white-space: nowrap; /* Запобігаємо перенесенню коротких значень */
-        }
-        th {
-            background-color: #343a40;
-            color: white;
-            text-transform: capitalize;
-            font-weight: 600;
-        }
-        td {
-            background-color: white;
-            border: 1px solid #dee2e6;
-            white-space: normal; /* Дозволяємо перенос для довгих текстів */
-            max-width: 200px; /* Обмежуємо максимальну ширину */
-            overflow: hidden;
-            text-overflow: ellipsis; /* Додаємо три крапки для обрізаного тексту */
-        }
-        tr:nth-child(even) td {
-            background-color: #f2f2f2;
-        }
-        .pagination {
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .search-form {
-            max-width: 400px;
-            margin: 20px auto;
-        }
-        /* Гнучка ширина колонок */
-        .col-design-ean { min-width: 100px; }
-        .col-ean { min-width: 100px; }
-        .col-tile-type { min-width: 180px; }
-        .col-collection-id { min-width: 100px; }
-        .col-design-name { min-width: 180px; }
-        .col-is-base, .col-archived, .col-is-action, .col-is-stock, .col-is-test { min-width: 60px; }
-        .col-tile-size, .col-color, .col-tone, .col-tile-glaze, .col-hue, .col-quality { min-width: 60px; }
-        .col-width, .col-height, .col-thickness, .col-box-amount, .col-box-weight { min-width: 60px; }
-        .col-package-amount { min-width: 80px; }
-        .col-add-date { min-width: 50px; }
-        .col-parent-ean, .col-author, .col-on-tile-ean { min-width: 100px; }
-    </style>
-</head>
-<body>
-    <!-- Навігаційне меню -->
-    {% include "navigation/partials/navbar.html" %}
-    
-    <div class="container-fluid"> <!-- Зміна на container-fluid -->
-        <h1 class="text-center my-4">Одиниці готової продукції</h1>
-        <form method="get" class="search-form">
-            <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Одиниці продукції" 
-                       value="{{ request.GET.search }}">
-                <button type="submit" class="btn btn-primary">Шукати</button>
-            </div>
-        </form>
-        <div class="table-container">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th class="col-product_unit_id">Код</th>
-                        <th class="col-tile_type_id">Тип продукції</th>
-                        <th class="col-unit_id">Од. Вимір.</th>
-                        <th class="col-basic">Базова</th>
-                        <th class="col-course">Співвідношення</th>
-                        <th class="col-box_unit">Коробка</th>
-                        <th class="col-package_unit">Палета</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for unit in page_obj %}
-                    <tr>
-                        <td>{{ unit.product_unit_id|default:"-" }}</td>
-                        <td>{{ unit.tile_type_id|default:"-" }}</td>
-                        <td>{{ unit.unit_id|default:"-" }}</td>
-                        <td>{% if unit.basic %}✅{% endif %}</td>
-                        <td>{{ unit.course|default:"-" }}</td>
-                        <td>{% if unit.box_unit %}✅{% endif %}</td>
-                        <td>{% if unit.package_unit %}✅{% endif %}</td>
-                        
-                        
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+{% block title %}Одиниці готової продукції{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-center my-4">Одиниці готової продукції</h1>
+    <form method="get" class="search-form">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Одиниці продукції"
+                   value="{{ request.GET.search }}">
+            <button type="submit" class="btn btn-primary">Шукати</button>
         </div>
-        {% include "tiles/pagination_partial.html" %}
-        
+    </form>
+    <div class="table-container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-product_unit_id">Код</th>
+                    <th class="col-tile_type_id">Тип продукції</th>
+                    <th class="col-unit_id">Од. Вимір.</th>
+                    <th class="col-basic">Базова</th>
+                    <th class="col-course">Співвідношення</th>
+                    <th class="col-box_unit">Коробка</th>
+                    <th class="col-package_unit">Палета</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for unit in page_obj %}
+                <tr>
+                    <td>{{ unit.product_unit_id|default:"-" }}</td>
+                    <td>{{ unit.tile_type_id|default:"-" }}</td>
+                    <td>{{ unit.unit_id|default:"-" }}</td>
+                    <td>{% if unit.basic %}✅{% endif %}</td>
+                    <td>{{ unit.course|default:"-" }}</td>
+                    <td>{% if unit.box_unit %}✅{% endif %}</td>
+                    <td>{% if unit.package_unit %}✅{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.querySelectorAll('.dropdown-submenu .dropdown-toggle').forEach(function (element) {
-            element.addEventListener('click', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                const submenu = this.nextElementSibling;
-                if (submenu) submenu.classList.toggle('show');
-            });
-        });
-    </script>
-</body>
-</html>
+    {% include "tiles/pagination_partial.html" %}
+</div>
+{% endblock %}
