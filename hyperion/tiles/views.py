@@ -1,13 +1,49 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
-from .models import Designs, CaliberTiles, Collections, TileTypes, ProductTypes, ProductGroups
-from django.http import JsonResponse, HttpResponse
+from .models import Designs, CaliberTiles, Collections, TileTypes, ProductTypes
+from django.http import JsonResponse
 from django.template.loader import render_to_string
 
-from django.http import JsonResponse
+# from django.http import JsonResponse
+
+# from django.shortcuts import render
+# from django.core.paginator import Paginator
+# from .models import Tile
+
+
+# def tiles_list(request):
+#     sort = request.GET.get("sort", "design_ean")  # поле для сортування
+#     order = request.GET.get("order", "asc")  # порядок
+
+#     if order == "desc":
+#         sort = f"-{sort}"
+
+#     tiles = Tile.objects.select_related(
+#         "tile_type", "collection", "color", "tile_glaze", "hue", "author"
+#     ).order_by(sort)
+
+#     paginator = Paginator(tiles, 50)
+#     page_number = request.GET.get("page")
+#     page_obj = paginator.get_page(page_number)
+
+#     return render(
+#         request,
+#         "tiles/tiles_list.html",
+#         {
+#             "page_obj": page_obj,
+#             "current_sort": request.GET.get("sort", "design_ean"),
+#             "current_order": order,
+#         },
+#     )
 
 
 def TileListView(request):
+    sort = request.GET.get("sort", "design_ean")  # поле для сортування
+    order = request.GET.get("order", "asc")  # порядок
+
+    if order == "desc":
+        sort = f"-{sort}"
+
     tiles = Designs.objects.select_related(
         "tile_type", "collection", "color", "tile_glaze", "hue", "author"
     ).only(
@@ -36,7 +72,7 @@ def TileListView(request):
         "tile_glaze__name",
         "hue__name",
         "author__user_name",
-    )
+    ).order_by(sort)
 
     # Бульові фільтри
     for field in ["is_base", "archived", "is_stock", "is_test", "is_action"]:
@@ -90,7 +126,17 @@ def TileListView(request):
         return JsonResponse({"html": html})
 
     # Інакше — повна сторінка
-    return render(request, "tiles/list.html", context)
+    return render(
+        request,
+        "tiles/list.html",
+        {
+            "page_obj": page_obj,
+            "current_sort": request.GET.get("sort", "design_ean"),
+            "current_order": order,
+        },
+    )
+
+    # return render(request, "tiles/list.html", context)
 
 
 def filtered_options(request):
