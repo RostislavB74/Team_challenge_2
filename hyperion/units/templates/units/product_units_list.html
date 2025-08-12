@@ -1,4 +1,4 @@
-{% extends "admin/base_site.html" %}
+{% extends "navigation/base.html" %}
 
 {% block title %}Одиниці готової продукції{% endblock %}
 
@@ -16,8 +16,16 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th class="col-product_unit_id">Код</th>
-                    <th class="col-tile_type_id">Тип продукції</th>
+                    <th>
+                        <a href="?sort=product_unit_id&dir={% if sort == 'product_unit_id' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Код
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=tile_type_id&dir={% if sort == 'tile_type_id' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Тип продукції
+                        </a>
+                    </th>
                     <th class="col-unit_id">Од. Вимір.</th>
                     <th class="col-basic">Базова</th>
                     <th class="col-course">Співвідношення</th>
