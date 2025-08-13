@@ -6,6 +6,7 @@ urlpatterns = [
     path("caliber/", views.CaliberTileListView, name="caliber_list"),
     path("collections/", views.CollectionsTileListView, name="collections_tiles_list"),
     path("types/", views.TilesTypesListView, name="tiles_types_list"),
+    path("groups/", views.ProductGroupsListView, name="product_groups_list"),
     path("product-types/", views.ProductTypesListView, name="product_types_list"),
     path("tiles/options/", views.filtered_options, name="filtered_options"),
     # path('designs/', tile_list, name='tile_list'),

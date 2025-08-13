@@ -1,0 +1,56 @@
+{% extends "navigation/base.html" %}
+
+{% block title %}Групи плитки{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-center my-4">Групи плитки</h1>
+    <form method="get" class="search-form">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Групи плитки"
+                   value="{{ request.GET.search }}">
+            <button type="submit" class="btn btn-primary">Шукати</button>
+        </div>
+    </form>
+    <div class="table-container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        <a href="?sort=product_unit_id&dir={% if sort == 'id' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Код
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=tile_type_id&dir={% if sort == 'name' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Назва
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=product_unit_id&dir={% if sort == 'in_order' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Порядок
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=tile_type_id&dir={% if sort == 'is_base' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Осн. виробництово
+                        </a>
+                    </th>
+                    
+                </tr>          
+            </thead>
+            <tbody>
+                {% for group in page_obj %}
+                <tr>
+                    <td>{{ group.id|default:"-" }}</td>
+                    <td>{{ group.name|default:"-" }}</td>
+                    <td>{{ group.in_order|default:"-" }}</td>
+                    <td>{% if group.is_base %}✅{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include "tiles/pagination_partial.html" %}
+</div>
+{% endblock %}
