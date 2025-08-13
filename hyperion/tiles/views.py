@@ -1,40 +1,15 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
-from .models import Designs, CaliberTiles, Collections, TileTypes, ProductTypes
+from .models import (
+    Designs,
+    CaliberTiles,
+    Collections,
+    TileTypes,
+    ProductTypes,
+    ProductGroups,
+)
 from django.http import JsonResponse
 from django.template.loader import render_to_string
-
-# from django.http import JsonResponse
-
-# from django.shortcuts import render
-# from django.core.paginator import Paginator
-# from .models import Tile
-
-
-# def tiles_list(request):
-#     sort = request.GET.get("sort", "design_ean")  # поле для сортування
-#     order = request.GET.get("order", "asc")  # порядок
-
-#     if order == "desc":
-#         sort = f"-{sort}"
-
-#     tiles = Tile.objects.select_related(
-#         "tile_type", "collection", "color", "tile_glaze", "hue", "author"
-#     ).order_by(sort)
-
-#     paginator = Paginator(tiles, 50)
-#     page_number = request.GET.get("page")
-#     page_obj = paginator.get_page(page_number)
-
-#     return render(
-#         request,
-#         "tiles/tiles_list.html",
-#         {
-#             "page_obj": page_obj,
-#             "current_sort": request.GET.get("sort", "design_ean"),
-#             "current_order": order,
-#         },
-#     )
 
 
 def TileListView(request):
@@ -244,3 +219,9 @@ def ProductTypesListView(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return render(request, "tiles/product_types_list.html", {"page_obj": page_obj})
+def ProductGroupsListView(request):
+    product_groups = ProductGroups.objects.all()
+    paginator = Paginator(product_groups, 50)  # 50 записів на сторінку
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "tiles/product_groups_list.html", {"page_obj": page_obj})
