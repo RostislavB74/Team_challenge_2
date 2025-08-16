@@ -10,6 +10,7 @@ urlpatterns = [
     path("tiles/", include("tiles.urls", namespace="tiles")),
     path("units/", include("units.urls", namespace="units")),
     path("journals/", include("journals.urls"), name="journals"),
+    path("materials/", include("materials.urls"), name="materials"),
     # path("shift-reports/", views.shift_report_list, name="shift_report_list"),
     path(
         "shift-reports/<int:doc_id>/",
@@ -32,3 +33,4 @@ urlpatterns = [
         name="delete_row",
     ),
 ]
+app_name = "hyperion"

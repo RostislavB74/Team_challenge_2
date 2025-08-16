@@ -1,0 +1,10 @@
+<nav class="sidebar">
+    <div class="logo">
+        <img src="{% static 'img/logo.png' %}" alt="Logo">
+    </div>
+    <ul>
+        <li><a href="{% url 'dashboard' %}">📊 Головна</a></li>
+        <li><a href="{% url 'products' %}">📦 Товари</a></li>
+        <li><a href="{% url 'orders' %}">🛒 Замовлення</a></li>
+    </ul>
+</nav>

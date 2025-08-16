@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Мій застосунок{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Меню</h2>
+        <ul>
+            <li><a href="#">Головна</a></li>
+            <li><a href="#">Продукти</a></li>
+            <li><a href="#">Замовлення</a></li>
+            <li><a href="#">Звіти</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>{% block header %}Панель керування{% endblock %}</h1>
+        </header>
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

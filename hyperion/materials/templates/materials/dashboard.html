@@ -1,0 +1,36 @@
+{% extends 'materials/base_new.html' %}
+{% load static %}
+{% block header %}Головна{% endblock %}
+
+{% block content %}
+<div class="tabs">
+    <button class="tab-link active" onclick="openTab(event, 'tab1')">Зведення</button>
+    <button class="tab-link" onclick="openTab(event, 'tab2')">Статистика</button>
+</div>
+
+<div id="tab1" class="tab-content active">
+    <h2>Останні замовлення</h2>
+    <table id="sortable-table">
+        <thead>
+            <tr>
+                <th data-sort="name">Назва</th>
+                <th data-sort="price">Ціна</th>
+                <th data-sort="date">Дата</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Товар 1</td><td>200</td><td>2025-08-01</td></tr>
+            <tr><td>Товар 2</td><td>150</td><td>2025-08-10</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tab2" class="tab-content">
+    <h2>Графік продажів</h2>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/tabs.js' %}"></script>
+<script src="{% static 'js/table-sort.js' %}"></script>
+{% endblock %}

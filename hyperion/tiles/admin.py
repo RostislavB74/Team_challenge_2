@@ -52,6 +52,7 @@ class DesignAdmin(admin.ModelAdmin):
         "box_amount",
         "package_amount",
         "is_base",
+        "photo",
     )
 
 
