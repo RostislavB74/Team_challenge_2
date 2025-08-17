@@ -47,7 +47,22 @@
                                 <li><a class="dropdown-item" href="#">Обладнання</a></li>
                             </ul>
                         </li>
-                        <li><a class="dropdown-item" href="#">Матеріали</a></li>
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">Матеріали</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Види матеріалів</a></li>
+                                <li><a class="dropdown-item" href="#">Типи матеріалів</a></li>
+                                <li><a class="dropdown-item" href="#">Групи матеріалів</a></li>
+                                <li><a class="dropdown-item" href="#">Технологічні групи сировини</a></li>
+                                <li><a class="dropdown-item" href="{% url 'materials:materials_list' %}">Матеріали</a></li>
+                                <li><a class="dropdown-item" href="#">Сировина по технологічним групах</a></li>
+                                <li><a class="dropdown-item" href="#">Од. Вим. матеріалів</a></li>
+                                <li><a class="dropdown-item" href="#">Марки матеріалів</a></li>
+                                <li><a class="dropdown-item" href="#">Типи оснастки</a></li>
+                                <li><a class="dropdown-item" href="#">Оснастка</a></li>
+                                <li><a class="dropdown-item" href="#">Причини повернення сировини</a></li>
+                            </ul>
+                        </li>
                         <li><a class="dropdown-item" href="#">Технологи</a></li>
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">Адміністрування</a>

@@ -8,6 +8,7 @@ urlpatterns = [
     path("mysite/", my_admin_site.urls),
     path("navigation/", include("navigation.urls", namespace="navigation")),
     path("tiles/", include("tiles.urls", namespace="tiles")),
+    path("materials/", include("materials.urls", namespace="materials")),
     path("units/", include("units.urls", namespace="units")),
     path("journals/", include("journals.urls"), name="journals"),
     # path("shift-reports/", views.shift_report_list, name="shift_report_list"),

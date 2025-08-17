@@ -1,0 +1,72 @@
+{% extends "navigation/base.html" %}
+
+{% block title %}Матеріали{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-center my-4">Матеріали</h1>
+    <form method="get" class="search-form">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Матеріали"
+                   value="{{ request.GET.search }}">
+            <button type="submit" class="btn btn-primary">Шукати</button>
+        </div>
+    </form>
+    <div class="table-container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        <a href="?sort=id&dir={% if sort == 'id' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Код
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=material_type_id&dir={% if sort == 'material_type_id' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Тип матеріалу
+                        </a>
+                    </th>
+                    {% comment %} <th class="col-id">Код</th> {% endcomment %}
+                    {% comment %} <th class="col-material_type_id">Тип матеріалу</th> {% endcomment %}
+                    <th class="col-material_kind_id">Вид матеріалу</th>
+                    <th class="col-name">Назва матеріалу</th>
+                    <th class="col-fullname">Повна назва матеріалу</th>
+                    <th class="col-is_equipment">Оснастка</th>
+                    <th class="col-group_id">Група</th>
+                    <th class="col-unit_id">Базова одиниця</th>
+                    <th class="col-spec">Специфікація</th>
+                    <th class="col-descr">Опис</th>
+                    <th class="col-control_param_sample_unit_id">Од. вимір. об'єму вибірки</th>
+                    <th class="col-archived">Архівний</th>
+                    <th class="col-humidity">Вологість</th>
+                    <th class="col-id_1c8">1С</th>
+                    <th class="col-min_rest">Мін. залишок</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for materials in page_obj %}
+                <tr>
+                    <td>{{ materials.id|default:"-" }}</td>
+                    <td>{{ materials.material_type_id|default:"-" }}</td>
+                    <td>{{ materials.material_kind_id|default:"-" }}</td>
+                    <td>{{ materials.name|default:"-" }}</td>
+                    <td>{{ materials.fullname|default:"-" }}</td>
+                    <td>{% if materials.is_equipment %}✅{% endif %}</td>
+                    <td>{{ materials.group_id|default:"-" }}</td>
+                    <td>{{ materials.unit_id|default:"-" }}</td>
+                    <td>{{ materials.spec|default:"-" }}</td>
+                    <td>{{ materials.descr|default:"-" }}</td>
+                    <td>{{ materials.control_param_sample_unit_id|default:"-" }}</td>
+                    <td>{% if materials.archived %}✅{% endif %}</td>
+                    <td>{{ materials.humidity|default:"-" }}</td>
+                    <td>{{ materials.id_1c8|default:"-" }}</td>
+                    <td>{{ materials.min_rest|default:"-" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include "tiles/pagination_partial.html" %}
+</div>
+{% endblock %}

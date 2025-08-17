@@ -1,7 +1,7 @@
 from django.db import models
 from units.models import Units
 
-class MaterialGroup(models.Model):
+class MaterialGroups(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='material_group_id')
     name = models.CharField(max_length=255, db_column='material_group')
 
@@ -14,9 +14,9 @@ class MaterialGroup(models.Model):
     def __str__(self):
         return self.name
 
-class MaterialUnit(models.Model):
+class MaterialUnits(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='material_unit_id')
-    name = models.ForeignKey('MaterialType', on_delete=models.CASCADE, db_column='material_type_id')#models.SmallIntegerField(db_column='material_type_id')
+    name = models.ForeignKey('MaterialTypes', on_delete=models.CASCADE, db_column='material_type_id')#models.SmallIntegerField(db_column='material_type_id')
     unit= models.ForeignKey(Units, on_delete=models.CASCADE, db_column='unit_id')#models.SmallIntegerField(db_column='unit_id')
     basic=models.SmallIntegerField(db_column='basic')
     course=models.SmallIntegerField(db_column='course')
@@ -31,7 +31,7 @@ class MaterialUnit(models.Model):
         return self.name
 
 
-class MaterialType(models.Model):
+class MaterialTypes(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='material_type_id')
     name = models.CharField(max_length=100, db_column='material_type')
 
@@ -45,7 +45,7 @@ class MaterialType(models.Model):
         return self.name
 
 
-class MaterialKind(models.Model):
+class MaterialKinds(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='material_kind_id')
     name = models.CharField(max_length=100, db_column='material_kind')
 
@@ -58,14 +58,14 @@ class MaterialKind(models.Model):
     def __str__(self):
         return self.name
 
-class Material(models.Model):
+class Materials(models.Model):
     id = models.AutoField(primary_key=True, db_column='material_id')
-    material_type_id = models.ForeignKey(MaterialType, on_delete=models.CASCADE, db_column='material_type_id', blank=True, null=True) #models.SmallIntegerField(db_column='material_type_id')
-    material_kind_id = models.ForeignKey(MaterialKind, on_delete=models.CASCADE, db_column='material_kind_id', blank=True, null=True)
+    material_type_id = models.ForeignKey(MaterialTypes, on_delete=models.CASCADE, db_column='material_type_id', blank=True, null=True) #models.SmallIntegerField(db_column='material_type_id')
+    material_kind_id = models.ForeignKey(MaterialKinds, on_delete=models.CASCADE, db_column='material_kind_id', blank=True, null=True)
     name = models.CharField(max_length=255, db_column='material')
     fullname = models.CharField(max_length=500, db_column='fullname', blank=True, null=True)
     is_equipment = models.BooleanField(db_column='is_equipment', default=False)
-    material_group_id = models.ForeignKey(MaterialGroup, on_delete=models.CASCADE, db_column='material_group_id', blank=True, null=True)
+    material_group_id = models.ForeignKey(MaterialGroups, on_delete=models.CASCADE, db_column='material_group_id', blank=True, null=True)
     unit_id = models.ForeignKey(Units, on_delete=models.CASCADE, db_column='unit_id')
     spec = models.CharField(max_length=255, db_column='spec', blank=True, null=True)
     descr = models.TextField(db_column='descr', blank=True, null=True)
