@@ -1,7 +1,6 @@
 # apps/passports_designs/admin.py
 from django.contrib import admin
 from .models import Materials, MaterialGroups, MaterialUnits, MaterialTypes, MaterialKinds
-from units.models import Units
 
 
 @admin.register(Materials)

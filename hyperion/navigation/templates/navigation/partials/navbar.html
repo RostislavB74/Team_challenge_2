@@ -50,9 +50,9 @@
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">Матеріали</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Види матеріалів</a></li>
-                                <li><a class="dropdown-item" href="#">Типи матеріалів</a></li>
-                                <li><a class="dropdown-item" href="#">Групи матеріалів</a></li>
+                                <li><a class="dropdown-item" href="{% url 'materials:material_kinds_list' %}">Види матеріалів</a></li>
+                                <li><a class="dropdown-item" href="{% url 'materials:material_types_list' %}">Типи матеріалів</a></li>
+                                <li><a class="dropdown-item" href="{% url 'materials:material_groups_list' %}">Групи матеріалів</a></li>
                                 <li><a class="dropdown-item" href="#">Технологічні групи сировини</a></li>
                                 <li><a class="dropdown-item" href="{% url 'materials:materials_list' %}">Матеріали</a></li>
                                 <li><a class="dropdown-item" href="#">Сировина по технологічним групах</a></li>

@@ -5,13 +5,10 @@
 {% block content %}
 <div class="container-fluid">
     <h1 class="text-center my-4">Матеріали</h1>
-    <form method="get" class="search-form">
-        <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="Матеріали"
-                   value="{{ request.GET.search }}">
-            <button type="submit" class="btn btn-primary">Шукати</button>
-        </div>
-    </form>
+   <form method="get">
+    <input type="text" name="search" placeholder="Пошук..." value="{{ search }}">
+    <button type="submit">🔍</button>
+</form>
     <div class="table-container">
         <table class="table table-bordered">
             <thead>

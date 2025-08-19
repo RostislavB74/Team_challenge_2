@@ -57,6 +57,18 @@ class MaterialKinds(models.Model):
 
     def __str__(self):
         return self.name
+class MaterialsTechnnologicalGroups(models.Model):
+    id = models.AutoField(primary_key=True, db_column="material_teh_group_id")
+    name = models.CharField(max_length=255, db_column="material_teh_group")
+
+    class Meta:
+        managed = False
+        db_table = 'c_material_teh_group'
+        verbose_name='Технологічні група сировини'
+        verbose_name_plural='Технологічні групи сировин'
+
+    def __str__(self):
+        return self.name
 
 class Materials(models.Model):
     id = models.AutoField(primary_key=True, db_column='material_id')
@@ -65,11 +77,11 @@ class Materials(models.Model):
     name = models.CharField(max_length=255, db_column='material')
     fullname = models.CharField(max_length=500, db_column='fullname', blank=True, null=True)
     is_equipment = models.BooleanField(db_column='is_equipment', default=False)
-    material_group_id = models.ForeignKey(MaterialGroups, on_delete=models.CASCADE, db_column='material_group_id', blank=True, null=True)
-    unit_id = models.ForeignKey(Units, on_delete=models.CASCADE, db_column='unit_id')
+    material_group_id = models.ForeignKey(MaterialGroups, on_delete=models.CASCADE, db_column='material_group_id', blank=True, null=True,related_name='material_group')
+    unit_id = models.ForeignKey(Units, on_delete=models.CASCADE, db_column='unit_id', blank=True, null=True,related_name='material_unit')
     spec = models.CharField(max_length=255, db_column='spec', blank=True, null=True)
     descr = models.TextField(db_column='descr', blank=True, null=True)
-    control_param_sample_unit_id = models.SmallIntegerField(db_column='control_param_sample_unit_id', blank=True, null=True)
+    control_param_sample_unit_id = models.ForeignKey(Units, on_delete=models.CASCADE, db_column="control_param_sample_unit_id", blank=True, null=True,related_name='control_param_sample_unit')
     archived = models.BooleanField(db_column='archived', default=False)
     humidity = models.DecimalField(max_digits=5, decimal_places=2, db_column='humidity', blank=True, null=True)
     id_1c8 = models.CharField(max_length=50, db_column='id_1c8', blank=True, null=True)
@@ -83,5 +95,3 @@ class Materials(models.Model):
 
     def __str__(self):
         return self.name
-
-
