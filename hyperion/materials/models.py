@@ -18,7 +18,7 @@ class MaterialUnits(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='material_unit_id')
     name = models.ForeignKey('MaterialTypes', on_delete=models.CASCADE, db_column='material_type_id')#models.SmallIntegerField(db_column='material_type_id')
     unit= models.ForeignKey(Units, on_delete=models.CASCADE, db_column='unit_id')#models.SmallIntegerField(db_column='unit_id')
-    basic=models.SmallIntegerField(db_column='basic')
+    basic = models.BooleanField(db_column="basic", default=False)
     course=models.SmallIntegerField(db_column='course')
 
     class Meta:
