@@ -1,0 +1,47 @@
+{% extends "navigation/base.html" %}
+
+{% block title %}Прив'язка матеріалів до дільниц{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-center my-4">Прив'язка матеріалів до дільниц</h1>
+   <form method="get">
+    <input type="text" name="search" placeholder="Пошук..." value="{{ search }}">
+    <button type="submit">🔍</button>
+</form>
+    <div class="table-container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        <a href="?sort=id&dir={% if sort == 'id' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Код
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=materials&dir={% if sort == 'materials' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Сировина, Матеріали
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=production_section_id&dir={% if sort == 'production_section_id' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Дільниця
+                        </a>
+                    </th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for materials in page_obj %}
+                <tr>
+                    <td>{{ materials.id|default:"-" }}</td>
+                    <td>{{ materials.materials|default:"-" }}</td>
+                    <td>{{ materials.production_section_id|default:"-" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include "tiles/pagination_partial.html" %}
+</div>
+{% endblock %}

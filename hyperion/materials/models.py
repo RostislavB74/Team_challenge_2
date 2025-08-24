@@ -1,6 +1,6 @@
 from django.db import models
 from units.models import Units
-
+from company_structure.models import Subdivision, Departments
 class MaterialGroups(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column='material_group_id')
     name = models.CharField(max_length=255, db_column='material_group')
@@ -95,3 +95,15 @@ class Materials(models.Model):
 
     def __str__(self):
         return self.name
+class MaterialsByDepartments(models.Model):
+    materials=models.ForeignKey(Materials, on_delete=models.CASCADE, db_column='material_id')
+    # material_id = models.IntegerField(db_column='material_id', blank=True, null=True)
+    id = models.IntegerField( primary_key=True, db_column="section_material_list_id")    
+    production_section_id = models.ForeignKey("company_structure.Department_sections", on_delete=models.CASCADE, db_column="production_section_id", blank=True, null=True)
+       
+
+    class Meta:
+        managed = False
+        db_table = "c_section_material_list"
+        verbose_name='Матеріали по дільницях'
+        verbose_name_plural='Матеріали по дільницях'

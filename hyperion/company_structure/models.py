@@ -9,8 +9,8 @@ class Departments(models.Model):
     class Meta:
         managed = False
         db_table = 'c_department'
-        verbose_name = "Підрозділ"
-        verbose_name_plural = "Підрозділи"
+        verbose_name = "Цех"
+        verbose_name_plural = "Цехи"
 
     def __str__(self):
         return self.name
@@ -39,8 +39,8 @@ class Subdivision(models.Model):
     class Meta:
         managed = False
         db_table = 'c_subdivision' 
-        verbose_name = 'Підрозділ'
-        verbose_name_plural = 'Підрозділи' 
+        verbose_name = 'Дільниця'
+        verbose_name_plural = 'Дільниці' 
     def __str__(self):
         return self.name
 

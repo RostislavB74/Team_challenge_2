@@ -30,3 +30,8 @@ class Store_typesAdmin(admin.ModelAdmin):
     list_display = ('store_type_id', 'name') 
     list_display_links = ('store_type_id', 'name')
     search_fields = ('store_type_id', 'name')
+@admin.register(Subdivision)
+class SubdivisionAdmin(admin.ModelAdmin):
+    list_display = ('subdivision_id', 'name', 'description') 
+    list_display_links = ('subdivision_id', 'name')
+    search_fields = ('subdivision_id', 'name')

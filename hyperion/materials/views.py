@@ -5,6 +5,7 @@ from materials.models import (
     MaterialKinds,
     MaterialTypes,
     MaterialUnits,
+    MaterialsByDepartments
 )  # винеси хелпер у окремий файл utils.py
 
 
@@ -35,4 +36,11 @@ def MaterialTypesListView(request):
 def MaterialUnitsListView(request):
     return list_view(
         request, MaterialUnits, "materials/material_units_list.html", ["name"]
+    )
+def MaterialsByDepartmentsList_view(request):
+    return list_view(
+        request,
+        MaterialsByDepartments,
+        "materials/materials_by_departments_list.html",
+        ["materials", "id", "production_section_id"],
     )

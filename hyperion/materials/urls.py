@@ -8,5 +8,10 @@ urlpatterns = [
     path("material-kinds/", views.MaterialKindsListView, name="material_kinds_list"),
     path("material-types/", views.MaterialTypesListView, name="material_types_list"),
     path("material-units/", views.MaterialUnitsListView, name="material_units_list"),
+    path(
+        "material-by-departments/",
+        views.MaterialsByDepartmentsList_view,
+        name="materials_by_departments_list",
+    ),
 ]
 app_name = "materials"
