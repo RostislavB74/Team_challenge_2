@@ -28,7 +28,11 @@
                             Дільниця
                         </a>
                     </th>
-                    
+                    <th>
+                        <a href="?sort=id&dir={% if sort == 'id' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Цех
+                        </a>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -37,6 +41,7 @@
                     <td>{{ materials.id|default:"-" }}</td>
                     <td>{{ materials.materials|default:"-" }}</td>
                     <td>{{ materials.production_section_id|default:"-" }}</td>
+                    {% comment %} <td>{{ materials.id|default:"-" }}</td> {% endcomment %}
                 </tr>
                 {% endfor %}
             </tbody>

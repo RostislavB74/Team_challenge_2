@@ -2,9 +2,9 @@ from django.contrib import admin
 from .models import *
 @admin.register(Departments)
 class DepartmentsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'use_kiln_press') 
-    list_display_links = ('id', 'name')
-    search_fields = ('id', 'name')
+    list_display = ('department_id', 'name', 'use_kiln_press') 
+    list_display_links = ('department_id', 'name')
+    search_fields = ('department_id', 'name')
 
 @admin.register(Department_sections)
 class Department_sectionsAdmin(admin.ModelAdmin):

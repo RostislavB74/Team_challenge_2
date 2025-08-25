@@ -95,15 +95,43 @@ class Materials(models.Model):
 
     def __str__(self):
         return self.name
+
+
 class MaterialsByDepartments(models.Model):
-    materials=models.ForeignKey(Materials, on_delete=models.CASCADE, db_column='material_id')
-    # material_id = models.IntegerField(db_column='material_id', blank=True, null=True)
-    id = models.IntegerField( primary_key=True, db_column="section_material_list_id")    
-    production_section_id = models.ForeignKey("company_structure.Department_sections", on_delete=models.CASCADE, db_column="production_section_id", blank=True, null=True)
-       
+    id = models.IntegerField(primary_key=True, db_column="section_material_list_id")
+    material = models.ForeignKey(
+        "Materials",
+        on_delete=models.CASCADE,
+        db_column="material_id",
+        related_name="materials_in_sections",
+    )
+    production_section = models.ForeignKey(
+        "company_structure.Department_sections",
+        on_delete=models.CASCADE,
+        db_column="production_section_id",
+        related_name="materials_list",
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         managed = False
         db_table = "c_section_material_list"
-        verbose_name='Матеріали по дільницях'
-        verbose_name_plural='Матеріали по дільницях'
+        verbose_name = "Матеріали по дільницях"
+        verbose_name_plural = "Матеріали по дільницях"
+
+    def __str__(self):
+        return f"{self.production_section} - {self.material}"
+
+
+# class MaterialsByDepartments(models.Model):
+#     materials=models.ForeignKey(Materials, on_delete=models.CASCADE, db_column='material_id')
+#     id = models.IntegerField( primary_key=True, db_column="section_material_list_id")
+#     production_section_id = models.ForeignKey("company_structure.Department_sections", on_delete=models.CASCADE, db_column="production_section_id", blank=True, null=True)
+
+
+#     class Meta:
+#         managed = False
+#         db_table = "c_section_material_list"
+#         verbose_name='Матеріали по дільницях'
+#         verbose_name_plural='Матеріали по дільницях'

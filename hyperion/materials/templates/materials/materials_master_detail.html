@@ -1,0 +1,57 @@
+<div style="display: flex; gap: 30px;">
+
+  <!-- Перше вікно (Секції) -->
+  <div style="width: 40%;">
+    <h3>Виробничі секції</h3>
+    <table style="border-collapse: collapse; width: 100%; text-align: left;">
+      <thead style="background: #f5f5f5;">
+        <tr>
+          <th style="border: 1px solid #ccc; padding: 8px;">Код</th>
+          <th style="border: 1px solid #ccc; padding: 8px;">Секція</th>
+          <th style="border: 1px solid #ccc; padding: 8px;">Цех</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for section in sections %}
+        <tr {% if section.id == selected_section.id %} style="background:#e0f7fa;" {% endif %}>
+          <td style="border: 1px solid #ccc; padding: 8px;">{{ section.id|default:"-" }}</td>
+          <td style="border: 1px solid #ccc; padding: 8px;">
+            <a href="?section_id={{ section.id }}" style="text-decoration: none; color: #00796b;">
+              {{ section.name }}
+            </a>
+          </td>
+          <td style="border: 1px solid #ccc; padding: 8px;">{{ section.department_id.name }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Друге вікно (Матеріали секції) -->
+  <div style="width: 60%;">
+    <h3>Матеріали для секції: {{ selected_section.name }}</h3>
+    <table style="border-collapse: collapse; width: 100%; text-align: left;">
+      <thead style="background: #f5f5f5;">
+        <tr>
+          <th style="border: 1px solid #ccc; padding: 8px;">ID</th>
+          <th style="border: 1px solid #ccc; padding: 8px;">Матеріал</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for m in materials %}
+        <tr>
+          <td style="border: 1px solid #ccc; padding: 8px;">{{ m.id }}</td>
+          <td style="border: 1px solid #ccc; padding: 8px;">{{ m.material.name }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="2" style="border: 1px solid #ccc; padding: 8px; text-align:center; color:#999;">
+            Немає матеріалів
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
