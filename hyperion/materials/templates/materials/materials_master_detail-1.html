@@ -1,0 +1,74 @@
+{% extends "navigation/base.html" %} 
+{% block content %}
+<div style="display: flex; gap: 30px;">
+
+  <!-- Перше вікно (Секції) -->
+  <div style="width: 40%;">
+    <h3>Виробничі секції</h3>
+    <table id="sections" style="border-collapse: collapse; width: 100%; text-align: left;">
+  <thead style="background: #f5f5f5;">
+    <tr>
+      <th style="border: 1px solid #ccc; padding: 8px;">Код</th>
+      <th style="border: 1px solid #ccc; padding: 8px;">Секція</th>
+      <th style="border: 1px solid #ccc; padding: 8px;">Цех</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for section in sections %}
+    <tr data-section-id="{{ section.id }}">
+      <td style="border: 1px solid #ccc; padding: 8px;">{{ section.id|default:"-" }}</td>
+      <td style="border: 1px solid #ccc; padding: 8px;">{{ section.name }}</td>
+      <td style="border: 1px solid #ccc; padding: 8px;">{{ section.department_id.name }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+  </div>
+
+{% comment %} <div style="display: flex; gap: 30px; height: 600px;">  <!-- Друге вікно (Матеріали секції) --> {% endcomment %}
+
+<div style="width: 60%;">
+    <h3>Матеріали для секції: {{ selected_section.name }}</h3>
+    
+    <table style="border-collapse: collapse; width: 100%; text-align: left;">
+        <thead style="background: #f5f5f5;">
+          <tr>
+            <th style="border: 1px solid #ccc; padding: 8px;">ID</th>
+            <th style="border: 1px solid #ccc; padding: 8px;">Матеріал</th>
+          </tr>
+        </thead>
+    
+      <tbody id="materials-body">
+      <!-- сюди буде підвантажено -->
+      </tbody>
+    </table>
+  </div>
+  </div>
+
+</div>
+<script>
+document.querySelectorAll('#sections tbody tr').forEach(tr => {
+  tr.addEventListener('click', () => {
+    const sid = tr.getAttribute('data-section-id');
+    fetch(`/materials/material-by-departments/${sid}/data/`)
+      .then(r => r.json())
+      .then(({items}) => {
+        const tbody = document.getElementById('materials-body');
+        tbody.innerHTML = items.map(i => `
+          <tr>
+            <td>${i.material_id}</td>
+            <td>${i.material_name}</td>
+          </tr>
+        `).join('');
+
+        // підсвічуємо вибраний рядок
+        document.querySelectorAll('#sections tbody tr')
+          .forEach(x => x.classList.remove('table-active'));
+        tr.classList.add('table-active');
+      });
+  });
+});
+</script>
+
+{% endblock %}

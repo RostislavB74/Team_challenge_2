@@ -1,8 +1,15 @@
 from django.urls import path
 from . import views
+# materials/urls.py
+from django.urls import path
+from . import views
 
-# from .views import TileListView, CaliberTileListView, CollectionsTileListView
+app_name = "materials"
+
 urlpatterns = [
+    # path("material-by-departments/", views.MaterialsBySectionView, name="materials_by_section"),
+    # path("material-by-departments/<int:section_id>/data/", views.materials_by_section_data, name="materials_by_section_data"),
+
     path("materials/", views.MaterialsListView, name="materials_list"),
     path("material-groups/", views.MaterialGroupsListView, name="material_groups_list"),
     path("material-kinds/", views.MaterialKindsListView, name="material_kinds_list"),
@@ -19,4 +26,4 @@ urlpatterns = [
         name="materials_by_section_data",
     ),
 ]
-app_name = "materials"
+
