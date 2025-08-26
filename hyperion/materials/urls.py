@@ -13,5 +13,10 @@ urlpatterns = [
         views.MaterialsBySectionView,
         name="materials_master_detail",
     ),
+    path(
+        "material-by-departments/<int:section_id>/data/",
+        views.materials_by_section_data,
+        name="materials_by_section_data",
+    ),
 ]
 app_name = "materials"

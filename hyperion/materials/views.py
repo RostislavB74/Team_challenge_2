@@ -93,3 +93,9 @@ def materials_by_section_data(request, section_id):
         for i in items
     ]
     return JsonResponse({"items": data})
+
+
+def materials_by_department(request, pk):
+    qs = Materials.objects.filter(section_id=pk)
+    data = [{"material_id": m.id, "material_name": m.name} for m in qs]
+    return JsonResponse({"items": data})
