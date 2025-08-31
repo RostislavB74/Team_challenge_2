@@ -2,10 +2,18 @@ from django.shortcuts import render
 from company_structure.models import Departments, Department_sections
 from django.http import JsonResponse
 from django.core.paginator import Paginator
+from django.template.loader import render_to_string
+
+from productions.models import ProductionSections, Production_line_groups, Production_lines, Snap_types_to_lines, StoppageCausesTypes, StoppageCauses
 # from company_structure.models import Department_sections
 
 
-
+def ProductionLineGroupsListView(request):
+    production_line_groups = Production_line_groups.objects.all()
+    paginator = Paginator(production_line_groups, 50)  # 50 записів на сторінку
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "productions/production_line_groups_list.html", {"page_obj": page_obj})
 
 def ProductionSectionsListView(request):
     # Збираємо всі цехи
