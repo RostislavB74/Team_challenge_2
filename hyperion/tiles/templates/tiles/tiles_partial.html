@@ -107,7 +107,7 @@
                         <th class="col-package-amount">Кількість у пакеті</th>
                         <th class="col-add-date">Дата додавання</th>
                         <th class="col-parent-ean">Батьківський код</th>
-                        <th class="col-author">Автор</th>
+                        {% comment %} <th class="col-author">Автор</th> {% endcomment %}
                         <th class="col-on-tile-ean">EAN на плитці</th>
                     </tr>
                 </thead>
@@ -138,7 +138,7 @@
                         <td>{{ tile.package_amount|default:"-" }}</td>
                         <td>{{ tile.add_date|date:"d.m.Y H:i"|default:"-" }}</td>
                         <td>{{ tile.parent_ean|default:"-" }}</td>
-                        <td>{{ tile.author.user_name|default:"-" }}</td>
+                        {% comment %} <td>{{ tile.author.user_name|default:"-" }}</td> {% endcomment %}
                         <td>{{ tile.on_tile_ean|default:"-" }}</td>
                     </tr>
                     {% endfor %}

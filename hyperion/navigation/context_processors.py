@@ -1,5 +1,5 @@
 from .models import MenuItem
-from .utils import get_user_sql_role
+from utils.utils import get_user_sql_role
 
 def navigation_menu(request):
     sql_role = get_user_sql_role(request)

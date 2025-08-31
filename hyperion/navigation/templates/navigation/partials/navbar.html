@@ -41,13 +41,28 @@
                                 <li><a class="dropdown-item" href="#">Причини зупинок</a></li>
                                 <li><a class="dropdown-item" href="#">Опис зупинок</a></li>
                                 <li><a class="dropdown-item" href="#">Цеха</a></li>
-                                <li><a class="dropdown-item" href="#">Дільниці</a></li>
+                                <li><a class="dropdown-item" href="{% url 'productions:production_sections_list' %}">Дільниці</a></li>
                                 <li><a class="dropdown-item" href="#">Лінії підготовки</a></li>
                                 <li><a class="dropdown-item" href="#">Групи обладнання</a></li>
                                 <li><a class="dropdown-item" href="#">Обладнання</a></li>
+                                 <li><a class="dropdown-item" href="#">Типи оснастки</a></li>
+                                <li><a class="dropdown-item" href="#">Оснастка</a></li>
                             </ul>
                         </li>
-                        <li><a class="dropdown-item" href="#">Матеріали</a></li>
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">Матеріали</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'materials:material_kinds_list' %}">Види матеріалів</a></li>
+                                <li><a class="dropdown-item" href="{% url 'materials:material_types_list' %}">Типи матеріалів</a></li>
+                                <li><a class="dropdown-item" href="{% url 'materials:material_groups_list' %}">Групи матеріалів</a></li>
+                                {% comment %} <li><a class="dropdown-item" href="#">Технологічні групи сировини</a></li> {% endcomment %}
+                                <li><a class="dropdown-item" href="{% url 'materials:materials_list' %}">Матеріали</a></li>
+                                {% comment %} <li><a class="dropdown-item" href="#">Сировина по технологічним групах</a></li> {% endcomment %}
+                                <li><a class="dropdown-item" href="{% url 'materials:material_units_list' %}">Од. Вим. матеріалів</a></li>
+                                <li><a class="dropdown-item" href="{% url 'materials:materials_master_detail' %}">Прив'язка матеріалів до виробництва</a></li>
+                                {% comment %} <li><a class="dropdown-item" href="#">Причини повернення сировини</a></li> {% endcomment %}
+                            </ul>
+                        </li>
                         <li><a class="dropdown-item" href="#">Технологи</a></li>
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">Адміністрування</a>

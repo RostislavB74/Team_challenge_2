@@ -1,0 +1,46 @@
+{% extends "navigation/base.html" %}
+
+{% block title %}Одиниці вимірювання Матеріалів{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-center my-4">Одиниці вимірювання Матеріалів</h1>
+   <form method="get">
+    <input type="text" name="search" placeholder="Пошук..." value="{{ search }}">
+    <button type="submit">🔍</button>
+</form>
+    <div class="table-container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        <a href="?sort=id&dir={% if sort == 'id' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Код
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=name&dir={% if sort == 'name' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Тип матеріалу
+                        </a>
+                    </th>
+                    <th class="col-unit">Од.вимір.</th>
+                    <th class="col-basic">Основна</th>
+                    <th class="col-course">Співвідношення з базовою</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for materials in page_obj %}
+                <tr>
+                    <td>{{ materials.id|default:"-" }}</td>
+                    <td>{{ materials.name|default:"-" }}</td>
+                    <td>{{ materials.unit|default:"-" }}</td>
+                    <td>{% if materials.basic %}✅{% endif %}</td>
+                    <td>{{ materials.course|default:"-" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include "tiles/pagination_partial.html" %}
+</div>
+{% endblock %}

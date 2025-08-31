@@ -50,7 +50,10 @@ class DesignMaterial(models.Model):
     needs_review = models.BooleanField(default=False)
 
     class Meta:
-        unique_together = ('design', 'material')
+        indexes = [
+            models.Index(fields=["design", "material"]),
+        ]
+        # unique_together = ('design', 'material')
 
     def __str__(self):
         return f"{self.design} - {self.material}"

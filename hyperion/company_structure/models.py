@@ -1,7 +1,7 @@
 from django.db import models
 
 class Departments(models.Model):
-    id = models.SmallIntegerField(primary_key=True, db_column='department_id')
+    department_id = models.SmallIntegerField(primary_key=True, db_column='department_id')
     name = models.SmallIntegerField(db_column='department')
     use_kiln_press=models.SmallIntegerField(db_column='use_kiln_press')
    
@@ -9,8 +9,8 @@ class Departments(models.Model):
     class Meta:
         managed = False
         db_table = 'c_department'
-        verbose_name = "Підрозділ"
-        verbose_name_plural = "Підрозділи"
+        verbose_name = "Цех"
+        verbose_name_plural = "Цехи"
 
     def __str__(self):
         return self.name
@@ -39,8 +39,8 @@ class Subdivision(models.Model):
     class Meta:
         managed = False
         db_table = 'c_subdivision' 
-        verbose_name = 'Підрозділ'
-        verbose_name_plural = 'Підрозділи' 
+        verbose_name = 'Дільниця'
+        verbose_name_plural = 'Дільниці' 
     def __str__(self):
         return self.name
 
