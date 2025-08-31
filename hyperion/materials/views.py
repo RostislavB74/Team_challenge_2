@@ -1,5 +1,5 @@
 from utils.utils import list_view
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from materials.models import (
     Materials,
     MaterialGroups,
@@ -8,30 +8,40 @@ from materials.models import (
     MaterialUnits,
     MaterialsByDepartments
 )  
-from company_structure.models import *# винеси хелпер у окремий файл utils.py
+from company_structure.models import  Department_sections
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 # materials/views.py
-
+from django.core.cache import cache
 
 
 def MaterialsBySectionView(request):
-    # Збираємо всі секції (з підвантаженим цехом)
-    sections = Department_sections.objects.select_related("department_id").all()
+    cache_key = "all_department_sections"
+    sections = cache.get(cache_key)
+    if not sections:
+        sections = Department_sections.objects.select_related("department_id").all()
+        cache.set(cache_key, sections, timeout=3600)
 
-    # Отримуємо id секції з GET або беремо першу як дефолт
+    # def MaterialsBySectionView(request):
+    #     sections = Department_sections.objects.select_related("department_id").all()
     section_id = request.GET.get("section_id")
+
+    # Валідація section_id
+    try:
+        section_id = int(section_id) if section_id else None
+    except (ValueError, TypeError):
+        section_id = None
+
     if not section_id and sections.exists():
         section_id = sections.first().id
 
-    # Переконаємось, що selected_section — instance або None
     selected_section = (
         Department_sections.objects.filter(id=section_id).first()
         if section_id
         else (sections.first() if sections.exists() else None)
     )
 
-    # Матеріали для вибраної секції (спеціально select_related для material)
     if selected_section:
         materials = MaterialsByDepartments.objects.filter(
             production_section=selected_section
@@ -48,19 +58,30 @@ def MaterialsBySectionView(request):
 
 
 def materials_by_section_data(request, section_id):
-    # Повертаємо JSON з матеріалами для section_id
-    items_qs = MaterialsByDepartments.objects.filter(
-        production_section_id=section_id
-    ).select_related("material")
+    items_qs = (
+        MaterialsByDepartments.objects.filter(production_section_id=section_id)
+        .select_related("material")
+        .order_by("material__name")
+    )
+    paginator = Paginator(items_qs, 50)  # 50 матеріалів на сторінку
+    page_number = request.GET.get("page", 1)
+    page_obj = paginator.get_page(page_number)
     items = [
         {
             "id": m.id,
-            "material_id": m.material.id if m.material else None,
-            "material_name": m.material.name if m.material else "",
+            "material_id": m.material.id,
+            "material_name": m.material.name,
         }
-        for m in items_qs
+        for m in page_obj
     ]
-    return JsonResponse({"items": items})
+    return JsonResponse(
+        {
+            "items": items,
+            "has_next": page_obj.has_next(),
+            "page": page_number,
+        }
+    )
+
 
 
 def MaterialsListView(request):
@@ -93,32 +114,6 @@ def MaterialUnitsListView(request):
     )
 
 
-# def MaterialsBySectionView(request, section_id=None):
-#     # всі секції
-#     sections = Department_sections.objects.all()
-
-#     # якщо нічого не вибрано – беремо першу секцію
-#     if section_id is None and sections.exists():
-#         section_id = sections.first().pk  # бо primary_key = department_id
-
-#     # вибираємо секцію
-#     selected_section = get_object_or_404(Department_sections, pk=section_id)
-
-#     # матеріали цієї секції (через проміжну таблицю)
-#     materials = MaterialsByDepartments.objects.filter(
-#         production_section=selected_section
-#     ).select_related("material", "production_section")
-
-#     return render(
-#         request,
-#         "materials/materials_master_detail.html",
-#         {
-#             "sections": sections,
-#             "selected_section": selected_section,
-#             "materials": materials,
-#         },
-#     )
-
 
 def MaterialsByDepartmentsListView(request):
     return list_view(
@@ -128,23 +123,6 @@ def MaterialsByDepartmentsListView(request):
         ["materials", "id", "production_section_id"],
 
     )
-
-
-# def materials_by_section_data(request, section_id):
-#     items = (
-#         MaterialsByDepartments.objects.filter(production_section_id=section_id)
-#         .select_related("material")
-#         .order_by("material__name")
-#     )
-#     data = [
-#         {
-#             "link_id": i.id,
-#             "material_id": i.material.id,
-#             "material_name": i.material.name,
-#         }
-#         for i in items
-#     ]
-#     return JsonResponse({"items": data})
 
 
 def materials_by_department(request, pk):

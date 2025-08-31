@@ -32,5 +32,5 @@ class ProductUnits(models.Model):
         verbose_name = 'Одиниця виміру продукту'
         verbose_name_plural = 'Одиниці виміру продуктів'
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.product_unit_id
