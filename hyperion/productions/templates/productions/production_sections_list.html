@@ -1,6 +1,7 @@
 {% extends "navigation/base.html" %}
+{% load static %}
 {% block content %}
-<style>
+{% comment %} <style>
   .scrollable-panel {
     max-height: 600px;
     overflow-y: auto;
@@ -70,8 +71,8 @@
     background-color: #b3e5fc;
     border-color: #0288d1;
   }
-</style>
-
+</style> {% endcomment %}
+<link rel="stylesheet" href="{% static 'css/master_detail.css' %}">
 <div class="flex-container">
   <!-- Ліва панель: цехи -->
   <div class="left-panel scrollable-panel">
