@@ -225,7 +225,13 @@ DATETIME_FORMAT = "Y-m-d H:i:s"  # Для дат і часу (наприклад
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+# hyperion/settings.py
+
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [
+    BASE_DIR / "hyperion" / "static",
+]
+STATIC_ROOT = BASE_DIR / "staticfiles"  # Для collectstatic у продакшені
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

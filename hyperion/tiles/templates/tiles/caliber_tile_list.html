@@ -1,9 +1,9 @@
 {% extends "navigation/base.html" %}
-
+{% load static %}
 {% block title %}Калібри плитки{% endblock %}
 
 {% block content %}
-    
+    <link rel="stylesheet" href="{% static 'css/section_detail.css' %}">
     <div class="container-fluid"> <!-- Зміна на container-fluid -->
         <h1 class="text-center my-4">Довідник калібри плитки</h1>
         <form method="get" class="search-form">
