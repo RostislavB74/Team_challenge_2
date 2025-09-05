@@ -14,7 +14,6 @@ urlpatterns = [
     path("materials/", include("materials.urls", namespace="materials")),
     path("units/", include("units.urls", namespace="units")),
     path("journals/", include("journals.urls"), name="journals"),
-    # path("shift-reports/", views.shift_report_list, name="shift_report_list"),
     path(
         "shift-reports/<int:doc_id>/",
         views.shift_report_detail,

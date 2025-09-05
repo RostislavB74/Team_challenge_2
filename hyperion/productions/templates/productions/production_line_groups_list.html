@@ -1,67 +1,39 @@
 {% extends "navigation/base.html" %}
 {% load static %}
+
 {% block content %}
 
-<link rel="stylesheet" href="{% static 'css/section_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/master_detail.css' %}">
 <div class="flex-container">
   <!-- Ліва панель: цехи -->
-  <div class="left-panel scrollable-panel">
-    <h3>Цехи</h3>
+  <div class="scrollable-panel">
+    <h3>Групи виробничих ліній</h3>
     <table id="departments" class="table">
       <thead>
         <tr>
-          <th style="width: 80px;">Код</th>
-          <th>Назва</th>
-          <th style="width: 140px;">Використання печі</th>
+          <th style="width: 100px;">Код</th>
+          <th>Група</th>
+          <th style="width: 240px;">Декор</th>
+          <th style="width: 240px;">Основне виробництво</th>
+          <th style="width: 180px;">Порядок</th>
         </tr>
       </thead>
       <tbody>
-        {% for department in departments %}
-        <tr class="{% if selected_department and department.department_id == selected_department.department_id %}active{% endif %}"
-            data-department-id="{{ department.department_id }}"
-            data-department-name="{{ department.name|escape }}">
-          <td>{{ department.department_id }}</td>
-          <td><a class="department-link">{{ department.name }}</a></td>
-          <td>{{ department.use_kiln_press|yesno:"Так,Ні" }}</td>
-        </tr>
-        {% endfor %}
+        {% for groups in page_obj %}
+                    <tr>
+                        <td>{{ groups.id|default:"-" }}</td>
+                        <td>{{ groups.name|default:"-" }}</td>
+                        <td>{% if groups.decor %}✅{% endif %}</td>
+                        <td>{% if groups.base %}✅{% endif %}</td>
+                        <td>{{ groups.order|default:"-" }}</td>
+                        
+                    </tr>
+                    {% endfor %}
       </tbody>
     </table>
   </div>
 
-  <!-- Права панель: дільниці -->
-  <div class="right-panel scrollable-panel">
-    <h3 id="sections-title">
-      Дільниці для цеху: {% if selected_department %}{{ selected_department.name }}{% else %}—{% endif %}
-    </h3>
-    <table class="table" id="sections-table">
-      <thead>
-        <tr>
-          <th style="width: 100px;">ID</th>
-          <th>Дільниця</th>
-          <th>Опис</th>
-          <th style="width: 80px;">Номер</th>
-        </tr>
-      </thead>
-      <tbody id="sections-body">
-        {% if sections %}
-          {% for s in sections %}
-          <tr>
-            <td>{{ s.id }}</td>
-            <td>{{ s.name }}</td>
-            <td>{{ s.descriptions|default:"—" }}</td>
-            <td>{{ s.num|default:"—" }}</td>
-          </tr>
-          {% endfor %}
-        {% else %}
-          <tr><td colspan="4" class="loading">Немає дільниць</td></tr>
-        {% endif %}
-      </tbody>
-    </table>
-    <div class="pagination" id="pagination"></div>
-  </div>
-</div>
-
+{% comment %}   
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const departmentsTable = document.getElementById('departments');
@@ -146,5 +118,5 @@ document.addEventListener('DOMContentLoaded', function () {
     loadSectionsFor(activeRow.dataset.departmentId, activeRow);
   }
 });
-</script>
+</script> {% endcomment %}
 {% endblock %}

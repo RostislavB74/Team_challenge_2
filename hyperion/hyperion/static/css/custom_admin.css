@@ -1,0 +1,28 @@
+
+.custom-navbar {
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.custom-navbar ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.custom-navbar li {
+    display: inline-block;
+}
+
+.custom-navbar a {
+    text-decoration: none;
+    color: #333;
+}
+
+.custom-navbar a:hover {
+    text-decoration: underline;
+}
