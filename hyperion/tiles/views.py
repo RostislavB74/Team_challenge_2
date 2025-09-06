@@ -7,6 +7,7 @@ from .models import (
     TileTypes,
     ProductTypes,
     ProductGroups,
+    Quality,
 )
 from django.http import JsonResponse
 from django.template.loader import render_to_string
@@ -225,3 +226,11 @@ def ProductGroupsListView(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return render(request, "tiles/product_groups_list.html", {"page_obj": page_obj})
+
+
+def ProductQualityListView(request):
+    product_groups = Quality.objects.all()
+    paginator = Paginator(product_groups, 50)  # 50 записів на сторінку
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "tiles/product_quality_list.html", {"page_obj": page_obj})
