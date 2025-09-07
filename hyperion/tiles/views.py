@@ -7,6 +7,7 @@ from .models import (
     TileTypes,
     ProductTypes,
     ProductGroups,
+    TileGeometry,
     Quality,
 )
 from django.http import JsonResponse
@@ -229,8 +230,16 @@ def ProductGroupsListView(request):
 
 
 def ProductQualityListView(request):
-    product_groups = Quality.objects.all()
-    paginator = Paginator(product_groups, 50)  # 50 записів на сторінку
+    product_quality = Quality.objects.all()
+    paginator = Paginator(product_quality, 50)  # 50 записів на сторінку
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return render(request, "tiles/product_quality_list.html", {"page_obj": page_obj})
+
+
+def ProductGeometryListView(request):
+    product_geometry = TileGeometry.objects.all()
+    paginator = Paginator(product_geometry, 50)  # 50 записів на сторінку
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "tiles/geometry_tiles_list.html", {"page_obj": page_obj})
