@@ -1,0 +1,55 @@
+
+{% extends "navigation/base.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/table_styles.css' %}">
+{% block title %}Одиниці готової продукції{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-center my-4">Одиниці готової продукції</h1>
+    <form method="get" class="search-form">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Одиниці продукції"
+                   value="{{ request.GET.search }}">
+            <button type="submit" class="btn btn-primary">Шукати</button>
+        </div>
+    </form>
+    <div class="table-container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        <a href="?sort=product_unit_id&dir={% if sort == 'product_unit_id' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Код
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=tile_type_id&dir={% if sort == 'tile_type_id' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Тип продукції
+                        </a>
+                    </th>
+                    <th class="col-unit_id">Од. Вимір.</th>
+                    <th class="col-basic">Базова</th>
+                    <th class="col-course">Співвідношення</th>
+                    <th class="col-box_unit">Коробка</th>
+                    <th class="col-package_unit">Палета</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for unit in page_obj %}
+                <tr>
+                    <td>{{ unit.product_unit_id|default:"-" }}</td>
+                    <td>{{ unit.tile_type_id|default:"-" }}</td>
+                    <td>{{ unit.unit_id|default:"-" }}</td>
+                    <td>{% if unit.basic %}✅{% endif %}</td>
+                    <td>{{ unit.course|default:"-" }}</td>
+                    <td>{% if unit.box_unit %}✅{% endif %}</td>
+                    <td>{% if unit.package_unit %}✅{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include "tiles/pagination_partial.html" %}
+</div>
+{% endblock %}

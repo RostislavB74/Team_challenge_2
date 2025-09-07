@@ -1,5 +1,6 @@
-{% load static %}
-<link rel="stylesheet" href="{% static 'css/table_styles.css' %}">
+{% comment %} {% load static %} {% endcomment %}
+{% comment %} <link rel="stylesheet" href="{% static 'css/table_styles.css' %}"> {% endcomment %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Hyperion 2.0</a>
@@ -15,15 +16,15 @@
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">Готова продукція</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Типи продукції</a></li>
-                                <li><a class="dropdown-item" href="#">Одиниці вимірювання</a></li>
-                                <li><a class="dropdown-item" href="#">Групи продукції</a></li>
-                                <li><a class="dropdown-item" href="#">Колекції</a></li>
-                                <li><a class="dropdown-item" href="#">Типи плитки</a></li>
+                                <li><a class="dropdown-item" href="{% url 'tiles:product_types_list' %}">Типи продукції</a></li>
+                                <li><a class="dropdown-item" href="{% url 'units:product_units_list' %}">Од. Вимір. готової продукції</a></li>
+                                <li><a class="dropdown-item" href="{% url 'tiles:product_groups_list' %}">Групи продукції</a></li>
+                                <li><a class="dropdown-item" href="{% url 'tiles:collections_tiles_list' %}">Колекції</a></li>
+                                <li><a class="dropdown-item" href="{% url 'tiles:tiles_types_list' %}">Типи плитки</a></li>
                                 <li><a class="dropdown-item" href="{% url 'tiles:caliber_list' %}">Калібри плитки</a></li>
                                 <li><a class="dropdown-item" href="#">Геометрія плитки</a></li>
                                 <li><a class="dropdown-item" href="{% url 'tiles:design_list' %}">Дизайни</a></li>
-                                <li><a class="dropdown-item" href="#">Сорти плитки</a></li>
+                                <li><a class="dropdown-item" href="{% url 'tiles:product_quality_list' %}">Сорти плитки</a></li>
                                 <li><a class="dropdown-item" href="#">Відтінки</a></li>
                                 <li><a class="dropdown-item" href="#">Глазурі</a></li>
                                 <li><a class="dropdown-item" href="#">Етикетки на коробки</a></li>
@@ -32,7 +33,7 @@
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">Виробництво</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Групи виробничих ліній</a></li>
+                                <li><a class="dropdown-item" href="{% url 'productions:production_line_groups_list' %}">Групи виробничих ліній</a></li>
                                 <li><a class="dropdown-item" href="#">Лінії виробництва</a></li>
                                 <li><a class="dropdown-item" href="#">Призначення ліній</a></li>
                                 <li><a class="dropdown-item" href="#">Печі</a></li>
@@ -40,13 +41,28 @@
                                 <li><a class="dropdown-item" href="#">Причини зупинок</a></li>
                                 <li><a class="dropdown-item" href="#">Опис зупинок</a></li>
                                 <li><a class="dropdown-item" href="#">Цеха</a></li>
-                                <li><a class="dropdown-item" href="#">Дільниці</a></li>
+                                <li><a class="dropdown-item" href="{% url 'productions:production_sections_list' %}">Дільниці</a></li>
                                 <li><a class="dropdown-item" href="#">Лінії підготовки</a></li>
                                 <li><a class="dropdown-item" href="#">Групи обладнання</a></li>
                                 <li><a class="dropdown-item" href="#">Обладнання</a></li>
+                                 <li><a class="dropdown-item" href="#">Типи оснастки</a></li>
+                                <li><a class="dropdown-item" href="#">Оснастка</a></li>
                             </ul>
                         </li>
-                        <li><a class="dropdown-item" href="#">Матеріали</a></li>
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">Матеріали</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'materials:material_kinds_list' %}">Види матеріалів</a></li>
+                                <li><a class="dropdown-item" href="{% url 'materials:material_types_list' %}">Типи матеріалів</a></li>
+                                <li><a class="dropdown-item" href="{% url 'materials:material_groups_list' %}">Групи матеріалів</a></li>
+                                {% comment %} <li><a class="dropdown-item" href="#">Технологічні групи сировини</a></li> {% endcomment %}
+                                <li><a class="dropdown-item" href="{% url 'materials:materials_list' %}">Матеріали</a></li>
+                                {% comment %} <li><a class="dropdown-item" href="#">Сировина по технологічним групах</a></li> {% endcomment %}
+                                <li><a class="dropdown-item" href="{% url 'materials:material_units_list' %}">Од. Вим. матеріалів</a></li>
+                                <li><a class="dropdown-item" href="{% url 'materials:materials_master_detail' %}">Прив'язка матеріалів до виробництва</a></li>
+                                {% comment %} <li><a class="dropdown-item" href="#">Причини повернення сировини</a></li> {% endcomment %}
+                            </ul>
+                        </li>
                         <li><a class="dropdown-item" href="#">Технологи</a></li>
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">Адміністрування</a>

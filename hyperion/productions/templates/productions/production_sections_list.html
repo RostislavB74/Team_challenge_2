@@ -1,0 +1,150 @@
+{% extends "navigation/base.html" %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/section_detail.css' %}">
+<div class="flex-container">
+  <!-- Ліва панель: цехи -->
+  <div class="left-panel scrollable-panel">
+    <h3>Цехи</h3>
+    <table id="departments" class="table">
+      <thead>
+        <tr>
+          <th style="width: 80px;">Код</th>
+          <th>Назва</th>
+          <th style="width: 140px;">Використання печі</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for department in departments %}
+        <tr class="{% if selected_department and department.department_id == selected_department.department_id %}active{% endif %}"
+            data-department-id="{{ department.department_id }}"
+            data-department-name="{{ department.name|escape }}">
+          <td>{{ department.department_id }}</td>
+          <td><a class="department-link">{{ department.name }}</a></td>
+          <td>{{ department.use_kiln_press|yesno:"Так,Ні" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Права панель: дільниці -->
+  <div class="right-panel scrollable-panel">
+    <h3 id="sections-title">
+      Дільниці для цеху: {% if selected_department %}{{ selected_department.name }}{% else %}—{% endif %}
+    </h3>
+    <table class="table" id="sections-table">
+      <thead>
+        <tr>
+          <th style="width: 100px;">ID</th>
+          <th>Дільниця</th>
+          <th>Опис</th>
+          <th style="width: 80px;">Номер</th>
+        </tr>
+      </thead>
+      <tbody id="sections-body">
+        {% if sections %}
+          {% for s in sections %}
+          <tr>
+            <td>{{ s.id }}</td>
+            <td>{{ s.name }}</td>
+            <td>{{ s.descriptions|default:"—" }}</td>
+            <td>{{ s.num|default:"—" }}</td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr><td colspan="4" class="loading">Немає дільниць</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+    <div class="pagination" id="pagination"></div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const departmentsTable = document.getElementById('departments');
+  const sectionsBody = document.getElementById('sections-body');
+  const sectionsTitle = document.getElementById('sections-title');
+  const paginationDiv = document.getElementById('pagination');
+  const endpointTemplate = "{% url 'productions:sections_by_department_data' 0 %}";
+
+  function loadSectionsFor(departmentId, clickedRow, page = 1) {
+    sectionsBody.innerHTML = '<tr><td colspan="4" class="loading">Завантаження...</td></tr>';
+    const url = endpointTemplate.replace("/0/", `/${departmentId}/`) + `?page=${page}`;
+    fetch(url, { credentials: 'same-origin' })
+      .then(resp => {
+        if (!resp.ok) throw new Error('Network response was not ok');
+        return resp.json();
+      })
+      .then(data => {
+        sectionsBody.innerHTML = '';
+        if (!data.items || data.items.length === 0) {
+          sectionsBody.innerHTML = '<tr><td colspan="4" class="loading">Немає дільниць</td></tr>';
+        } else {
+          data.items.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${item.id}</td>
+              <td>${escapeHtml(item.section_name)}</td>
+              <td>${escapeHtml(item.description)}</td>
+              <td>${item.num || '—'}</td>
+            `;
+            sectionsBody.appendChild(row);
+          });
+        }
+
+        departmentsTable.querySelectorAll('tbody tr').forEach(row => row.classList.remove('active'));
+        if (clickedRow) clickedRow.classList.add('active');
+
+        const departmentName = clickedRow ? clickedRow.dataset.departmentName : '—';
+        sectionsTitle.textContent = `Дільниці для цеху: ${departmentName}`;
+
+        // Пагінація
+        paginationDiv.innerHTML = '';
+        if (data.has_next) {
+          const nextLink = document.createElement('a');
+          nextLink.textContent = 'Наступна';
+          nextLink.href = '#';
+          nextLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loadSectionsFor(departmentId, clickedRow, parseInt(data.page) + 1);
+          });
+          paginationDiv.appendChild(nextLink);
+        }
+        if (data.page > 1) {
+          const prevLink = document.createElement('a');
+          prevLink.textContent = 'Попередня';
+          prevLink.href = '#';
+          prevLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loadSectionsFor(departmentId, clickedRow, parseInt(data.page) - 1);
+          });
+          paginationDiv.appendChild(prevLink);
+        }
+      })
+      .catch(err => {
+        console.error('Fetch error:', err);
+        sectionsBody.innerHTML = '<tr><td colspan="4" class="loading">Помилка завантаження</td></tr>';
+      });
+  }
+
+  function escapeHtml(text) {
+    if (!text) return '';
+    return text.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]);
+  }
+
+  departmentsTable.addEventListener('click', function (e) {
+    const row = e.target.closest('tr');
+    if (!row || !row.dataset.departmentId) return;
+    loadSectionsFor(row.dataset.departmentId, row);
+  });
+
+  const activeRow = departmentsTable.querySelector('tbody tr.active');
+  if (activeRow) {
+    loadSectionsFor(activeRow.dataset.departmentId, activeRow);
+  }
+});
+</script>
+{% endblock %}

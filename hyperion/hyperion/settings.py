@@ -45,33 +45,36 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'users.apps.UsersConfig',
-    'tiles.apps.TilesConfig',
-    'passports_designs',
-    'materials',
-    'units',
-    'productions',
-    'company_structure',
-    'equipments',
-    'journals',
-    'navigation',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "users.apps.UsersConfig",
+    "tiles.apps.TilesConfig",
+    "passports_designs",
+    "materials",
+    "units",
+    "productions",
+    "company_structure",
+    "equipments",
+    "journals",
+    "navigation",
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'hyperion.middleware.PermissionMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    # "utils.middleware.AdminSplitterSessionMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "hyperion.middleware.PermissionMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'hyperion.urls'
@@ -79,7 +82,10 @@ ROOT_URLCONF = 'hyperion.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],
+        # 'DIRS': [BASE_DIR / "templates"],
+        # 'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [BASE_DIR / "hyperion" / "templates"], 
+
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -219,7 +225,13 @@ DATETIME_FORMAT = "Y-m-d H:i:s"  # Для дат і часу (наприклад
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+# hyperion/settings.py
+
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [
+    BASE_DIR / "hyperion" / "static",
+]
+STATIC_ROOT = BASE_DIR / "staticfiles"  # Для collectstatic у продакшені
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

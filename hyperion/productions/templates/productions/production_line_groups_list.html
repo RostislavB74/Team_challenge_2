@@ -1,0 +1,122 @@
+{% extends "navigation/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/master_detail.css' %}">
+<div class="flex-container">
+  <!-- Ліва панель: цехи -->
+  <div class="scrollable-panel">
+    <h3>Групи виробничих ліній</h3>
+    <table id="departments" class="table">
+      <thead>
+        <tr>
+          <th style="width: 100px;">Код</th>
+          <th>Група</th>
+          <th style="width: 240px;">Декор</th>
+          <th style="width: 240px;">Основне виробництво</th>
+          <th style="width: 180px;">Порядок</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for groups in page_obj %}
+                    <tr>
+                        <td>{{ groups.id|default:"-" }}</td>
+                        <td>{{ groups.name|default:"-" }}</td>
+                        <td>{% if groups.decor %}✅{% endif %}</td>
+                        <td>{% if groups.base %}✅{% endif %}</td>
+                        <td>{{ groups.order|default:"-" }}</td>
+                        
+                    </tr>
+                    {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+{% comment %}   
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const departmentsTable = document.getElementById('departments');
+  const sectionsBody = document.getElementById('sections-body');
+  const sectionsTitle = document.getElementById('sections-title');
+  const paginationDiv = document.getElementById('pagination');
+  const endpointTemplate = "{% url 'productions:sections_by_department_data' 0 %}";
+
+  function loadSectionsFor(departmentId, clickedRow, page = 1) {
+    sectionsBody.innerHTML = '<tr><td colspan="4" class="loading">Завантаження...</td></tr>';
+    const url = endpointTemplate.replace("/0/", `/${departmentId}/`) + `?page=${page}`;
+    fetch(url, { credentials: 'same-origin' })
+      .then(resp => {
+        if (!resp.ok) throw new Error('Network response was not ok');
+        return resp.json();
+      })
+      .then(data => {
+        sectionsBody.innerHTML = '';
+        if (!data.items || data.items.length === 0) {
+          sectionsBody.innerHTML = '<tr><td colspan="4" class="loading">Немає дільниць</td></tr>';
+        } else {
+          data.items.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${item.id}</td>
+              <td>${escapeHtml(item.section_name)}</td>
+              <td>${escapeHtml(item.description)}</td>
+              <td>${item.num || '—'}</td>
+            `;
+            sectionsBody.appendChild(row);
+          });
+        }
+
+        departmentsTable.querySelectorAll('tbody tr').forEach(row => row.classList.remove('active'));
+        if (clickedRow) clickedRow.classList.add('active');
+
+        const departmentName = clickedRow ? clickedRow.dataset.departmentName : '—';
+        sectionsTitle.textContent = `Дільниці для цеху: ${departmentName}`;
+
+        // Пагінація
+        paginationDiv.innerHTML = '';
+        if (data.has_next) {
+          const nextLink = document.createElement('a');
+          nextLink.textContent = 'Наступна';
+          nextLink.href = '#';
+          nextLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loadSectionsFor(departmentId, clickedRow, parseInt(data.page) + 1);
+          });
+          paginationDiv.appendChild(nextLink);
+        }
+        if (data.page > 1) {
+          const prevLink = document.createElement('a');
+          prevLink.textContent = 'Попередня';
+          prevLink.href = '#';
+          prevLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loadSectionsFor(departmentId, clickedRow, parseInt(data.page) - 1);
+          });
+          paginationDiv.appendChild(prevLink);
+        }
+      })
+      .catch(err => {
+        console.error('Fetch error:', err);
+        sectionsBody.innerHTML = '<tr><td colspan="4" class="loading">Помилка завантаження</td></tr>';
+      });
+  }
+
+  function escapeHtml(text) {
+    if (!text) return '';
+    return text.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]);
+  }
+
+  departmentsTable.addEventListener('click', function (e) {
+    const row = e.target.closest('tr');
+    if (!row || !row.dataset.departmentId) return;
+    loadSectionsFor(row.dataset.departmentId, row);
+  });
+
+  const activeRow = departmentsTable.querySelector('tbody tr.active');
+  if (activeRow) {
+    loadSectionsFor(activeRow.dataset.departmentId, activeRow);
+  }
+});
+</script> {% endcomment %}
+{% endblock %}
