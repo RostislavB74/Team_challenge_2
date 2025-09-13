@@ -1,11 +1,11 @@
 {% extends "navigation/base.html" %}
 {% load static %}
-{% block title %}Геометрія плитки{% endblock %}
+{% block title %}Глазурі плитки{% endblock %}
 
 {% block content %}
     <link rel="stylesheet" href="{% static 'css/section_detail.css' %}">
     <div class="container-fluid"> <!-- Зміна на container-fluid -->
-        <h1 class="text-center my-4">Довідник геометрія плитки</h1>
+        <h1 class="text-center my-4">Довідник глазурі плитки</h1>
         <form method="get" class="search-form">
             <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="Геометрія плитки" 
@@ -17,16 +17,18 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th class="col-caliber">Код</th>
-                        <th class="col-description">Форма плитки</th>
+                        <th class="col-id">Код</th>
+                        <th class="col-name">Віддтінок</th>
+                        <th class="col-description">Опис</th>
                         
                     </tr>
                 </thead>
                 <tbody>
-                    {% for geometry in page_obj %}
+                    {% for glaze in page_obj %}
                     <tr>
-                        <td>{{ geometry.id|default:"-" }}</td>
-                        <td>{{ geometry.name|default:"-" }}</td>
+                        <td>{{ glaze.id|default:"-" }}</td>
+                        <td>{{ glaze.name|default:"-" }}</td>
+                        <td>{{ glaze.description|default:"-" }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

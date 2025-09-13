@@ -290,6 +290,9 @@ class Coats(models.Model):
 class Hues(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column="hue_id")
     name = models.CharField(max_length=255, db_column="hue")
+    description = models.CharField(
+        max_length=255, db_column="descr", blank=True, null=True
+    )
 
     class Meta:
         managed = False
@@ -322,6 +325,9 @@ class TileGlazes(models.Model):
         primary_key=True, db_column="tile_glaze_id"
     )  # Змінено з TinyIntegerField
     name = models.CharField(max_length=255, db_column="tile_glaze")
+    description = models.CharField(
+        max_length=255, db_column="descr", blank=True, null=True
+    )
 
     class Meta:
         managed = False
