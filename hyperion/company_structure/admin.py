@@ -2,9 +2,9 @@ from django.contrib import admin
 from .models import *
 @admin.register(Departments)
 class DepartmentsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'use_kiln_press') 
-    list_display_links = ('id', 'name')
-    search_fields = ('id', 'name')
+    list_display = ('department_id', 'name', 'use_kiln_press') 
+    list_display_links = ('department_id', 'name')
+    search_fields = ('department_id', 'name')
 
 @admin.register(Department_sections)
 class Department_sectionsAdmin(admin.ModelAdmin):
@@ -30,3 +30,8 @@ class Store_typesAdmin(admin.ModelAdmin):
     list_display = ('store_type_id', 'name') 
     list_display_links = ('store_type_id', 'name')
     search_fields = ('store_type_id', 'name')
+@admin.register(Subdivision)
+class SubdivisionAdmin(admin.ModelAdmin):
+    list_display = ('subdivision_id', 'name', 'description') 
+    list_display_links = ('subdivision_id', 'name')
+    search_fields = ('subdivision_id', 'name')

@@ -1,11 +1,19 @@
 from django.contrib import admin
 from journals import views
 from django.urls import path, include
+from django.conf import settings
+from hyperion.admin import my_admin_site
+# from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("tiles/", include("tiles.urls")),
-    # path("shift-reports/", views.shift_report_list, name="shift_report_list"),
+    path("mysite/", my_admin_site.urls),
+    path("navigation/", include("navigation.urls", namespace="navigation")),
+    path("tiles/", include("tiles.urls", namespace="tiles")),
+    path("productions/", include("productions.urls", namespace="productions")),
+    path("materials/", include("materials.urls", namespace="materials")),
+    path("units/", include("units.urls", namespace="units")),
+    path("journals/", include("journals.urls"), name="journals"),
     path(
         "shift-reports/<int:doc_id>/",
         views.shift_report_detail,
@@ -27,3 +35,5 @@ urlpatterns = [
         name="delete_row",
     ),
 ]
+if "debug_toolbar" in settings.INSTALLED_APPS:
+    urlpatterns += [path("__debug__/", include("debug_toolbar.urls"))]

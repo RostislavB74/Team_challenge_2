@@ -1,0 +1,62 @@
+{% extends "navigation/base.html" %}
+
+{% block title %}Сорти плитки{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-center my-4">Сорти плитки</h1>
+    <form method="get" class="search-form">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Сорти плитки"
+                   value="{{ request.GET.search }}">
+            <button type="submit" class="btn btn-primary">Шукати</button>
+        </div>
+    </form>
+    <div class="table-container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        <a href="?sort=quality&dir={% if sort == 'quality' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Сорт
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=description&dir={% if sort == 'description' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Опис
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=is_defect&dir={% if sort == 'is_defect' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Брак
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=sort_order&dir={% if sort == 'sort_order' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Порядок сортів
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=mark&dir={% if sort == 'mark' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Значення
+                        </a>
+                    </th>
+                    
+                </tr>          
+            </thead>
+            <tbody>
+                {% for group in page_obj %}
+                <tr>
+                    <td>{{ group.quality|default:"-" }}</td>
+                    <td>{{ group.description|default:"-" }}</td>
+                    <td>{% if group.is_defect %}✅{% endif %}</td>
+                    <td>{{ group.sort_order|default:"-" }}</td>
+                    <td>{{ group.mark|default:"-" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include "tiles/pagination_partial.html" %}
+</div>
+{% endblock %}

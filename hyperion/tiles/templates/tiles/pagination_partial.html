@@ -1,0 +1,22 @@
+
+{% with query_string=request.GET.urlencode|cut:'page=' %}
+<nav class="pagination">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link ajax-page" href="?page={{ page_obj.previous_page_number }}&{{ query_string }}">Попередня</a>
+        </li>
+        {% endif %}
+
+        <li class="page-item disabled">
+            <span class="page-link">Сторінка {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}</span>
+        </li>
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link ajax-page" href="?page={{ page_obj.next_page_number }}&{{ query_string }}">Наступна</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endwith %}

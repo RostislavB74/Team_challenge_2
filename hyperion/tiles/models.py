@@ -6,6 +6,22 @@ from users.models import User
 from company_structure.models import Subdivision
 
 
+class CaliberTiles(models.Model):
+    # id = models.AutoField(primary_key=True)
+    caliber = models.SmallIntegerField(primary_key=True, unique=True, db_column="caliber")
+    description = models.CharField(
+        max_length=255, db_column="descr", blank=True, null=True
+    )
+
+    class Meta:
+        managed = False
+        db_table = "c_caliber"
+        verbose_name = "Калібр плитки"
+        verbose_name_plural = "Калібри плитки"
+
+    def __str__(self):
+        return str(self.caliber)
+
 class Collections(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column="collection_id")
     name = models.CharField(max_length=255, db_column="collection")
@@ -26,6 +42,9 @@ class Collections(models.Model):
         verbose_name = "Колекція"
         verbose_name_plural = "Колекції"
 
+    def __str__(self):
+        return str(self.name)
+
 
 class CollectionGroups(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column="collection_group_id")
@@ -40,7 +59,8 @@ class CollectionGroups(models.Model):
         verbose_name = "Група колекції"
         verbose_name_plural = "Групи колекцій"
 
-
+    def __str__(self):
+        return self.name
 # Пов’язані моделі
 class TileTypes(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column="tile_type_id")
@@ -270,6 +290,9 @@ class Coats(models.Model):
 class Hues(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column="hue_id")
     name = models.CharField(max_length=255, db_column="hue")
+    description = models.CharField(
+        max_length=255, db_column="descr", blank=True, null=True
+    )
 
     class Meta:
         managed = False
@@ -302,6 +325,9 @@ class TileGlazes(models.Model):
         primary_key=True, db_column="tile_glaze_id"
     )  # Змінено з TinyIntegerField
     name = models.CharField(max_length=255, db_column="tile_glaze")
+    description = models.CharField(
+        max_length=255, db_column="descr", blank=True, null=True
+    )
 
     class Meta:
         managed = False
@@ -494,3 +520,22 @@ class Designs(models.Model):
                     "Неможливо видалити дизайн, який присутній у звітах."
                 )
         super().delete(*args, **kwargs)
+class ProductLabels(models.Model):
+    design_label_id = models.SmallIntegerField(
+        primary_key=True, db_column="design_label_id"
+    )
+    label_name=models.CharField(max_length=255, db_column="label_name")
+    file_name=models.CharField(max_length=255, db_column="file_name")
+    rows_on_page=models.SmallIntegerField(db_column="rows_on_leaf")
+    ean_13=models.BooleanField(db_column="ean13")
+    ean_128=models.BooleanField(db_column="ean128")
+    description=models.CharField(max_length=255, db_column="descr", blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = "c_design_label"
+        verbose_name = "Етикетка"
+        verbose_name_plural = "Етикетки"
+
+    def __str__(self):
+        return self.label_name

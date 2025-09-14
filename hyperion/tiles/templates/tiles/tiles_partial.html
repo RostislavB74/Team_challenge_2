@@ -1,0 +1,101 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/table_styles.css' %}">
+
+{% include "tiles/pagination_partial.html" %}
+
+    <table class="table table-bordered">
+   <div class="table-container">
+    <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            <a href="?sort=design_ean&order={% if current_sort == 'design_ean' and current_order == 'asc' %}desc{% else %}asc{% endif %}">
+                            Код
+                        </a>
+                        </th>
+                        <th>
+                            <a href="?sort=ean&order={% if current_sort == 'ean' and current_order == 'asc' %}desc{% else %}asc{% endif %}">
+                                EAN
+                            </a>
+                        </th>
+                        <th class="col-tile-type">Тип плитки</th>
+                        <th>
+                            <a href="?sort=collection__name&order={% if current_sort == 'collection__name' and current_order == 'asc' %}desc{% else %}asc{% endif %}">
+                                Колекція
+                            </a>
+                        </th>
+                        <th class="col-design-name">Назва дизайну</th>
+                        <th class="col-is-base">Базова</th>
+                        <th class="col-archived">Архів</th>
+                        <th class="col-is-action">Акція</th>
+                        <th class="col-is-stock">Стоковий</th>
+                        <th class="col-tile-size">Розмір</th>
+                        <th class="col-color">Колір</th>
+                        <th class="col-is-test">Тест</th>
+                        <th class="col-tone">Тон</th>
+                        <th class="col-tile-glaze">Глазур</th>
+                        <th class="col-hue">Відтінок</th>
+                        <th class="col-quality">Сорт</th>
+                        <th class="col-width">Ширина</th>
+                        <th class="col-height">Висота</th>
+                        <th class="col-thickness">Товщина</th>
+                        <th class="col-box-amount">Кількість у коробці</th>
+                        <th class="col-box-weight">Вага коробки</th>
+                        <th class="col-package-amount">Кількість у пакеті</th>
+                        <th class="col-add-date">Дата додавання</th>
+                        <th class="col-parent-ean">Батьківський код</th>
+                        {% comment %} <th class="col-author">Автор</th> {% endcomment %}
+                        <th class="col-on-tile-ean">EAN на плитці</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tile in page_obj %}
+                    <tr>
+                        <td>{{ tile.design_ean|default:"-" }}</td>
+                        <td>{{ tile.ean|default:"-" }}</td>
+                        <td>{% if tile.tile_type %}{{ tile.tile_type.name }}{% else %}-{% endif %}</td>
+                        <td>{% if tile.collection %}{{ tile.collection.name }}{% else %}-{% endif %}</td>
+                        <td>{{ tile.design_name|default:"-" }}</td>
+                        <td>{% if tile.is_base %}✅{% endif %}</td>
+                        <td>{% if tile.archived %}✅{% endif %}</td>
+                        <td>{% if tile.is_action %}✅{% endif %}</td>
+                        <td>{% if tile.is_stock %}✅{% endif %}</td>
+                        <td>{{ tile.tile_size|default:"-" }}</td>
+                        <td>{{ tile.color.color_name|default:"-" }}</td>
+                        <td>{% if tile.is_test %}✅{% endif %}</td>
+                        <td>{{ tile.tone|default:"-" }}</td>
+                        <td>{{ tile.tile_glaze.name|default:"-" }}</td>
+                        <td>{{ tile.hue.name|default:"-" }}</td>
+                        <td>{{ tile.quality|default:"-" }}</td>
+                        <td>{{ tile.width|default:"-" }}</td>
+                        <td>{{ tile.height|default:"-" }}</td>
+                        <td>{{ tile.thickness|default:"-" }}</td>
+                        <td>{{ tile.box_amount|default:"-" }}</td>
+                        <td>{{ tile.box_weight|default:"-" }}</td>
+                        <td>{{ tile.package_amount|default:"-" }}</td>
+                        <td>{{ tile.add_date|date:"d.m.Y H:i"|default:"-" }}</td>
+                        <td>{{ tile.parent_ean|default:"-" }}</td>
+                        {% comment %} <td>{{ tile.author.user_name|default:"-" }}</td> {% endcomment %}
+                        <td>{{ tile.on_tile_ean|default:"-" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+    </div>
+</table>
+{% include "tiles/pagination_partial.html" %}
+<script>
+$(document).ready(function() {
+    $('table').DataTable({
+        "paging": true,
+        "searching": true,  // поле пошуку
+        "ordering": true,   // сортування
+        "info": true,
+        "order": [[0, "asc"]] // сортувати за 1 колонкою спочатку
+    });
+});
+</script>
+

@@ -69,7 +69,7 @@
                <table class="table">
                    <thead>
                        <tr>
-                           <th>Row ID</th>
+                           <th>№ п/п</th>
                            <th>Дизайн</th>
                            <th>Сорт</th>
                            <th>Брак</th>
@@ -77,13 +77,13 @@
                            <th>Одиниця</th>
                            <th>Коробки</th>
                            <th>Палети</th>
-                           {% comment %} <th>Площа палети</th> {% endcomment %}
                        </tr>
                    </thead>
                    <tbody>
                        {% for row in shift_rows %}
                            <tr id="row_{{ row.row_id }}" onclick="selectRow({{ row.row_id }})">
-                               <td>{{ row.row_id }}</td>
+                               {% comment %} <td>{{ row.row_id }}</td> {% endcomment %}
+                               <td>{{ forloop.counter }}</td>
                                <td>{{ row.design_name }}</td>
                                <td>{{ row.quality }}</td>
                                <td>{{ row.is_defect|yesno:"Так,Ні" }}</td>
@@ -91,7 +91,6 @@
                                <td>{{ row.unit_alias|default:"" }}</td>
                                <td>{{ row.box_amount|default:0|floatformat:"2" }}</td>
                                <td>{{ row.package_amount|default:0|floatformat:"2" }}</td>
-                               {% comment %} <td>{{ row.package_square|default:"N/A"|floatformat:"2" }}</td> {% endcomment %}
                            </tr>
                        {% empty %}
                            <tr><td colspan="9">Немає даних</td></tr>
@@ -102,9 +101,9 @@
                <table class="table">
                    <thead>
                        <tr>
-                           <th>Row ID</th>
+                           <th>№ п/п</th>
                            <th>Піч</th>
-                           <th>Простой, хв.</th>
+                           <th>Простої, хв.</th>
                            <th>Тип простою</th>
                            <th>Причина простою</th>
                            <th>Коментарій</th>
@@ -113,7 +112,8 @@
                    <tbody>
                        {% for downtime in downtimes %}
                            <tr>
-                               <td>{{ downtime.row_id }}</td>
+                               <td>{{ forloop.counter }}</td>
+                               {% comment %} <td>{{ downtime.row_id }}</td> {% endcomment %}
                                <td>{{ downtime.kiln_name }}</td>
                                <td>{{ downtime.amount|floatformat:"2" }}</td>
                                <td>{{downtime.stoppage_type_name}}</td>
