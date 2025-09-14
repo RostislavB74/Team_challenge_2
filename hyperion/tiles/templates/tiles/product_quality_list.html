@@ -17,23 +17,28 @@
             <thead>
                 <tr>
                     <th>
-                        <a href="?sort=product_unit_id&dir={% if sort == 'id' and dir != 'desc' %}desc{% else %}asc{% endif %}">
-                            Код
+                        <a href="?sort=quality&dir={% if sort == 'quality' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Сорт
                         </a>
                     </th>
                     <th>
-                        <a href="?sort=tile_type_id&dir={% if sort == 'name' and dir != 'desc' %}desc{% else %}asc{% endif %}">
-                            Назва
+                        <a href="?sort=description&dir={% if sort == 'description' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Опис
                         </a>
                     </th>
                     <th>
-                        <a href="?sort=product_unit_id&dir={% if sort == 'in_order' and dir != 'desc' %}desc{% else %}asc{% endif %}">
-                            Порядок
+                        <a href="?sort=is_defect&dir={% if sort == 'is_defect' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Брак
                         </a>
                     </th>
                     <th>
-                        <a href="?sort=tile_type_id&dir={% if sort == 'is_base' and dir != 'desc' %}desc{% else %}asc{% endif %}">
-                            Осн. виробництово
+                        <a href="?sort=sort_order&dir={% if sort == 'sort_order' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Порядок сортів
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=mark&dir={% if sort == 'mark' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                            Значення
                         </a>
                     </th>
                     
@@ -42,10 +47,11 @@
             <tbody>
                 {% for group in page_obj %}
                 <tr>
-                    <td>{{ group.id|default:"-" }}</td>
-                    <td>{{ group.name|default:"-" }}</td>
-                    <td>{{ group.in_order|default:"-" }}</td>
-                    <td>{% if group.is_base %}✅{% endif %}</td>
+                    <td>{{ group.quality|default:"-" }}</td>
+                    <td>{{ group.description|default:"-" }}</td>
+                    <td>{% if group.is_defect %}✅{% endif %}</td>
+                    <td>{{ group.sort_order|default:"-" }}</td>
+                    <td>{{ group.mark|default:"-" }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

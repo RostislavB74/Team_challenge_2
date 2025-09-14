@@ -1,0 +1,39 @@
+{% extends "navigation/base.html" %}
+{% load static %}
+{% block title %}Глазурі плитки{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/section_detail.css' %}">
+    <div class="container-fluid"> <!-- Зміна на container-fluid -->
+        <h1 class="text-center my-4">Довідник глазурі плитки</h1>
+        <form method="get" class="search-form">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Геометрія плитки" 
+                       value="{{ request.GET.search }}">
+                <button type="submit" class="btn btn-primary">Шукати</button>
+            </div>
+        </form>
+        <div class="table-container">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="col-id">Код</th>
+                        <th class="col-name">Віддтінок</th>
+                        <th class="col-description">Опис</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for glaze in page_obj %}
+                    <tr>
+                        <td>{{ glaze.id|default:"-" }}</td>
+                        <td>{{ glaze.name|default:"-" }}</td>
+                        <td>{{ glaze.description|default:"-" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% include "tiles/pagination_partial.html" %}
+</div>
+{% endblock %}

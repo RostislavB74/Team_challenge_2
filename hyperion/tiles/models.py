@@ -290,6 +290,9 @@ class Coats(models.Model):
 class Hues(models.Model):
     id = models.SmallIntegerField(primary_key=True, db_column="hue_id")
     name = models.CharField(max_length=255, db_column="hue")
+    description = models.CharField(
+        max_length=255, db_column="descr", blank=True, null=True
+    )
 
     class Meta:
         managed = False
@@ -322,6 +325,9 @@ class TileGlazes(models.Model):
         primary_key=True, db_column="tile_glaze_id"
     )  # Змінено з TinyIntegerField
     name = models.CharField(max_length=255, db_column="tile_glaze")
+    description = models.CharField(
+        max_length=255, db_column="descr", blank=True, null=True
+    )
 
     class Meta:
         managed = False
@@ -514,3 +520,22 @@ class Designs(models.Model):
                     "Неможливо видалити дизайн, який присутній у звітах."
                 )
         super().delete(*args, **kwargs)
+class ProductLabels(models.Model):
+    design_label_id = models.SmallIntegerField(
+        primary_key=True, db_column="design_label_id"
+    )
+    label_name=models.CharField(max_length=255, db_column="label_name")
+    file_name=models.CharField(max_length=255, db_column="file_name")
+    rows_on_page=models.SmallIntegerField(db_column="rows_on_leaf")
+    ean_13=models.BooleanField(db_column="ean13")
+    ean_128=models.BooleanField(db_column="ean128")
+    description=models.CharField(max_length=255, db_column="descr", blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = "c_design_label"
+        verbose_name = "Етикетка"
+        verbose_name_plural = "Етикетки"
+
+    def __str__(self):
+        return self.label_name

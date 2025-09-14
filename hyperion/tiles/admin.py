@@ -1,6 +1,9 @@
 from django.contrib import admin
 from .models import *
 
+@admin.register(ProductLabels)
+class ProductLabelAdmin(admin.ModelAdmin):
+    list_display = ("design_label_id", "label_name", "file_name", "rows_on_page", "ean_13", "ean_128", "description")
 @admin.register(CaliberTiles)
 class CaliberTileAdmin(admin.ModelAdmin):
     list_display = ("caliber", "description")
