@@ -7,7 +7,13 @@ from .models import (
     TileTypes,
     ProductTypes,
     ProductGroups,
+    TileGeometry,
     Quality,
+    # Color,
+    TileGlazes,
+    Hues,
+    ProductLabels,
+    # Author
 )
 from django.http import JsonResponse
 from django.template.loader import render_to_string
@@ -229,8 +235,37 @@ def ProductGroupsListView(request):
 
 
 def ProductQualityListView(request):
-    product_groups = Quality.objects.all()
-    paginator = Paginator(product_groups, 50)  # 50 записів на сторінку
+    product_quality = Quality.objects.all()
+    paginator = Paginator(product_quality, 50)  # 50 записів на сторінку
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return render(request, "tiles/product_quality_list.html", {"page_obj": page_obj})
+
+
+def ProductGeometryListView(request):
+    product_geometry = TileGeometry.objects.all()
+    paginator = Paginator(product_geometry, 50)  # 50 записів на сторінку
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "tiles/geometry_tiles_list.html", {"page_obj": page_obj})
+
+def ProductGlazeListView(request):
+    product_glaze = TileGlazes.objects.all()
+    paginator = Paginator(product_glaze, 50)  # 50 записів на сторінку
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "tiles/glaze_tiles_list.html", {"page_obj": page_obj})
+
+def ProductHuesListView(request):
+    product_hues = Hues.objects.all()
+    paginator = Paginator(product_hues, 50)  # 50 записів на сторінку
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "tiles/hues_tiles_list.html", {"page_obj": page_obj})
+
+def ProductLabelsListView(request):
+    product_labels = ProductLabels.objects.all()
+    paginator = Paginator(product_labels, 50)  # 50 записів на сторінку
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "tiles/labels_product_list.html", {"page_obj": page_obj})
