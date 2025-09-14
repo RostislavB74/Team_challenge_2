@@ -13,6 +13,7 @@ urlpatterns = [
     path("geometry/", views.ProductGeometryListView, name="geometry_tiles_list"),  # path("geometry/", views.ProductGeometryListView, name="geometry_list"),
     path("glaze/", views.ProductGlazeListView, name="glaze_tiles_list"),
     path("hues/", views.ProductHuesListView, name="hues_tiles_list"),
+    path("labels/", views.ProductLabelsListView, name="labels_product_list"),
     # path('designs/', tile_list, name='tile_list'),
     # path('caliber/', caliber_tile_list, name='caliber_tile_list'),
 ]

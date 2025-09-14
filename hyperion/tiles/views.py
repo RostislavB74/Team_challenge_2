@@ -12,6 +12,7 @@ from .models import (
     # Color,
     TileGlazes,
     Hues,
+    ProductLabels,
     # Author
 )
 from django.http import JsonResponse
@@ -261,3 +262,10 @@ def ProductHuesListView(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return render(request, "tiles/hues_tiles_list.html", {"page_obj": page_obj})
+
+def ProductLabelsListView(request):
+    product_labels = ProductLabels.objects.all()
+    paginator = Paginator(product_labels, 50)  # 50 записів на сторінку
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "tiles/labels_product_list.html", {"page_obj": page_obj})
