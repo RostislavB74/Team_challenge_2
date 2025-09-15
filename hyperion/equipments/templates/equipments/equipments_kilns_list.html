@@ -1,0 +1,65 @@
+{% extends "navigation/base.html" %}
+
+{% block title %}Печі на лініях{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-center my-4">Печі на лініях</h1>
+    <form method="get">
+        <input type="text" name="search" placeholder="Пошук..." value="{{ search|default:'' }}">
+        <button type="submit">🔍</button>
+    </form>
+    <div class="flex-container">
+        <div class="scrollable-panel">
+            <table id="departments" class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <a href="?sort=kiln_id&dir={% if sort == 'kiln_id' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
+                                Код
+                                {% if sort == 'id' %}
+                                    {% if dir == 'asc' %}↑{% else %}↓{% endif %}
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?sort=kiln_name&dir={% if sort == 'kiln_name' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
+                                Піч
+                                {% if sort == 'name' %}
+                                    {% if dir == 'asc' %}↑{% else %}↓{% endif %}
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?sort=production_line_id&dir={% if sort == 'production_line_id' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
+                                Лінія
+                                {% if sort == 'production_line_id' %}
+                                    {% if dir == 'asc' %}↑{% else %}↓{% endif %}
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th style="width: 200px;">Обладнання</th>
+                        <th style="width: 100px;">№ Печі</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for kilns in page_obj %}
+                        <tr>
+                            <td>{{ kilns.kiln_id|default:"-" }}</td>
+                            <td>{{ kilns.kiln_name|default:"-" }}</td>
+                            <td>{{ kilns.production_line_id|default:"-" }}</td>
+                            <td>{{ kilns.hardware_id|default:"-" }}</td>
+                            <td>{{ kilns.kiln_number|default:"-" }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4">Немає даних</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% include "tiles/pagination_partial.html" %}
+    </div>
+</div>
+{% endblock %}

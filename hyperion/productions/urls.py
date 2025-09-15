@@ -32,9 +32,5 @@ urlpatterns = [
         views.ProductionLinesAssignListView,
         name="production_lines_assignment",
     ),
-    # path(
-    #     "lines-assignment/",
-    #     ProductionLinesAssignListView.as_view(),
-    #     name="production_lines_assignment",
-    # ),
+    
 ]
