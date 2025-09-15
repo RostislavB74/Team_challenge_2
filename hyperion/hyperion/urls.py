@@ -10,6 +10,7 @@ urlpatterns = [
     path("mysite/", my_admin_site.urls),
     path("navigation/", include("navigation.urls", namespace="navigation")),
     path("tiles/", include("tiles.urls", namespace="tiles")),
+    path("equipments/", include("equipments.urls", namespace="equipments")),
     path("productions/", include("productions.urls", namespace="productions")),
     path("materials/", include("materials.urls", namespace="materials")),
     path("units/", include("units.urls", namespace="units")),
