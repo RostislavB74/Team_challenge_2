@@ -24,6 +24,7 @@ class Production_lines(models.Model):
         max_length=20, db_column="production_line"
     )  # Виправлено на CharField
     productivity = models.SmallIntegerField(db_column="productivity")
+    cert_group = models.SmallIntegerField(db_column="cert_group")
     internal_number = models.SmallIntegerField(db_column="internal_number")
     report_group_id = models.SmallIntegerField(db_column="report_group_id")
     order = models.SmallIntegerField(db_column="in_order")

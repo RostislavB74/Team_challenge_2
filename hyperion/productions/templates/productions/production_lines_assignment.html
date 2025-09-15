@@ -1,0 +1,115 @@
+{% extends "navigation/base.html" %}
+
+{% block title %}Призначення ліній{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-center my-4">Призначення ліній</h1>
+    <form method="get">
+        <input type="text" name="search" placeholder="Пошук..." value="{{ search|default:'' }}">
+        <button type="submit">🔍</button>
+    </form>
+    <div class="flex-container">
+        <div class="scrollable-panel">
+            <table id="departments" class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <a href="?sort=id&dir={% if sort == 'id' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
+                                Код
+                                {% if sort == 'id' %}
+                                    {% if dir == 'asc' %}↑{% else %}↓{% endif %}
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?sort=name&dir={% if sort == 'name' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
+                                Тип продукції
+                                {% if sort == 'name' %}
+                                    {% if dir == 'asc' %}↑{% else %}↓{% endif %}
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?sort=production_line_id&dir={% if sort == 'production_line_id' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
+                                Лінія
+                                {% if sort == 'production_line_id' %}
+                                    {% if dir == 'asc' %}↑{% else %}↓{% endif %}
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th style="width: 200px;">Продуктивність, м²</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for assignment in page_obj %}
+                        <tr>
+                            <td>{{ assignment.id|default:"-" }}</td>
+                            <td>{{ assignment.name|default:"-" }}</td>
+                            <td>{{ assignment.production_line_id|default:"-" }}</td>
+                            <td>{{ assignment.productivity|default:"-" }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4">Немає даних</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% include "tiles/pagination_partial.html" %}
+    </div>
+</div>
+{% endblock %}
+{% comment %} 
+{% extends "navigation/base.html" %}
+
+{% block title %}Призначення ліній{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-center my-4">Призначення ліній</h1>
+   <form method="get">
+    <input type="text" name="search" placeholder="Пошук..." value="{{ search }}">
+    <button type="submit">🔍</button>
+<div class="flex-container">
+ 
+  <div class="scrollable-panel">
+    <table id="departments" class="table">
+      <thead>
+        <tr>
+          <th>
+              <a href="?sort=id&dir={% if sort == 'id' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                  Код
+              </a>
+          </th>
+          <th>
+              <a href="?sort=name&dir={% if sort == 'name' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                  Тип продукції, що випускається на лінії
+              </a>
+          </th>
+          <th>
+              <a href="?sort=production_line_id&dir={% if sort == 'production_line_id' and dir != 'desc' %}desc{% else %}asc{% endif %}">
+                  Лінія
+              </a>
+          </th>
+          <th style="width: 200px;">Продуктивність, м2</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for assignments in page_obj %}
+                    <tr>
+                        <td>{{  assignments.id|default:"-" }}</td>
+                        <td>{{  assignments.name|default:"-" }}</td>
+                        <td>{{  assignments.production_line_id|default:"-" }}</td>
+                        <td>{{  assignments.productivity|default:"-" }}</td>
+                    </tr>
+                    {% endfor %}
+      </tbody>
+    </table>
+      </div>
+     {% include "tiles/pagination_partial.html" %}
+  </div>
+    </div>
+{% endblock %} {% endcomment %}
