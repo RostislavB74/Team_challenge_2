@@ -4,7 +4,8 @@ from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 from django.views.generic import ListView
 from django.db.models import Q
-from .models import Shifts
+from .models import Shifts, Departments
+from utils.utils import list_view
 
 
 def ShiftsListView(request):
@@ -37,6 +38,13 @@ def ShiftsListView(request):
     }
     return render(request, "company_structure/shifts_list.html", context)
 
+
+def DepartmentsListView(request):
+    departments = Departments.objects.all()
+    paginator = Paginator(departments, 50)  # 50 записів на сторінку
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "company_structure/departments_list.html", {"page_obj": page_obj})
 
 
 # def ShiftsListView(request):

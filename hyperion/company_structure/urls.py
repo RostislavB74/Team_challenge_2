@@ -2,7 +2,6 @@ from django.urls import path
 from . import views
 
 
-
 app_name = "company_structure"
 
 
@@ -11,5 +10,10 @@ urlpatterns = [
         "shifts/",
         views.ShiftsListView,
         name="shifts_list",
+    ),
+    path(
+        "departments/",
+        views.DepartmentsListView,
+        name="departments_list",
     ),
 ]
