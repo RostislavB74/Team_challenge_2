@@ -1,0 +1,44 @@
+{% extends "navigation/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/master_detail.css' %}">
+<div class="flex-container">
+ 
+  <div class="scrollable-panel">
+    <h3>Лінії виробництва</h3>
+    <table id="departments" class="table">
+      <thead>
+        <tr>
+          <th style="width: 60px;">Код</th>
+          <th style="width: 200px;">Назва лінії</th>
+          <th style="width: 140px;">Продуктивність</th>
+          <th style="width: 100px;">Група для партій</th>
+          <th style="width: 100px;">Внутр. номер</th>
+          <th style="width: 80px;">Група</th>
+          <th style="width: 100px;">Порядок</th>
+          <th style="width: 100px;">Дільниця</th>
+          <th style="width: 100px;">№ Групування</th>
+          <th style="width: 80px;">Цех</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for lines in page_obj %}
+                    <tr>
+                        <td>{{ lines.id|default:"-" }}</td>
+                        <td>{{ lines.name|default:"-" }}</td>
+                        <td>{{ lines.productivity|default:"-" }}</td>
+                        <td>{{ lines.cert_group|default:"-" }}</td>
+                        <td>{{ lines.internal_number|default:"-" }}</td>
+                        <td>{{ lines.report_group_id|default:"-" }}</td>
+                        <td>{{ lines.order|default:"-" }}</td>
+                        <td>{{ lines.production_section_id|default:"-" }}</td>
+                        <td>{{ lines.summarize_number|default:"-" }}</td>
+                        <td>{{ lines.department_id|default:"-" }}</td>
+                    </tr>
+                    {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

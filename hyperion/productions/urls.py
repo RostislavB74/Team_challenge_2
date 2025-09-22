@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import ProductionLinesAssignListView
 
 
 app_name = "productions"
@@ -21,4 +22,15 @@ urlpatterns = [
         views.ProductionLineGroupsListView,
         name="production_line_groups_list",
     ),
+    path(
+        "production-lines/",
+        views.ProductionLinesListView,
+        name="production_lines_list",
+    ),
+    path(
+        "lines-assignment/",
+        views.ProductionLinesAssignListView,
+        name="production_lines_assignment",
+    ),
+    
 ]

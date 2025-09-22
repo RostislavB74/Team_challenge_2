@@ -34,13 +34,13 @@
                             <a class="dropdown-item dropdown-toggle" href="#">Виробництво</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{% url 'productions:production_line_groups_list' %}">Групи виробничих ліній</a></li>
-                                <li><a class="dropdown-item" href="#">Лінії виробництва</a></li>
-                                <li><a class="dropdown-item" href="#">Призначення ліній</a></li>
-                                <li><a class="dropdown-item" href="#">Печі</a></li>
-                                <li><a class="dropdown-item" href="#">Зміни</a></li>
+                                <li><a class="dropdown-item" href="{% url 'productions:production_lines_list' %}">Лінії виробництва</a></li>
+                                <li><a class="dropdown-item" href="{% url 'productions:production_lines_assignment' %}">Призначення ліній</a></li>
+                                <li><a class="dropdown-item" href="{% url 'equipments:equipments_kilns_list' %}">Печі</a></li>
+                                <li><a class="dropdown-item" href="{% url 'company_structure:shifts_list' %}">Зміни</a></li>
                                 <li><a class="dropdown-item" href="#">Причини зупинок</a></li>
                                 <li><a class="dropdown-item" href="#">Опис зупинок</a></li>
-                                <li><a class="dropdown-item" href="#">Цеха</a></li>
+                                <li><a class="dropdown-item" href="{% url 'company_structure:departments_list' %}">Цеха</a></li>
                                 <li><a class="dropdown-item" href="{% url 'productions:production_sections_list' %}">Дільниці</a></li>
                                 <li><a class="dropdown-item" href="#">Лінії підготовки</a></li>
                                 <li><a class="dropdown-item" href="#">Групи обладнання</a></li>

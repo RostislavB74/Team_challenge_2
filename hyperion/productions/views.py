@@ -3,9 +3,54 @@ from company_structure.models import Departments, Department_sections
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
+from django.views.generic import ListView
+from django.db.models import Q
+
 
 from productions.models import ProductionSections, Production_line_groups, Production_lines, Snap_types_to_lines, StoppageCausesTypes, StoppageCauses
-# from company_structure.models import Department_sections
+# product/views.py
+from django.shortcuts import render
+from django.core.paginator import Paginator
+from django.db.models import Q
+from .models import Snap_types_to_lines
+
+
+def ProductionLinesAssignListView(request):
+    queryset = Snap_types_to_lines.objects.all()
+    search = request.GET.get("search", "")
+    if search:
+        queryset = queryset.filter(
+            Q(name__name__icontains=search) |  # Пошук по полю name моделі TileTypes
+            Q(production_line_id__name__icontains=search) #Змінено на прямий пошук по production_line_id
+        )
+    sort = request.GET.get("sort", "id")
+    direction = request.GET.get("dir", "asc")
+    if sort in ["id", "name", "production_line_id"]:
+        if direction == "desc":
+            sort = f"-{sort}"
+    else:
+        sort = "id"
+    queryset = queryset.order_by(sort)
+    paginator = Paginator(queryset, 50)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    context = {
+        "page_obj": page_obj,
+        "sort": sort.lstrip("-"),
+        "dir": direction,
+        "search": search,
+    }
+    return render(request, "productions/production_lines_assignment.html", context)
+    
+
+def ProductionLinesListView(request):
+    production_line_groups = Production_lines.objects.all()
+    paginator = Paginator(production_line_groups, 50)  # 50 записів на сторінку
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(
+        request, "productions/production_lines_list.html", {"page_obj": page_obj}
+    )
 
 
 def ProductionLineGroupsListView(request):
