@@ -237,3 +237,5 @@ STATIC_ROOT = BASE_DIR / "staticfiles"  # Для collectstatic у продакш
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+MEDIA_ROOT = r"C:\Atem"
+MEDIA_URL = "/files/"
