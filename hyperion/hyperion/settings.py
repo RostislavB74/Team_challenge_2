@@ -106,19 +106,31 @@ TEMPLATES[0]['OPTIONS']['context_processors'] += [
 
 # Database
 DATABASES = {
-    'default': {
-        'ENGINE': 'mssql',
-        'NAME': env('DATABASE_NAME'),
-        'USER': env('DATABASE_USER', default=''),
-        'PASSWORD': env('DATABASE_PASSWORD', default=''),
-        'HOST': env('DATABASE_HOST'),
-        'PORT': env('DATABASE_PORT', default='1433'),
-        'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server', #'SQL Server Native Client 10.0',
-            'trusted_connection': 'yes', #env.bool('DATABASE_TRUSTED_CONNECTION', default=False),
+    "default": {
+        "ENGINE": "mssql",
+        "NAME": env("DATABASE_NAME"),
+        "USER": env("DATABASE_USER", default=""),
+        "PASSWORD": env("DATABASE_PASSWORD", default=""),
+        "HOST": env("DATABASE_HOST"),
+        "PORT": env("DATABASE_PORT", default="1433"),
+        "OPTIONS": {
+            "driver": "ODBC Driver 17 for SQL Server",  #'SQL Server Native Client 10.0',
+            "trusted_connection": "yes",  # env.bool('DATABASE_TRUSTED_CONNECTION', default=False),
         },
-    }
+    },
+    "zip_db": {  # Перенесена база з Access (для ЗІП, фірм, обладнання тощо)
+        "ENGINE": "django.db.backends.mssql",
+        "NAME": "atem_zip",
+        "USER": env("DATABASE_USER", default=""),
+        "PASSWORD": env("DATABASE_PASSWORD", default=""),
+        "HOST": env("DATABASE_HOST"),
+        "PORT": env("DATABASE_PORT", default="1433"),
+        "OPTIONS": {
+            "driver": "ODBC Driver 17 for SQL Server",
+        },
+    },
 }
+DATABASE_ROUTERS = ["hyperion.routers.MultiDBRouter"]
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 # DATABASES = {
 #     'default': {
