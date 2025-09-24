@@ -18,6 +18,16 @@ from .models import (
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 
+import os
+from django.http import HttpResponse
+from django.views.static import serve
+import os
+from django.shortcuts import redirect
+from django.conf  import settings
+from django import forms
+from django.contrib.auth.decorators import login_required
+from .forms import UploadLabelForm
+
 
 def TileListView(request):
     sort = request.GET.get("sort", "design_ean")  # поле для сортування
@@ -269,3 +279,36 @@ def ProductLabelsListView(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return render(request, "tiles/labels_product_list.html", {"page_obj": page_obj})
+
+
+@login_required
+def serve_label_file(request, file_name):
+    base_dir = settings.MEDIA_ROOT if hasattr(settings, "MEDIA_ROOT") else r"C:\Atem"
+    folders = ["reports", "labels"]  # Додай усі папки в C:\Atem
+    for folder in folders:
+        file_path = os.path.join(base_dir, folder, file_name)
+        if os.path.exists(file_path):
+            return serve(
+                request, os.path.join(folder, file_name), document_root=base_dir
+            )
+        else:
+            print(f"Файл не знайдено: {file_path}")  # Для дебагу
+    return HttpResponse("Файл не знайдено", status=404)
+
+
+@login_required
+def upload_label_file(request):
+    if request.method == "POST":
+        form = UploadLabelForm(request.POST, request.FILES)
+        if form.is_valid():
+            file = request.FILES["file"]
+            file_name = form.cleaned_data["file_name"]
+            # Зберігаємо в одну з папок, наприклад, reports
+            destination = os.path.join(r"C:\Atem\reports", file_name)
+            with open(destination, "wb+") as f:
+                for chunk in file.chunks():
+                    f.write(chunk)
+            return redirect("ProductLabelsListView")  # Заміни на свій URL
+    else:
+        form = UploadLabelForm()
+    return render(request, "upload_form.html", {"form": form})
