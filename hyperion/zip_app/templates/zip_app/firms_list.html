@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <title>Фірми</title>
+</head>
+<body>
+    <h1>Список фірм</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Назва</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for firm in firms %}
+                <tr>
+                    <td>{{ firm.фирма|default:"-" }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
