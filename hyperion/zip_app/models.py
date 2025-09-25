@@ -43,6 +43,9 @@ class Orders(models.Model):
         managed = False
         db_table = 'ВЫП_ЗАКАЗОВ'
 
+    def __str__(self):
+        return str(self.заказ_field)
+
 
 class Catalogues(models.Model):
     код_кат = models.AutoField(db_column='Код кат', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -118,12 +121,13 @@ class GeneralIncome(models.Model):
 
 class Sections(models.Model):
     field_раздел = models.AutoField(db_column='№Раздел', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it started with '_'.
-    раздел = models.CharField(db_column='РАЗДЕЛ', max_length=255, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    name = models.CharField(db_column='РАЗДЕЛ', max_length=255, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'РАЗДЕЛ'
-
+    def __str__(self):
+        return self.name
 
 class CurrentOrders(models.Model):
     код = models.AutoField(db_column='Код', primary_key=True)  # Field name made lowercase.
@@ -154,9 +158,15 @@ class EquipmentsZip(models.Model):
 
 
 class Firms(models.Model):
-    код_фирмы = models.AutoField(db_column='Код фирмы', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    фирма = models.CharField(max_length=60, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)
-    field_раздел = models.ForeignKey(
+    firms_id = models.AutoField(db_column='Код фирмы', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    name = models.CharField(
+        max_length=50,
+        db_column="фирма",
+        db_collation="Cyrillic_General_CI_AS",
+        blank=True,
+        null=True,
+    )
+    section = models.ForeignKey(
         "Sections", on_delete=models.CASCADE, db_column="№Раздел", blank=True, null=True
     )  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it started with '_'.
 
@@ -166,4 +176,4 @@ class Firms(models.Model):
         app_label = "zip_app"
 
     def __str__(self):
-        return self.фирма
+        return self.name

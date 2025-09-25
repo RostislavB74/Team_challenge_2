@@ -55,12 +55,9 @@
                                 <li><a class="dropdown-item" href="{% url 'materials:material_kinds_list' %}">Види матеріалів</a></li>
                                 <li><a class="dropdown-item" href="{% url 'materials:material_types_list' %}">Типи матеріалів</a></li>
                                 <li><a class="dropdown-item" href="{% url 'materials:material_groups_list' %}">Групи матеріалів</a></li>
-                                {% comment %} <li><a class="dropdown-item" href="#">Технологічні групи сировини</a></li> {% endcomment %}
                                 <li><a class="dropdown-item" href="{% url 'materials:materials_list' %}">Матеріали</a></li>
-                                {% comment %} <li><a class="dropdown-item" href="#">Сировина по технологічним групах</a></li> {% endcomment %}
                                 <li><a class="dropdown-item" href="{% url 'materials:material_units_list' %}">Од. Вим. матеріалів</a></li>
                                 <li><a class="dropdown-item" href="{% url 'materials:materials_master_detail' %}">Прив'язка матеріалів до виробництва</a></li>
-                                {% comment %} <li><a class="dropdown-item" href="#">Причини повернення сировини</a></li> {% endcomment %}
                             </ul>
                         </li>
                         <li><a class="dropdown-item" href="#">Технологи</a></li>
@@ -171,6 +168,15 @@
                         <li><a class="dropdown-item" href="#">Опис  F1</a></li>
                         <li><a class="dropdown-item" href="#">Навчальне відео</a></li>
                         <li><a class="dropdown-item" href="#">Про програму</a></li>
+                    </ul>
+                </li>
+                <!--Zip -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Запчастини</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'zip_app:firms_list' %}">Фірми</a></li>
+                        <li><a class="dropdown-item" href="#">Каталог</a></li>
+                        <li><a class="dropdown-item" href="#">Виконання замовлень</a></li>
                     </ul>
                 </li>
                 <!-- Довідка -->
