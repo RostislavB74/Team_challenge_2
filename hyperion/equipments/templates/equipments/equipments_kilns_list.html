@@ -17,7 +17,9 @@
                         <th>
                             <a href="?sort=kiln_id&dir={% if sort == 'kiln_id' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
                                 Код
+
                                 {% if sort == 'kiln_id' %}
+
                                     {% if dir == 'asc' %}↑{% else %}↓{% endif %}
                                 {% endif %}
                             </a>
@@ -25,7 +27,9 @@
                         <th>
                             <a href="?sort=kiln_name&dir={% if sort == 'kiln_name' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
                                 Піч
+
                                 {% if sort == 'kiln_name' %}
+
                                     {% if dir == 'asc' %}↑{% else %}↓{% endif %}
                                 {% endif %}
                             </a>
