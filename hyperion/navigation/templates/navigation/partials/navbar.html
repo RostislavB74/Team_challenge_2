@@ -37,10 +37,12 @@
                                 <li><a class="dropdown-item" href="{% url 'productions:production_lines_list' %}">Лінії виробництва</a></li>
                                 <li><a class="dropdown-item" href="{% url 'productions:production_lines_assignment' %}">Призначення ліній</a></li>
                                 <li><a class="dropdown-item" href="{% url 'equipments:equipments_kilns_list' %}">Печі</a></li>
-                                <li><a class="dropdown-item" href="#">Зміни</a></li>
+
+                                <li><a class="dropdown-item" href="{% url 'company_structure:shifts_list' %}">Зміни</a></li>
+
                                 <li><a class="dropdown-item" href="#">Причини зупинок</a></li>
                                 <li><a class="dropdown-item" href="#">Опис зупинок</a></li>
-                                <li><a class="dropdown-item" href="#">Цеха</a></li>
+                                <li><a class="dropdown-item" href="{% url 'company_structure:departments_list' %}">Цеха</a></li>
                                 <li><a class="dropdown-item" href="{% url 'productions:production_sections_list' %}">Дільниці</a></li>
                                 <li><a class="dropdown-item" href="#">Лінії підготовки</a></li>
                                 <li><a class="dropdown-item" href="#">Групи обладнання</a></li>
@@ -55,12 +57,9 @@
                                 <li><a class="dropdown-item" href="{% url 'materials:material_kinds_list' %}">Види матеріалів</a></li>
                                 <li><a class="dropdown-item" href="{% url 'materials:material_types_list' %}">Типи матеріалів</a></li>
                                 <li><a class="dropdown-item" href="{% url 'materials:material_groups_list' %}">Групи матеріалів</a></li>
-                                {% comment %} <li><a class="dropdown-item" href="#">Технологічні групи сировини</a></li> {% endcomment %}
                                 <li><a class="dropdown-item" href="{% url 'materials:materials_list' %}">Матеріали</a></li>
-                                {% comment %} <li><a class="dropdown-item" href="#">Сировина по технологічним групах</a></li> {% endcomment %}
                                 <li><a class="dropdown-item" href="{% url 'materials:material_units_list' %}">Од. Вим. матеріалів</a></li>
                                 <li><a class="dropdown-item" href="{% url 'materials:materials_master_detail' %}">Прив'язка матеріалів до виробництва</a></li>
-                                {% comment %} <li><a class="dropdown-item" href="#">Причини повернення сировини</a></li> {% endcomment %}
                             </ul>
                         </li>
                         <li><a class="dropdown-item" href="#">Технологи</a></li>
@@ -171,6 +170,15 @@
                         <li><a class="dropdown-item" href="#">Опис  F1</a></li>
                         <li><a class="dropdown-item" href="#">Навчальне відео</a></li>
                         <li><a class="dropdown-item" href="#">Про програму</a></li>
+                    </ul>
+                </li>
+                <!--Zip -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Запчастини</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'zip_app:firms_list' %}">Фірми</a></li>
+                        <li><a class="dropdown-item" href="#">Каталог</a></li>
+                        <li><a class="dropdown-item" href="#">Виконання замовлень</a></li>
                     </ul>
                 </li>
                 <!-- Довідка -->

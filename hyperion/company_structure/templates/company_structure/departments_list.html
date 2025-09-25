@@ -1,0 +1,39 @@
+{% extends "navigation/base.html" %}
+{% load static %}
+{% block title %}Виробничі цехи{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/section_detail.css' %}">
+    <div class="container-fluid"> <!-- Зміна на container-fluid -->
+        <h1 class="text-center my-4">Виробничі цехи</h1>
+        <form method="get" class="search-form">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Цех" 
+                       value="{{ request.GET.search }}">
+                <button type="submit" class="btn btn-primary">Шукати</button>
+            </div>
+        </form>
+        <div class="table-container">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="col-department_id">Код</th>
+                        <th class="col-name">Назва цеху</th>
+                        <th class="col-use_kiln_press">В звіт пічі та преси</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for departments in page_obj %}
+                    <tr>
+                        <td>{{ departments.department_id|default:"-" }}</td>
+                        <td>{{ departments.name|default:"-" }}</td>
+                        <td>{{ departments.use_kiln_press|default:"-" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% include "tiles/pagination_partial.html" %}
+</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "navigation/base.html" %}
+
+{% block title %}Зміни{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-center my-4">Зміни</h1>
+    <form method="get">
+        <input type="text" name="search" placeholder="Пошук..." value="{{ search|default:'' }}">
+        <button type="submit">🔍</button>
+    </form>
+    <div class="flex-container">
+        <div class="scrollable-panel">
+            <table id="departments" class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <a href="?sort=shift_id&dir={% if sort == 'shift_id' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
+                                Код
+                                {% if sort == 'shift_id' %}
+                                    {% if dir == 'asc' %}↑{% else %}↓{% endif %}
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?sort=name&dir={% if sort == 'name' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
+                                Зміна
+                                {% if sort == 'name' %}
+                                    {% if dir == 'asc' %}↑{% else %}↓{% endif %}
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?sort=shift_foreman&dir={% if sort == 'shift_foreman' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
+                                Мастер зміни
+                                {% if sort == 'shift_foreman' %}
+                                    {% if dir == 'asc' %}↑{% else %}↓{% endif %}
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?sort=alias&dir={% if sort == 'alias' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
+                                Коротко
+                                {% if sort == 'alias' %}
+                                    {% if dir == 'asc' %}↑{% else %}↓{% endif %}
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?sort=line_group_id&dir={% if sort == 'line_group_id' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
+                                Група ліній
+                                {% if sort == 'line_group_id' %}
+                                    {% if dir == 'asc' %}↑{% else %}↓{% endif %}
+                                {% endif %}
+                            </a>
+                        </th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for shifts in page_obj %}
+                        <tr>
+                            <td>{{ shifts.shift_id|default:"-" }}</td>
+                            <td>{{ shifts.name|default:"-" }}</td>
+                            <td>{{ shifts.shift_foreman|default:"-" }}</td>
+                            <td>{{ shifts.alias|default:"-" }}</td>
+                            <td>{{ shifts.line_group_id|default:"-" }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4">Немає даних</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% include "tiles/pagination_partial.html" %}
+    </div>
+</div>
+{% endblock %}

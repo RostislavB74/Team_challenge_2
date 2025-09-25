@@ -7,39 +7,43 @@
     <h1 class="text-center my-4">Етикетки</h1>
     <form method="get" class="search-form">
         <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="Групи плитки"
+            <input type="text" name="search" class="form-control" placeholder="Назвав файлу"
                    value="{{ request.GET.search }}">
             <button type="submit" class="btn btn-primary">Шукати</button>
         </div>
     </form>
     <div class="table-container">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                     <th class="col-label_id">Код</th>
-                        <th class="col-label_name">Назва</th>
-                        <th class="col-rows">На листі</th>
-                        <th class="col-ean13">EAN 13</th>
-                        <th class="col-ean128">EAN 128</th>
-                        <th class="col-description">Опис</th>
-                    
-                </tr>          
-            </thead>
-            <tbody>
-                {% for label in page_obj %}
-                <tr>
-                    <td>{{ label.design_label_id|default:"-" }}</td>
-                    <td>{{ label.label_name|default:"-" }}</td>
-                    <td>{{ label.file_name|default:"-" }}</td>
-                    <td>{{ label.rows_on_page|default:"-" }}</td>
-                    <td>{% if label.ean_13 %}✅{% endif %}</td>
-                    <td>{% if label.ean_128 %}✅{% endif %}</td>
-                    <td>{{ label.description|default:"-" }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% include "tiles/pagination_partial.html" %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="col-label_id">Код</th>
+                <th class="col-label_name">Назва</th>
+                <th class="col-file_name">Назва</th>
+                <th class="col-rows">На листі</th>
+                <th class="col-ean13">EAN 13</th>
+                <th class="col-ean128">EAN 128</th>
+                <th class="col-description">Опис</th>
+            </tr>          
+        </thead>
+        <tbody>
+            {% for label in page_obj %}
+            <tr>
+                <td>{{ label.design_label_id|default:"-" }}</td>
+                <td>{{ label.label_name|default:"-" }}</td>
+                <td>
+                    {% if label.file_name %}
+                        <a href="{% url 'tiles:serve_label_file' file_name=label.file_name %}" target="_blank">{{ label.file_name }}</a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>{{ label.rows_on_page|default:"-" }}</td>
+                <td>{% if label.ean_13 %}✅{% endif %}</td>
+                <td>{% if label.ean_128 %}✅{% endif %}</td>
+                <td>{{ label.description|default:"-" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}
