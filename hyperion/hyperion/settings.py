@@ -62,6 +62,8 @@ INSTALLED_APPS = [
     "journals",
     "navigation",
     "debug_toolbar",
+
+    "zip_app"
 ]
 
 MIDDLEWARE = [
@@ -119,7 +121,7 @@ DATABASES = {
         },
     },
     "zip_db": {  # Перенесена база з Access (для ЗІП, фірм, обладнання тощо)
-        "ENGINE": "django.db.backends.mssql",
+        "ENGINE": "mssql",
         "NAME": "atem_zip",
         "USER": env("DATABASE_USER", default=""),
         "PASSWORD": env("DATABASE_PASSWORD", default=""),

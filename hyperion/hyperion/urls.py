@@ -36,6 +36,7 @@ urlpatterns = [
         views.delete_row,
         name="delete_row",
     ),
+    path("zip/", include("zip_app.urls")),
 ]
 if "debug_toolbar" in settings.INSTALLED_APPS:
     urlpatterns += [path("__debug__/", include("debug_toolbar.urls"))]

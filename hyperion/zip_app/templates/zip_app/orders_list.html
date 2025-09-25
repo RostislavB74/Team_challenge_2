@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <title>Замовлення</title>
+</head>
+<body>
+    <h1>Список замовлень</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID замовлення</th>
+                <th>ID фірми</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.order_id|default:"-" }}</td>
+                    <td>{{ order.firm_id|default:"-" }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
