@@ -1,23 +1,40 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <title>Фірми</title>
-</head>
-<body>
-    <h1>Список фірм</h1>
-    <table>
+
+{% extends "navigation/base.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/table_styles.css' %}">
+{% block title %}Фірми{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-center my-4">Фірми</h1>
+    <form method="get" class="search-form">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Одиниці продукції"
+                   value="{{ request.GET.search }}">
+            <button type="submit" class="btn btn-primary">Шукати</button>
+        </div>
+    </form>
+   <div class="table-container">
+        <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Назва</th>
+                <th class="col-firms_id">Код</th>
+                <th class="col-name">Назва фірми</th>
+                <th class="col-section_id">Розділ</th>
+                
             </tr>
         </thead>
         <tbody>
             {% for firm in firms %}
                 <tr>
-                    <td>{{ firm.фирма|default:"-" }}</td>
+                    <td>{{ firm.firms_id|default:"-" }}</td>
+                    <td>{{ firm.name|default:"-" }}</td>
+                    <td>{{ firm.section|default:"-" }}</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+    </div>
+    {% include "tiles/pagination_partial.html" %}
+</div>
+{% endblock %}

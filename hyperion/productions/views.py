@@ -23,6 +23,21 @@ def ProductionLinesAssignListView(request):
             Q(name__name__icontains=search) |  # Пошук по полю name моделі TileTypes
             Q(production_line_id__name__icontains=search) #Змінено на прямий пошук по production_line_id
         )
+# =======
+# # from company_structure.models import Department_sections
+# def ProductionLinesAssignListView(request):
+#     # Базовий запит
+#     queryset = Snap_types_to_lines.objects.all()
+
+#     # Пошук
+#     search = request.GET.get("search", "")
+#     if search:
+#         queryset = queryset.filter(
+#             Q(name__icontains=search) | Q(production_line_id__icontains=search)
+#         )
+
+#     # Сортування
+# >>>>>>> dev
     sort = request.GET.get("sort", "id")
     direction = request.GET.get("dir", "asc")
     if sort in ["id", "name", "production_line_id"]:
@@ -42,6 +57,50 @@ def ProductionLinesAssignListView(request):
     }
     return render(request, "productions/production_lines_assignment.html", context)
     
+# =======
+#         queryset = queryset.order_by(sort)
+
+#     # Пагінація
+#     paginator = Paginator(queryset, 50)  # 50 записів на сторінку
+#     page_number = request.GET.get("page")
+#     page_obj = paginator.get_page(page_number)
+
+#     # Контекст для шаблону
+#     context = {
+#         "page_obj": page_obj,
+#         "sort": sort.lstrip("-"),  # Видаляємо '-' для шаблону
+#         "dir": direction,
+#         "search": search,
+#     }
+
+#     return render(request, "productions/production_lines_assignment.html", context)
+
+
+# # def ProductionLinesAssignListView(request):
+# #     production_line_assign = Snap_types_to_lines.objects.all()
+# #     paginator = Paginator(production_line_assign, 50)  # 50 записів на сторінку
+# #     page_number = request.GET.get("page")
+# #     page_obj = paginator.get_page(page_number)
+
+
+# #     return render(
+# #         request, "productions/production_lines_assignment.html", {"page_obj": page_obj}
+# #     )
+
+# # class ProductionLinesAssignListView(ListView):
+# #     model = Snap_types_to_lines
+# #     template_name = "production_lines_assignment.html"
+# #     context_object_name = "page_obj"
+# #     paginate_by = 10
+
+# # def get_context_data(self, **kwargs):
+# #     context = super().get_context_data(**kwargs)
+# #     context["sort"] = self.request.GET.get("sort", "id")
+# #     context["dir"] = self.request.GET.get("dir", "asc")
+# #     context["search"] = self.request.GET.get("search", "")
+# #     return context
+
+# >>>>>>> dev
 
 def ProductionLinesListView(request):
     production_line_groups = Production_lines.objects.all()
