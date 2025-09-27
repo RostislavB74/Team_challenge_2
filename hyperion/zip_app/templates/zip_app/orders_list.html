@@ -1,25 +1,58 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <title>Замовлення</title>
-</head>
-<body>
-    <h1>Список замовлень</h1>
-    <table>
+
+{% extends "navigation/base.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/table_styles.css' %}">
+{% block title %}Замовлення{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-center my-4">Замовлення</h1>
+    <form method="get" class="search-form">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Номер замовлення"
+                   value="{{ request.GET.search }}">
+            <button type="submit" class="btn btn-primary">Шукати</button>
+        </div>
+    </form>
+   <div class="table-container">
+        <table class="table table-bordered">
         <thead>
             <tr>
-                <th>ID замовлення</th>
-                <th>ID фірми</th>
+                <th class="col-id">Код</th>
+                <th class="col-order_id">Номер замовлення</th>
+                <th class="col-status">Статус</th>
+                <th class="col-order_date">Дата замовлення</th>
+                <th class="col-confirmation_date">Дата підтвердження</th>
+                <th class="col-order_amount">Сума</th>
+                <th class="col-note">Примітка</th>
+                <th class="col-date_receipt_order">Дата отримання</th>
+                <th class="col-cancellation_date">Дата скасування</th>
+                <th class="col-execution_status">Відмітка про виконання</th>
+                <th class="col-scheduled_delivery_date">Планова доставка</th>
+                
+                
             </tr>
         </thead>
         <tbody>
             {% for order in orders %}
                 <tr>
+                    <td>{{ order.id|default:"-" }}</td>
                     <td>{{ order.order_id|default:"-" }}</td>
-                    <td>{{ order.firm_id|default:"-" }}</td>
+                    <td>{{ order.status|default:"-" }}</td>
+                    <td>{{ order.order_date|default:"-" }}</td>
+                    <td>{{ order.confirmation_date|default:"-" }}</td>
+                    <td>{{ order.order_amount|default:"-" }}</td>
+                    <td>{{ order.note|default:"-" }}</td>
+                    <td>{{ order.date_receipt_order|default:"-" }}</td>
+                    <td>{{ order.cancellation_date|default:"-" }}</td>
+                    <td>{{ order.execution_status|default:"-" }}</td>
+                    <td>{{ order.scheduled_delivery_date|default:"-" }}</td>
+                    
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+    </div>
+    {% include "tiles/pagination_partial.html" %}
+</div>
+{% endblock %}
