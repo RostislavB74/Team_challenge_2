@@ -24,19 +24,17 @@ class Sysdiagrams(models.Model):
 
 
 class Orders(models.Model):
-    field_field = models.AutoField(db_column='№', primary_key=True)  # Field renamed to remove unsuitable characters. Field renamed because it started with '_'. Field renamed because it ended with '_'.
-    заказ_field = models.IntegerField(db_column='ЗАКАЗ_№', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
-    статус = models.CharField(db_column='СТАТУС', max_length=50, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)  # Field name made lowercase.
-    дата_форм = models.DateTimeField(db_column='ДАТА_ФОРМ', blank=True, null=True)  # Field name made lowercase.
-    дата_подтв = models.DateTimeField(db_column='ДАТА_ПОДТВ', blank=True, null=True)  # Field name made lowercase.
-    сумма_зак = models.DecimalField(db_column='СУММА_ЗАК', max_digits=19, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
-    примечание = models.TextField(db_column='ПРИМЕЧАНИЕ', db_collation='Cyrillic_General_CI_AS', blank=True, null=True)  # Field name made lowercase.
-    дата_приход = models.DateTimeField(db_column='ДАТА_ПРИХОД', blank=True, null=True)  # Field name made lowercase.
-    дата_анул = models.DateTimeField(db_column='ДАТА_АНУЛ', blank=True, null=True)  # Field name made lowercase.
-    индекс = models.BooleanField(db_column='ИНДЕКС', blank=True, null=True)  # Field name made lowercase.
-    выполнение = models.CharField(db_column='ВЫПОЛНЕНИЕ', max_length=50, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)  # Field name made lowercase.
-    у = models.BooleanField(db_column='У', blank=True, null=True)  # Field name made lowercase.
-    дата_план_дост = models.DateTimeField(db_column='ДАТА_ПЛАН_ДОСТ', blank=True, null=True)  # Field name made lowercase.
+    id = models.AutoField(db_column='№', primary_key=True)  # Field renamed to remove unsuitable characters. Field renamed because it started with '_'. Field renamed because it ended with '_'.
+    order_id = models.IntegerField(db_column='ЗАКАЗ_№', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    status = models.CharField(db_column='СТАТУС', max_length=50, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    order_date = models.DateTimeField(db_column='ДАТА_ФОРМ', blank=True, null=True)  # Field name made lowercase.
+    confirmation_date = models.DateTimeField(db_column='ДАТА_ПОДТВ', blank=True, null=True)  # Field name made lowercase.
+    order_amount = models.DecimalField(db_column='СУММА_ЗАК', max_digits=19, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
+    note = models.TextField(db_column='ПРИМЕЧАНИЕ', db_collation='Cyrillic_General_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    date_receipt_order = models.DateTimeField(db_column='ДАТА_ПРИХОД', blank=True, null=True)  # Field name made lowercase.
+    cancellation_date = models.DateTimeField(db_column='ДАТА_АНУЛ', blank=True, null=True)  # Field name made lowercase.
+    execution_status = models.CharField(db_column='ВЫПОЛНЕНИЕ', max_length=50, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    scheduled_delivery_date = models.DateTimeField(db_column='ДАТА_ПЛАН_ДОСТ', blank=True, null=True)  # Field name made lowercase.
     ssma_timestamp = models.TextField(db_column='SSMA_TimeStamp')  # Field name made lowercase. This field type is a guess.
 
     class Meta:
@@ -44,7 +42,7 @@ class Orders(models.Model):
         db_table = 'ВЫП_ЗАКАЗОВ'
 
     def __str__(self):
-        return str(self.заказ_field)
+        return str(self.order_id)
 
 
 class Catalogues(models.Model):
