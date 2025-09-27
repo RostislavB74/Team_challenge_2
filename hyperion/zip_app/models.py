@@ -33,7 +33,9 @@ class Orders(models.Model):
     note = models.TextField(db_column='ПРИМЕЧАНИЕ', db_collation='Cyrillic_General_CI_AS', blank=True, null=True)  # Field name made lowercase.
     date_receipt_order = models.DateTimeField(db_column='ДАТА_ПРИХОД', blank=True, null=True)  # Field name made lowercase.
     cancellation_date = models.DateTimeField(db_column='ДАТА_АНУЛ', blank=True, null=True)  # Field name made lowercase.
+    index = models.BooleanField(db_column='ИНДЕКС', blank=True, null=True)  # Field name made lowercase.
     execution_status = models.CharField(db_column='ВЫПОЛНЕНИЕ', max_length=50, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    y = models.BooleanField(db_column='У', blank=True, null=True)  # Field name made lowercase.
     scheduled_delivery_date = models.DateTimeField(db_column='ДАТА_ПЛАН_ДОСТ', blank=True, null=True)  # Field name made lowercase.
     ssma_timestamp = models.TextField(db_column='SSMA_TimeStamp')  # Field name made lowercase. This field type is a guess.
 
