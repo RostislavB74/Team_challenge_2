@@ -48,9 +48,9 @@ class Orders(models.Model):
 
 
 class Catalogues(models.Model):
-    код_кат = models.AutoField(db_column='Код кат', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    каталог = models.CharField(db_column='Каталог', max_length=80, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)  # Field name made lowercase.
-    код_оборудования = models.ForeignKey(
+    catalogue_id = models.AutoField(db_column='Код кат', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    name = models.CharField(db_column='Каталог', max_length=80, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    equipments_id = models.ForeignKey(
         "EquipmentsZip",
         on_delete=models.CASCADE,
         db_column="Код оборудования",
@@ -120,7 +120,7 @@ class GeneralIncome(models.Model):
 
 
 class Sections(models.Model):
-    field_раздел = models.AutoField(db_column='№Раздел', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it started with '_'.
+    section_id = models.AutoField(db_column='№Раздел', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it started with '_'.
     name = models.CharField(db_column='РАЗДЕЛ', max_length=255, db_collation='Cyrillic_General_CI_AS', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:

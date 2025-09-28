@@ -1,0 +1,61 @@
+{% extends "navigation/base.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/table_styles.css' %}">
+
+{% block title %}Каталоги{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-center my-4">Каталоги</h1>
+    <form method="get">
+        <input type="text" name="search" placeholder="Пошук..." value="{{ search|default:'' }}">
+        <button type="submit">🔍</button>
+    </form>
+    <div class="table-container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        <a href="?sort=catalogue_id&dir={% if sort == 'catalogue_id' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
+                            Код
+                            {% if sort == 'catalogue_id' %}
+                                {% if dir == 'asc' %}↑{% else %}↓{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=name&dir={% if sort == 'name' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
+                            Назва
+                            {% if sort == 'name' %}
+                                {% if dir == 'asc' %}↑{% else %}↓{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=equipments_id&dir={% if sort == 'equipments_id' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
+                            Розділ
+                            {% if sort == 'equipments_id' %}
+                                {% if dir == 'asc' %}↑{% else %}↓{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for catalogue in page_obj %}
+                    <tr>
+                        <td>{{ catalogue.catalogue_id|default:"-" }}</td>
+                        <td>{{ catalogue.name|default:"-" }}</td>
+                        <td>{{ catalogue.equipments_id|default:"-" }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3">Немає даних</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include "tiles/pagination_partial.html" %}
+</div>
+{% endblock %}
