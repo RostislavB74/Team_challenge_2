@@ -27,7 +27,9 @@
                 <th class="col-note">Примітка</th>
                 <th class="col-date_receipt_order">Дата отримання</th>
                 <th class="col-cancellation_date">Дата скасування</th>
+                <th class="col-index">Індекс</th>
                 <th class="col-execution_status">Відмітка про виконання</th>
+                <th class="col-y">У</th>
                 <th class="col-scheduled_delivery_date">Планова доставка</th>
                 
                 
@@ -45,7 +47,9 @@
                     <td>{{ order.note|default:"-" }}</td>
                     <td>{{ order.date_receipt_order|default:"-" }}</td>
                     <td>{{ order.cancellation_date|default:"-" }}</td>
+                    <td>{% if order.index %}✅{% endif %}</td>
                     <td>{{ order.execution_status|default:"-" }}</td>
+                    <td>{% if order.y %}✅{% endif %}</td>
                     <td>{{ order.scheduled_delivery_date|default:"-" }}</td>
                     
                 </tr>

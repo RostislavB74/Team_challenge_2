@@ -133,6 +133,7 @@ DATABASES = {
     },
 }
 DATABASE_ROUTERS = ["hyperion.routers.MultiDBRouter"]
+DATABASE_ROUTERS = ["zip_app.routers.MultiDBRouter"]
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 # DATABASES = {
 #     'default': {

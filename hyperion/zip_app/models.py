@@ -158,21 +158,19 @@ class EquipmentsZip(models.Model):
 
 
 class Firms(models.Model):
-    firms_id = models.AutoField(db_column='Код фирмы', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    name = models.CharField(
-        max_length=50,
-        db_column="фирма",
-        db_collation="Cyrillic_General_CI_AS",
+    firms_id = models.AutoField(db_column="Код фирмы", primary_key=True)
+    name = models.CharField(max_length=50, db_column="фирма", blank=True, null=True)
+    section = models.ForeignKey(
+        "Sections",
+        on_delete=models.CASCADE,
+        db_column="№Раздел",
         blank=True,
         null=True,
     )
-    section = models.ForeignKey(
-        "Sections", on_delete=models.CASCADE, db_column="№Раздел", blank=True, null=True
-    )  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it started with '_'.
 
     class Meta:
         managed = False
-        db_table = 'фирмы'
+        db_table = "Firms"
         app_label = "zip_app"
 
     def __str__(self):

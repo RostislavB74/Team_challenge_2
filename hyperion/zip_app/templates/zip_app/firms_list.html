@@ -1,39 +1,60 @@
-
 {% extends "navigation/base.html" %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/table_styles.css' %}">
+
 {% block title %}Фірми{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
     <h1 class="text-center my-4">Фірми</h1>
-    <form method="get" class="search-form">
-        <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="Назва фірми"
-                   value="{{ request.GET.search }}">
-            <button type="submit" class="btn btn-primary">Шукати</button>
-        </div>
+    <form method="get">
+        <input type="text" name="search" placeholder="Пошук..." value="{{ search|default:'' }}">
+        <button type="submit">🔍</button>
     </form>
-   <div class="table-container">
+    <div class="table-container">
         <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th class="col-firms_id">Код</th>
-                <th class="col-name">Назва фірми</th>
-                <th class="col-section_id">Розділ</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-            {% for firm in firms %}
+            <thead>
                 <tr>
-                    <td>{{ firm.firms_id|default:"-" }}</td>
-                    <td>{{ firm.name|default:"-" }}</td>
-                    <td>{{ firm.section|default:"-" }}</td>
+                    <th>
+                        <a href="?sort=firms_id&dir={% if sort == 'firms_id' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
+                            Код
+                            {% if sort == 'firms_id' %}
+                                {% if dir == 'asc' %}↑{% else %}↓{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=name&dir={% if sort == 'name' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
+                            Назва фірми
+                            {% if sort == 'name' %}
+                                {% if dir == 'asc' %}↑{% else %}↓{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=section__name&dir={% if sort == 'section__name' and dir == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">
+                            Розділ
+                            {% if sort == 'section__name' %}
+                                {% if dir == 'asc' %}↑{% else %}↓{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for firm in page_obj %}
+                    <tr>
+                        <td>{{ firm.firms_id|default:"-" }}</td>
+                        <td>{{ firm.name|default:"-" }}</td>
+                        <td>{{ firm.section.name|default:"-" }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3">Немає даних</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
     {% include "tiles/pagination_partial.html" %}
 </div>
