@@ -62,6 +62,8 @@ class Catalogues(models.Model):
         managed = False
         db_table = 'Каталог'
 
+    def __str__(self):
+        return self.name
 
 class Complectation(models.Model):
     номер = models.AutoField(db_column='Номер', primary_key=True)  # Field name made lowercase.
@@ -155,7 +157,10 @@ class EquipmentsZip(models.Model):
     class Meta:
         managed = False
         db_table = 'оборудование'
+        app_label = "zip_app"
 
+    def __str__(self):
+        return self.наименование
 
 class Firms(models.Model):
     firms_id = models.AutoField(db_column="Код фирмы", primary_key=True)
